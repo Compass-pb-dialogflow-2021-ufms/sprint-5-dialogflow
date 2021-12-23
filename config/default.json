@@ -1,5 +1,0 @@
-{
-    "mongo": {
-        "con" : "mongodb+srv://botdb:mydb321@cluster0.dlxi7.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-    }
-}
