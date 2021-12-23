@@ -1,6 +1,7 @@
+const config = require('config')
 const mongoose = require('mongoose')
 
-const conn = mongoose.createConnection("mongodb+srv://climatactdb:climatact123@cluster0.rdf63.mongodb.net/climatact?retryWrites=true&w=majority")
+const conn = mongoose.createConnection(config.get( 'mongo.con' ))
 
 //Model Name, Schema Name, Collection
 const User = conn.model('User', require("../schemas/userSchema"))

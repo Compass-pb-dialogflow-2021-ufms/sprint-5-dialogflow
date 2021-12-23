@@ -4,8 +4,11 @@ const db = require("../db")
 const intents = async (req, res) => {
 
     try {
-        let displayName = req.body.queryResult.intent.displayName
-        let platform = req.body.originalDetectIntentRequest.source ? req.body.originalDetectIntentRequest.source : "DIALOGFLOW_MESSENGER"
+        const { queryResult, originalDetectIntentRequest } = req.body
+        const { intent, parameters } = queryResult
+
+        let displayName = intent.displayName
+        let platform = originalDetectIntentRequest.source ? originalDetectIntentRequest.source : "DIALOGFLOW_MESSENGER"
         userPlatform(req, platform) 
         
         try {
@@ -15,16 +18,16 @@ const intents = async (req, res) => {
 
             ]}).orFail()
         } catch (error) {
-            uid = { userId: "", session: "" } //rethink this before implementing different messages
+            uid = { userId: "", session: "" }
             if((platform !== "DIALOGFLOW_CONSOLE") && (platform !== "DIALOGFLOW_MESSENGER")) //DialogFlow console and messenger do not have payloads, so they need to use sessions.
-                db.Platform.create(req.body.originalDetectIntentRequest.payload.data.source)
+                db.Platform.create(originalDetectIntentRequest.payload.data.source)
             else
                 db.Platform.create(req.body)
         }
 
         switch (displayName) {
                 
-            //DEFAULT WELCOME INTENT START
+            //DEFAULT WELCOME INTENT START-------------------------------------------------------------
             case 'Default Welcome Intent':
                 randomize()
                 try {
@@ -41,7 +44,6 @@ const intents = async (req, res) => {
                                 res.json(answer("Default Welcome Intent Variation 2! I know you~!"))
                             else
                                 res.json(answer("Default Welcome Intent Variation 2!"))
-
                         break
                     }
 
@@ -49,11 +51,71 @@ const intents = async (req, res) => {
                     console.log(error)
                 } 
             break
-            //DEFAULT WELCOME INTENT START
+            //DEFAULT WELCOME INTENT END---------------------------------------------------------------
+
+            //DEFAULT GOODBYE INTENT START-------------------------------------------------------------
+            case 'Default Goodbye Intent':
+                randomize()
+                try {
+                    switch (rand) {
+                        case 0:
+                                res.json(answer("Default Goodbye Intent Variation 1!"))
+                        break
+                    
+                        case 1:
+                                res.json(answer("Default Goodbye Intent Variation 2!"))
+                        break
+                    }
+
+                } catch (error) {
+                    console.log(error)
+                } 
+            break
+            //DEFAULT GOODBYE INTENT END---------------------------------------------------------------
+
+            //DEFAULT FALLBACK INTENT START------------------------------------------------------------
+            case 'Default Fallback Intent':
+                randomize()
+                try {
+                    switch (rand) {
+                        case 0:
+                                res.json(answer("Default Fallback Intent Variation 1!"))
+                        break
+                    
+                        case 1:
+                                res.json(answer("Default Fallback Intent Variation 2!"))
+                        break
+                    }
+
+                } catch (error) {
+                    console.log(error)
+                } 
+            break
+            //DEFAULT FALLBACK INTENT END--------------------------------------------------------------
+
+            //CLIMATE INTENT START---------------------------------------------------------------------
+            case 'Climate Intent':
+                randomize()
+                try {
+                    switch (rand) {
+                        case 0:
+                                res.json(answer("Climate forecasting Intent Variation 1! " + parameters.location.city))
+                        break
+                    
+                        case 1:
+                                res.json(answer("Climate forecasting Intent Variation 2! " + parameters.location.city))
+                        break
+                    }
+
+                } catch (error) {
+                    console.log(error)
+                } 
+            break
+            //CLIMATE INTENT END-----------------------------------------------------------------------
         }
 
     } catch (error) {    
-            
+            console.log(error)
     }
 
 }
