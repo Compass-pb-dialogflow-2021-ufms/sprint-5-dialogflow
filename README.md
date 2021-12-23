@@ -2,7 +2,8 @@
 
 
 ## Diário de bordo
-TODO
+22/12/2021 - Li sobre o escopo do projeto e a API a ser consumida. Então, foi feito o setup inicial do webhook, bem como suas rotas. Além disso, fiz a documentação básica do projeto.  
+23/12/2021 - Criação do bot no DialogFlow, bem como suas intents obrigatórias. Estudei a documentação do mongoose, já que pretendo usar de mais de um banco nesse projeto. Prossegui fazendo a implementação do mongoose de forma que suporte essa funcionalidade, com sucesso. Então, finalizei a conexão no atlasDB e, temporáriamente, o desenvolvimento do escopo do banco. Em seguida, trabalhei com a identificação da plataforma sendo utilizada, Line, Telegram ou DialogFlow Messenger, e descobri que este ultimo não passa a fonte na requisição, então tive que fazer essa declaração via código. Também fiz a integração com as três plataformas propostas no desafio. Por fim, incrementei a documentação.
 
 ## Tecnologias: 
 [Express](https://expressjs.com/pt-br/): Framework de gestão de rotas e requisições/respostas.  
@@ -20,6 +21,6 @@ TODO
 
 ## Integração
   
-- O bot está integrado com o LINE, e para acessar ele, é necessário entrar no aplicativo e procurar pelo ID TODO
-- O bot também tem integração com o Telegram, que pode ser acessada via [TODO](TODO)
-- Por fim, o bot também foi integrado com o Dialogflow Messenger... TODO
+- O bot está integrado com o LINE, e para acessar ele, é necessário entrar no aplicativo e procurar pelo ID @165fromy
+- O bot também tem integração com o Telegram, que pode ser acessada via [este link](t.me/Climatact_bot)
+- Por fim, o bot também foi integrado com o Dialogflow Messenger, para acessar, basta ir em 'Integrations' após importar e configurar o bot no Dialogflow, 'Text Based -> DialogFlow Messenger -> Try it Now' e a janela aparecerá no canto inferior direito.
