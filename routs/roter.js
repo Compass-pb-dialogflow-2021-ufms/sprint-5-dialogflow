@@ -3,6 +3,7 @@ const formattedMessage = require('../dialogflow/responseModels/message')
 
 const welcome = require('../dialogflow/intents/welcome')
 const goodbye = require('../dialogflow/intents/goodbye')
+const aboutMe = require('../dialogflow/intents/aboutMe')
 
 
 router.post('', (req, res) => 
@@ -14,6 +15,9 @@ router.post('', (req, res) =>
             break
         case 'Goodbye':
             res.send(formattedMessage(goodbye()))
+            break
+        case 'KnowAboutMe':
+            res.send(formattedMessage(aboutMe()))
             break
         default:
             break;
