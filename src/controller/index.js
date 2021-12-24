@@ -1,8 +1,9 @@
+const config = require("config")
 const axios = require("axios")
 const db = require("../db")
 
 const intents = async (req, res) => {
-
+    const api = `https://api.weatherapi.com/v1/forecast.json?key=${config.get( 'api.key' )}`
     try {
         const { queryResult, originalDetectIntentRequest } = req.body
         const { intent, parameters } = queryResult
@@ -102,33 +103,64 @@ const intents = async (req, res) => {
             break
             //DEFAULT FALLBACK INTENT END--------------------------------------------------------------
 
-            //CLIMATE LOOP INTENT START----------------------------------------------------------------
+            //HELP INTENT START------------------------------------------------------------------------
             case 'Help Intent':
                 res.json(answer(
-                    `Entendi! Vamos lá${nickname}! Eu sou um bot para lhe informar a previsão do tempo nos próximos dias.\n`+
+                    `Entendi! Vamos lá${nickname}! Eu sou um bot para lhe informar a previsão do tempo nos próximos dias.☁️\n`+
                     `Basta me informar a cidade que quer saber o clima pelos próximos sete dias, ou por exemplo, perguntar 'previsão do tempo em são paulo' ou 'clima em cuiabá'.\n`+
+                    `Caso queira, você pode especificar um período de até 10 dias com a previsão do tempo, por exemplo: 'clima em campo grande pelos próximos 5 dias'\n`+
                     `Caso eu não esteja entendendo, tente reformular sua pergunta, por favor. É um prazer te ajudar!`+
                     `Quase esqueci de mencionar, mas se quiser, você pode escolher um apelido para que eu te chame, basta pedir.`
                     ))
             break
-            //CLIMATE LOOP INTENT END------------------------------------------------------------------
+            //HELP INTENT END--------------------------------------------------------------------------
 
             //CLIMATE INTENT START---------------------------------------------------------------------
             case 'Climate Intent':
                 randomize()
                 try {
+                    //Empty & Secific date = String; Time between dates = obj
+                    if(typeof parameters["date-time"] === "object") {
+                        endDate = new Date(parameters["date-time"].endDate)
+                        startDate = new Date(parameters["date-time"].startDate)
+                        days = dateDifference(endDate, startDate)
+                    } else {
+                        endDate = new Date(parameters["date-time"])
+                        startDate = Date.now()
+                        days = (parameters["date-time"] !== "") ? 1 : 7 //Instead of 1 for true, it is possible to use dateDifference to calculate how many days from now, so it may be useful to implement forecast by specific date
+                    }
+                    console.log(api + `&q=${parameters.location.city}&days=${days}&lang=pt`)
+                    //const today = new Date().toISOString().slice(0, 10)
+                    const response = await axios.get(api + `&q=${parameters.location.city}&days=${days}&lang=pt`)
+                    let text = ""
+                    for (var prop in response.data.forecast.forecastday) { //Iterates for every day returned by the api's query
+                        let { day } = response.data.forecast.forecastday[prop]
+                        dateSplit = response.data.forecast.forecastday[prop].date.split(/[-]/) //Separates date to reformatting in text
+                        text += (`Previsão do dia: ${dateSplit[2]}/${dateSplit[1]}/${dateSplit[0]}\n`+
+                                    `${day.condition.text}.\n`+
+                                    `Máxima: ${day.maxtemp_c}°C\n`+
+                                    `Mínima: ${day.mintemp_c}°C\n`+
+                                    `Umidade: ${day.avghumidity}%\n`+
+                                    `Vento: ${day.maxwind_kph} Km/h\n`+
+                                    `Chuva: ${day.daily_chance_of_rain}%\n`)
+                    }
+
                     switch (rand) {
                         case 0:
                                 res.json(answer(
-                                `Certo${nickname}! Aqui está a previsão do tempo em ${parameters.location.city} nos próximos 7 dias:\n`+
+                                `Certo${nickname}! Aqui está a previsão do tempo em ${parameters.location.city} nos próximos ${days} dia(s):\n`+
+                                `${text}\n`+
+                                `Atualizado em ${response.data.current["last_updated"]}\n`+
                                 `Deseja saber o clima em outra cidade?`
                                 ))
                         break
                     
                         case 1:
                             res.json(answer(
-                                `Certo${nickname}! Aqui está a previsão do tempo em ${parameters.location.city} nos próximos 7 dias:\n`+
-                                `Deseja saber o clima em outra cidade? Variation 2`
+                                `Sem problemas, a previsão do tempo em ${parameters.location.city} nos próximos ${days} dia(s) é:\n`+
+                                `${text}\n`+
+                                `Atualizado em ${response.data.current["last-updated"]}\n`+
+                                `Deseja saber o clima em outra cidade${nickname}?`
                                 ))
                         break
                     }
@@ -181,6 +213,8 @@ const log = (req, res) => {
     res.json(answer("GET sucessful"))
 }
 
+//FUNCTIONS------
+
 //basic structure for dialogflow fulfillmentText
 function answer(text) {
     return { "fulfillmentText": text }
@@ -222,9 +256,22 @@ function nextEvent(eventName) {
           "parameters": {}
         }
       }
-    console.log(a)
     return a
 }
+
+//Calculate amount of days between dates.
+function dateDifference(end, start) {
+
+    endDate = new Date(end)
+    startDate = new Date(start)
+
+    const timeDifference = endDate.getTime() - startDate.getTime()
+    const days = timeDifference / (1000 * 3600 * 24);
+
+    return Math.round(days)
+}
+
+//EXPORTS-------
 
 module.exports = {
     intents,
