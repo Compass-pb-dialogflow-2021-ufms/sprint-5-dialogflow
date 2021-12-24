@@ -4,8 +4,8 @@ const mongoose = require('mongoose')
         name: {
             type: String,
         },
-        cpf: {
-            type: String,
+        userId: {
+            type: String
         }
     })
 
