@@ -1,11 +1,15 @@
 # Climatact - A Dialogflow Chatbot for climate forecasting with NodeJS
 
+## Diagrama de Fluxo
+![ClimatactWebhook](https://user-images.githubusercontent.com/81719133/147395199-bdbda665-1fe9-4b47-81fa-ef340392db70.png)
 
 ## Diário de bordo
-22/12/2021 - Li sobre o escopo do projeto e a API a ser consumida. Então, foi feito o setup inicial do webhook, bem como suas rotas. Além disso, fiz a documentação básica do projeto.  
-23/12/2021 - Criação do bot no DialogFlow, bem como suas intents obrigatórias. Estudei a documentação do mongoose, já que pretendo usar de mais de um banco nesse projeto. Prossegui fazendo a implementação do mongoose de forma que suporte essa funcionalidade, com sucesso. Então, finalizei a conexão no atlasDB e, temporáriamente, o desenvolvimento do escopo do banco. Em seguida, trabalhei com a identificação da plataforma sendo utilizada, Line, Telegram ou DialogFlow Messenger, e descobri que este ultimo não passa a fonte na requisição, então tive que fazer essa declaração via código. Também fiz a integração com as três plataformas propostas no desafio. Por fim, incrementei a documentação.
-24/12/2021 - Aprimorei as intents obrigatórias com múltiplas respostas, e refinei o código de forma padronizada antes do consumo da API o máximo possível. Após isso, voltei a trabalhar com o banco, adicionando uma intent extra de apelido para um usuário, separada do banco da identificação do usuário por plataforma.Sequencialmente, trabalhei com o consumo da API. A API original, [Previsão do tempo em XML](http://servicos.cptec.inpe.br/XML/) estava recusando minha conexão, e também queria uma API mais completa, com mais dados caso necessário, e mais localizações suportadas. Encontrei a [WeatherAPI](https://www.weatherapi.com) e decidi por utilizar a mesma. Consumi a API com o axios dentro da intent, e criei uma intent extra, utilizando de eventos para fazer um loop onde o usuário pode ver a previsão em vários locais até não querer mais, sem reiniciar o fluxo por completo. Tentei ao máximo implementar a API de forma dinâmica, e implementei a funcionalidade extra para o usuário modificar quantos dias de previsão quer exibir, em até 10 dias, por limitação da API.  
-24/12/2021 - Infelizmente, como relatado nas dificuldades, a WeatherAPI retorna apenas 3 dias por padrão, o retorno de 10 dias é apenas com plano pago, informação que fica muito escondida no próprio site. Visto problema, vi mais de 10 APIs diferentes, e todas necessitavam pagamento para atingir os 7 dias de previsão do tempo propostos, até que encontrei a [World Weather Online](https://www.worldweatheronline.com/) que, apesar de paga, conseguiria resolver o problema para esse sistema, pois conta com teste grátis de 30 dias sem necessidade de cartão de crédito. Por fim, consegui continuar o desenvolvimento do projeto, consumindo essa API. Após ler a documentação, fiz a implementação no lugar da API antiga, e tudo funcionou conforme esperado. No entanto, já que a API do [World Weather Online](https://www.worldweatheronline.com/) funcionará por apenas 30 dias, implementei de forma dinâmica chamada para [WeatherAPI](https://www.weatherapi.com), caso ocorra erro na API principal.  
+
+- <b>22/12/2021</b> - Li sobre o escopo do projeto e a API a ser consumida. Então, foi feito o setup inicial do webhook, bem como suas rotas. Além disso, fiz a documentação básica do projeto.  
+- <b>23/12/2021</b> - Criação do bot no DialogFlow, bem como suas intents obrigatórias. Estudei a documentação do mongoose, já que pretendo usar de mais de um banco nesse projeto. Prossegui fazendo a implementação do mongoose de forma que suporte essa funcionalidade, com sucesso. Então, finalizei a conexão no atlasDB e, temporáriamente, o desenvolvimento do escopo do banco. Em seguida, trabalhei com a identificação da plataforma sendo utilizada, Line, Telegram ou DialogFlow Messenger, e descobri que este ultimo não passa a fonte na requisição, então tive que fazer essa declaração via código. Também fiz a integração com as três plataformas propostas no desafio. Por fim, incrementei a documentação.
+- <b>24/12/2021</b> - Aprimorei as intents obrigatórias com múltiplas respostas, e refinei o código de forma padronizada antes do consumo da API o máximo possível. Após isso, voltei a trabalhar com o banco, adicionando uma intent extra de apelido para um usuário, separada do banco da identificação do usuário por plataforma.Sequencialmente, trabalhei com o consumo da API. A API original, [Previsão do tempo em XML](http://servicos.cptec.inpe.br/XML/) estava recusando minha conexão, e também queria uma API mais completa, com mais dados caso necessário, e mais localizações suportadas. Encontrei a [WeatherAPI](https://www.weatherapi.com) e decidi por utilizar a mesma. Consumi a API com o axios dentro da intent, e criei uma intent extra, utilizando de eventos para fazer um loop onde o usuário pode ver a previsão em vários locais até não querer mais, sem reiniciar o fluxo por completo. Tentei ao máximo implementar a API de forma dinâmica, e implementei a funcionalidade extra para o usuário modificar quantos dias de previsão quer exibir, em até 10 dias, por limitação da API.  
+- <b>24/12/2021</b> - Infelizmente, como relatado nas dificuldades, a WeatherAPI retorna apenas 3 dias por padrão, o retorno de 10 dias é apenas com plano pago, informação que fica muito escondida no próprio site. Visto problema, vi mais de 10 APIs diferentes, e todas necessitavam pagamento para atingir os 7 dias de previsão do tempo propostos, até que encontrei a [World Weather Online](https://www.worldweatheronline.com/) que, apesar de paga, conseguiria resolver o problema para esse sistema, pois conta com teste grátis de 30 dias sem necessidade de cartão de crédito. Por fim, consegui continuar o desenvolvimento do projeto, consumindo essa API. Após ler a documentação, fiz a implementação no lugar da API antiga, e tudo funcionou conforme esperado. No entanto, já que a API do [World Weather Online](https://www.worldweatheronline.com/) funcionará por apenas 30 dias, implementei de forma dinâmica chamada para [WeatherAPI](https://www.weatherapi.com), caso ocorra erro na API principal.  
+- <b>25/12/2021</b> - Implementação da intent de astronomia, como funcionalidade extra. Então, refinei o código e fiz uma revisão sobre seu funcionamento. Com o desenvolvimento finalizado, fiz o upload novamente do serviço funcional para o [Heroku](https://www.heroku.com), e finalizei a documentação. Por fim, estou aprimorando as frases de treinamento das intents no DialogFlow, anteriormente à entrega.  
 
 ## Dificuldades
 - Não consegui consumir a API sugerida, obtive 'ERR_CONNECTION_REFUSED' primeiro nas chamadas, e agora não consigo acessar nem o site da documentação.
@@ -16,7 +20,9 @@
 [Axios](https://github.com/axios/axios): Ferramenta para acesso aos dados da API via o NodeJS.  
 [Config](https://www.npmjs.com/package/config): Definição de parâmetros locais.  
 [Express](https://expressjs.com/pt-br/): Framework de gestão de rotas e requisições/respostas.  
+[Heroku](https://www.heroku.com): Upload do webhook, para uso no fulfillment do DialogFlow.  
 [Mongoose](https://mongoosejs.com): Comunicação com o banco do MongoDB Atlas.  
+[NodeJS](https://nodejs.org/): Ambiente de execução com JavaScript, base da execução do webhook.  
 [WeatherAPI](https://www.weatherapi.com): API Backup de previsão do tempo.  
 [World Weather Online](https://www.worldweatheronline.com/): API Principal de previsão do tempo.  
 
@@ -35,13 +41,11 @@
 - `Default Fallback Intent`: Intenção que é chamada sempre que o bot não entende algo. Ela sugere que o usuário chame a `Help Intent`, para aprender a navegar pelo bot.
 - `Help Intent`: Aqui, de fato é explicado como o bot opera para o usuário. Sugere exemplos de uso, reformulação de perguntas não compreendidas, e ensina sobre outras intenções.
 - `Climate Intent`: A principal funcionalidade do bot. Identifica que o usuário quer saber a previsão do tempo, e busca os dados na API. Ainda, o usuário pode opcionalmente especificar um período de tempo, se não especificar é exibido por padrão os próximos 7 dias.
-- `Climate Loop Intent`:
-- `Nickname Intent`:
+- `Climate Loop Intent`: O propósito dessa intenção é manter o usuário em loop até não desejar mais ver a previsão em cidades.
+- `Nickname Intent`: Intenção extra, que permite o usuário escolher um apelido, e caso tenha um, este é referenciado em outras intenções.
+- `Astronomy Intent`: Outra intenção extra, que mostra o horario do anoitecer ou amanhecer do dia especificado pelo usuário, caso contrário, utiliza a data atual.
 
-## Uso do Bot
-TODO
-
-## Funções a serem implementadas
+## Funções extras ainda não implementadas
 
 Tenho como ideia implementar melhor a funcionalidade busca dinâmica por data na API, por enquanto só é possível indicar por quantos dias será informado o clima a partir da data atual, quero por exemplo, poder exibir a temperatura de depois de amanhã, sem exibir amanhã (escolher por data específica).
 

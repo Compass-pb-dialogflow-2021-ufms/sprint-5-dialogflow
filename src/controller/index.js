@@ -147,7 +147,7 @@ const intents = async (req, res) => {
                                 res.json(answer(
                                 `Certo${nickname}! Aqui está a previsão do tempo em ${parameters.location.city} nos próximos ${days} dia(s):\n\n`+
                                 `${backup ? dataQueryBackup(response) : dataQuery(response)}\n`+
-                                `Atualizado${backup ? "" : date()} em ${backup ? response.data.current["last_updated"] : "às " + response.data.data.current_condition[0].observation_time + " GMT"}\n`+
+                                `Atualizado ${backup ? "em" : date()} ${backup ? response.data.current["last_updated"] : "às " + response.data.data.current_condition[0].observation_time + " GMT"}\n`+
                                 `Deseja saber o clima em outra cidade?`
                                 ))
                         break
@@ -156,7 +156,7 @@ const intents = async (req, res) => {
                             res.json(answer(
                                 `Sem problemas, a previsão do tempo em ${parameters.location.city} nos próximos ${days} dia(s) é:\n`+
                                 `${backup ? dataQueryBackup(response) : dataQuery(response)}\n`+
-                                `Atualizado${backup ? "" : date()} em ${backup ? response.data.current["last_updated"] : "às " + response.data.data.current_condition[0].observation_time + " GMT"}\n`+ //${response.data.data.current_condition[0].observation_time} GMT\n API time returns current time, so its easier to format with Date
+                                `Atualizado ${backup ? "em" : date()} ${backup ? response.data.current["last_updated"] : "às " + response.data.data.current_condition[0].observation_time + " GMT"}\n`+
                                 `Deseja saber o clima em outra cidade${nickname}?`
                                 ))
                         break
@@ -198,6 +198,26 @@ const intents = async (req, res) => {
                     }
             break
             //NICKNAME INTENT - NEXT END---------------------------------------------------------------
+
+            //ASTRONOMY INTENT START-------------------------------------------------------------------
+            case 'Astronomy Intent':
+            try {
+                //Gets date if passed, else saves today date
+                dt = parameters["date-time"] ? parameters["date-time"].slice(0, 10) : new Date().toISOString().slice(0, 10)
+                
+                api = `https://api.weatherapi.com/v1/astronomy.json?key=${config.get( 'api.weatherAPI' )}` //Different api url from Climate Intent
+                response = await axios.get(api + `&q=${format(parameters.location.city)}&dt=${dt}`)
+
+                let { location, astronomy } = response.data
+
+                res.json(answer(
+                    `Ok${nickname}! no dia ${dt.slice(8, 10)}/${dt.slice(5, 7)} irá ${parameters.Period} às ${astronomy.astro[parameters.Period === "anoitecer" ? "sunset" : "sunrise"]} em ${parameters.location.city}`
+                    ))
+            } catch (error) {
+                console.log(error)
+            }
+            break
+            //ASTRONOMY INTENT END---------------------------------------------------------------------
         }
 
     } catch (error) {    
@@ -235,7 +255,7 @@ function randomize() {
 
 function date() {
     now = new Date().toISOString().slice(0, 10).split(/[-]/)
-    return now = ` ${now[2]}/${now[1]}/${now[0]}`
+    return now = `${now[2]}/${now[1]}/${now[0]}`
 }
 
 function format(text) {
