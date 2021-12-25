@@ -1,10 +1,9 @@
 const config = require("config")
 const axios = require("axios")
 const db = require("../db")
-const { param } = require("express/lib/request")
 
 const intents = async (req, res) => {
-    let api = `http://api.worldweatheronline.com/premium/v1/weather.ashx?key=${config.get( 'api.key' )}`
+    const api = `https://api.weatherapi.com/v1/forecast.json?key=${config.get( 'api.key' )}`
     try {
         const { queryResult, originalDetectIntentRequest } = req.body
         const { intent, parameters } = queryResult
@@ -130,24 +129,28 @@ const intents = async (req, res) => {
                         startDate = Date.now()
                         days = (parameters["date-time"] !== "") ? 1 : 7 //Instead of 1 for true, it is possible to use dateDifference to calculate how many days from now, so it may be useful to implement forecast by specific date
                     }
-
-                    let city = format(parameters.location.city)
-                    try { //If main API query fails, tries to use backup API.
-                        backup = false
-                        response = await axios.get(api + `&q=${city}&num_of_days=${days}&tp=24&lang=pt&format=json`)
-                    } catch (error) {
-                        console.log(error)
-                        backup = true
-                        api = `https://api.weatherapi.com/v1/forecast.json?key=${config.get( 'api.weatherAPI' )}`
-                        response = await axios.get(api + `&q=${city}&days=${days}&lang=pt`)                       
+                    console.log(api + `&q=${parameters.location.city}&days=${days}&lang=pt`)
+                    //const today = new Date().toISOString().slice(0, 10)
+                    const response = await axios.get(api + `&q=${parameters.location.city}&days=${days}&lang=pt`)
+                    let text = ""
+                    for (var prop in response.data.forecast.forecastday) { //Iterates for every day returned by the api's query
+                        let { day } = response.data.forecast.forecastday[prop]
+                        dateSplit = response.data.forecast.forecastday[prop].date.split(/[-]/) //Separates date to reformatting in text
+                        text += (`Previsão do dia: ${dateSplit[2]}/${dateSplit[1]}/${dateSplit[0]}\n`+
+                                    `${day.condition.text}.\n`+
+                                    `Máxima: ${day.maxtemp_c}°C\n`+
+                                    `Mínima: ${day.mintemp_c}°C\n`+
+                                    `Umidade: ${day.avghumidity}%\n`+
+                                    `Vento: ${day.maxwind_kph} Km/h\n`+
+                                    `Chuva: ${day.daily_chance_of_rain}%\n`)
                     }
 
                     switch (rand) {
                         case 0:
                                 res.json(answer(
-                                `Certo${nickname}! Aqui está a previsão do tempo em ${parameters.location.city} nos próximos ${days} dia(s):\n\n`+
-                                `${backup ? dataQueryBackup(response) : dataQuery(response)}\n`+
-                                `Atualizado${backup ? "" : date()} em ${backup ? response.data.current["last_updated"] : "às " + response.data.data.current_condition[0].observation_time + " GMT"}\n`+
+                                `Certo${nickname}! Aqui está a previsão do tempo em ${parameters.location.city} nos próximos ${days} dia(s):\n`+
+                                `${text}\n`+
+                                `Atualizado em ${response.data.current["last_updated"]}\n`+
                                 `Deseja saber o clima em outra cidade?`
                                 ))
                         break
@@ -155,8 +158,8 @@ const intents = async (req, res) => {
                         case 1:
                             res.json(answer(
                                 `Sem problemas, a previsão do tempo em ${parameters.location.city} nos próximos ${days} dia(s) é:\n`+
-                                `${backup ? dataQueryBackup(response) : dataQuery(response)}\n`+
-                                `Atualizado${backup ? "" : date()} em ${backup ? response.data.current["last_updated"] : "às " + response.data.data.current_condition[0].observation_time + " GMT"}\n`+ //${response.data.data.current_condition[0].observation_time} GMT\n API time returns current time, so its easier to format with Date
+                                `${text}\n`+
+                                `Atualizado em ${response.data.current["last-updated"]}\n`+
                                 `Deseja saber o clima em outra cidade${nickname}?`
                                 ))
                         break
@@ -233,15 +236,6 @@ function randomize() {
     rand = Math.random() < 0.5 ? 0 : 1;
 }
 
-function date() {
-    now = new Date().toISOString().slice(0, 10).split(/[-]/)
-    return now = ` ${now[2]}/${now[1]}/${now[0]}`
-}
-
-function format(text) {
-    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-}
-
 //Does not work, according to dialogflow documentation, when followupEventInput is passed, ignores fulfillmentText and messages.
 function answerEvent(text, eventName) {
     return {
@@ -275,40 +269,6 @@ function dateDifference(end, start) {
     const days = timeDifference / (1000 * 3600 * 24);
 
     return Math.round(days)
-}
-
-//Main API query
-function dataQuery(response) {
-    let text = ""
-    for (var prop in response.data.data.weather) { //Iterates for every day returned by the api's query
-        let { weather, current_condition } = response.data.data
-        dateSplit = weather[prop].date.split(/[-]/) //Separates date to reformatting in text
-        text += (`Previsão para o dia: ${dateSplit[2]}/${dateSplit[1]}/${dateSplit[0]}:\n`+
-                    `A previsão é de ${weather[prop].hourly[0].lang_pt[0].value}.\n`+ //${current_condition[0].lang_pt[0].value} - useful to get current status, maybe extra intent?
-                    `- Máxima: ${weather[prop].maxtempC}°C\n`+
-                    `- Mínima: ${weather[prop].mintempC}°C\n`+
-                    `- Umidade: ${weather[prop].hourly[0].humidity}%\n`+
-                    `- Vento: ${weather[prop].hourly[0].windspeedKmph} Km/h\n`+
-                    `- Chance de Chuva: ${weather[prop].hourly[0].chanceofrain}%\n\n`)
-    }
-    return text
-}
-
-//Called if there's an error in main API
-function dataQueryBackup(response) {
-    let text = ""
-    for (var prop in response.data.forecast.forecastday) {
-        let { day } = response.data.forecast.forecastday[prop]
-        dateSplit = response.data.forecast.forecastday[prop].date.split(/[-]/)
-        text += (`Previsão do dia: ${dateSplit[2]}/${dateSplit[1]}/${dateSplit[0]}\n`+
-                    `${day.condition.text}.\n`+
-                    `Máxima: ${day.maxtemp_c}°C\n`+
-                    `Mínima: ${day.mintemp_c}°C\n`+
-                    `Umidade: ${day.avghumidity}%\n`+
-                    `Vento: ${day.maxwind_kph} Km/h\n`+
-                    `Chuva: ${day.daily_chance_of_rain}%\n\n`)
-    }
-    return text
 }
 
 //EXPORTS-------
