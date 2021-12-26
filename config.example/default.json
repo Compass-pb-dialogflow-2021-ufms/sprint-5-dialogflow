@@ -1,5 +1,9 @@
 {
     "mongo": {
         "con" : "Add your connection string here"
+    },
+    "api": {
+        "key" : "Add https://www.worldweatheronline.com/ API key here",
+        "weatherAPI" : "Add https://www.weatherapi.com/ API key here"
     }
 }
