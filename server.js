@@ -7,7 +7,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 
-app.use('/previsao7dias', router)
+app.use('/previsao4dias', router)
 
 
 const port = process.env.PORT || 3000
