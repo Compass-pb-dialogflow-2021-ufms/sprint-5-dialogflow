@@ -23,18 +23,11 @@ async function getWeatherForecast(parameters)
         
         const id = getId.data.adminareas.admin8.IBGE_GEOCODIGO 
         return id
-        // const eventName = 'aa'
-        // const eventTriggerParameters = [eventName, id]
-        // return eventTriggerParameters
     }
     else
     {
         const errorCode = data.error.code
     }
-
-
-    // console.log(getId.data.adminareas.admin8.IBGE_GEOCODIGO)
-
 }
 
 

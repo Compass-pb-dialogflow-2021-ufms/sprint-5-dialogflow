@@ -9,6 +9,7 @@ const aboutMe = require('../dialogflow/intents/aboutMe')
 
 //Intents with external API call
 const getWeatherForecast = require('../dialogflow/intents/getWeatherForecast')
+const getIbgeData = require('../dialogflow/intents/getIbgeData')
 
 
 router.post('', async (req, res) => 
@@ -26,14 +27,13 @@ router.post('', async (req, res) =>
             break
         case 'GetWeatherForecast':
             const event = 'IbgeData'
-            const response = await getWeatherForecast(req.body.queryResult.parameters.cidade)
-            res.send(eventTriggerWithParameters(event, response))
-            // res.send(formattedMessage('Intent de clima'))
+            const IbgeId = await getWeatherForecast(req.body.queryResult.parameters.cidade)
+            res.send(eventTriggerWithParameters(event, IbgeId))
             break
         case 'GetIbgeData':
-            console.log(req.body)
-            // const response = await getWeatherForecast(req.body.queryResult.parameters.cidade)
-            res.send(formattedMessage('Evento acionado'))
+            console.log(req.body.queryResult.parameters.id)
+            const response = await getIbgeData(req.body.queryResult.parameters.id)
+            res.send(formattedMessage(response))
             break
         default:
             break;
