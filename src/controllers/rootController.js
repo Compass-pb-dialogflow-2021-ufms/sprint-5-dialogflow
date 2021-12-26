@@ -14,6 +14,9 @@ const switchIntent = (req, res, intent) => {
         case 'Forecast Weather Intent':
             forecastWeatherIntent(req, res)
             break
+        case 'Current Temperature Intent':
+            currentTemperatureIntent(req, res)
+            break
     }
 }
 
@@ -123,6 +126,85 @@ const forecastWeatherIntent = async (req, res) => {
                 errorMsg = {
                     fulfillmentText: [
                         'Desculpe, mas só consigo informar o clima e temperatura de dias dentro de uma semana.'
+                    ]
+                }
+                break
+            default:
+                errorMsg = {
+                    fulfillmentText: [
+                        'Ops! Parece que alguns de nossos serviços estão fora do ar.\n'
+                        + 'Tente novamente mais tarde.'
+                    ]
+                }
+                break
+        }
+
+        res.send(errorMsg)
+    }
+}
+
+const currentTemperatureIntent = async (req, res) => {
+    try {
+        let response
+        const city = (req.body.queryResult.parameters.city.city).normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+
+        const APIResponse = await API(`/current?city=${city}&country=BR&lang=pt&key=${API_TOKEN}`)
+            .then(result => {
+                if (result.status === 204) throw 'unknownForeignCity'
+
+                return result.data
+            })
+
+        const currentTemp = APIResponse.data[0].temp
+
+        if (currentTemp > 36) {
+            response = {
+                fulfillmentText: [
+                      `Uau está realmente bem quente! ${currentTemp} ºC na cidade de ${city}.\n`
+                    + 'Evite sair de casa sem proteção, pode ser prejudicial a sua saúde.\n\n'
+                    + 'Posso ajudar em algo mais ?'
+                ]
+            }
+        } else if (currentTemp <= 36 && currentTemp > 26) {
+            response = {
+                fulfillmentText: [
+                      `Nossa que calor, acho uma boa ideia tomar um refresco bem gelado! ${currentTemp} ºC na cidade de ${city}.\n\n`
+                    + 'Posso ajudar em algo mais ?'
+                ]
+            }
+        } else if (currentTemp <= 26 && currentTemp > 15) {
+            response = {
+                fulfillmentText: [
+                      `Na medida, nem quente nem frio! ${currentTemp} ºC na cidade de ${city}.\n\n`
+                    + 'Posso ajudar em algo mais ?'
+                ]
+            }
+        } else if (currentTemp <= 15 && currentTemp > 5) {
+            response = {
+                fulfillmentText: [
+                      `Que friozinho, to pensando em fazer um chocolate quente! ${currentTemp} ºC na cidade de ${city}.\n\n`
+                    + 'Posso ajudar em algo mais ?'
+                ]
+            }
+        } else {
+            response = {
+                fulfillmentText: [
+                      `Brrrr, que frio! ${currentTemp} ºC na cidade de ${city}.\n`
+                    + 'Lmebre-se de se agasalhar bem para não pegar nenhum resfriado.\n\n'
+                    + 'Posso ajudar em algo mais ?'
+                ]
+            }
+        }
+
+        res.send(response)
+    } catch (error) {
+        let errorMsg
+        switch (error) {
+            case 'unknownForeignCity':
+                errorMsg = {
+                    fulfillmentText: [
+                        'Ops! Parece que essa cidade não existe ou está fora do Brasil.\n\n'
+                        + 'Eu apenas consigo fazer minhas previsões em cidades brasileiras, tome cuidado também com erros de digitação que as vezes fazem eu não entender.'
                     ]
                 }
                 break
