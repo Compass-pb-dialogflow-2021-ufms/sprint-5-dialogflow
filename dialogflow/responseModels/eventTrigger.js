@@ -3,17 +3,14 @@ const eventFormat = JSON.parse(JSON.stringify(
         "followupEventInput": {
             "name": "event-name",
             "languageCode": "pt-BR",
-            "parameters": {
-                "id": ""
-            }
+            "parameters": {}
         }
     }))
     
     
-    function eventTrigger(event, parameter)
+    function eventTrigger(event)
     {
         eventFormat.followupEventInput.name = event
-        eventFormat.followupEventInput.parameters.id = parameter
         const eventRes = JSON.stringify(eventFormat)
     
         return eventRes

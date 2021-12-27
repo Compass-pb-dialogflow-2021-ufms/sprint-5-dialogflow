@@ -26,7 +26,8 @@ async function getIbgeData(id)
                 text += aux2
             }
         })
-    
+        
+        aux2 = '\n\nPosso ajudar com mais alguma coisa?'
         return text
     }
     catch(erro)
