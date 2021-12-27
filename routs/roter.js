@@ -28,10 +28,12 @@ router.post('', async (req, res) =>
         case 'GetWeatherForecast':
             const event = 'IbgeData'
             const IbgeId = await getWeatherForecast(req.body.queryResult.parameters.cidade)
-            res.send(eventTriggerWithParameters(event, IbgeId))
+            if(IbgeId.length < 10)
+                res.send(eventTriggerWithParameters(event, IbgeId))
+            else
+                res.send(formattedMessage(IbgeId))
             break
         case 'GetIbgeData':
-            console.log(req.body.queryResult.parameters.id)
             const response = await getIbgeData(req.body.queryResult.parameters.id)
             res.send(formattedMessage(response))
             break
