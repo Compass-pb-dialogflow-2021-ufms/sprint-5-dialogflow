@@ -21,3 +21,5 @@ Para iniciar a aplicação, deve-se possuir o Node.JS na maquina.
 ## Rota e Link do Bot
 <li>Link do bot no telegram: t.me/botzindotempo_bot
 <li>Link da api no glitch: https://tempobotzin.glitch.me/tempobot
+<li>Link do bot no line: https://line.me/R/ti/p/%40199hubtl
+<li>Link do dialogflow messenger: https://dialogflowbotzintempo.glitch.me/
