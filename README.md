@@ -7,9 +7,12 @@ Um bot que auxilia o usuário na obtenção da previsão do tempo para municípi
 ## Diário de bordo
 
 O desenvolvimento ocorreu de forma satisfatória no geral. Consegui resolver os problemas que tive em relação a API escolhida, que no caso foi o do IBGE, que eram o de pegar o IBGECODE (consumi outra API para isso). Mesmo funcionando, não gostei muito de como pego os dados, pois a API para pegar os códigos do IBGE falha em casos específicos, como a cidade de São Paulo e a de Costa Rica. Dessa forma, é possível afirmar com certeza que outros municípios também devem falhar, mas para descobrir, teria que ir de um em um. Independentemente disso, ela funciona na maioria esmagadora dos casos.
+
 Uma solução que eu tinha pensado era pegar todos os ids dos municípios e guardar em um banco, dividindo por letras para a consulta ficar mais rápida. Eu faria isso através de um script pegando os dados da API do IBGE, o que seria interessante até para garantir que os dados estão atualizados e corretos, mas como nunca fiz isso anteriormente, preferi não arriscar a entrega.
 Outra coisa que me incomodou foi a entidade para pegar a cidade no dialogflow. O sys.city não pega todas as cidades, e o sys.location ás vezes dá match com umas cidades muito nada a ver, o que faz o backend trabalhar sem necessidade. Não considero um problema isso, mas é algo que quero deixar comentado.
+
 Acabei usando o fetch e o axios para fazer requisições externas, pois o axios não se dá bem com acentuação gráfica. Para a próxima entrega pretendo usar só o fetch, ele só não foi usado totalmente aqui por esse ser o primeiro contato com esse pacote, dessa forma preferi por usar somente onde era necessário.
+
 O uso da API do IBGE se deu pelo fato da sugerida ter caído durante o desenvolvimento. Não consegui achar uma API que pegasse os 7 dias sem ser paga. Dessa forma a do IBGE pareceu interessante por pegar 4 dias a frente, além de possuir resumos sobre o que acontecerá, o que achei bem interessante.
 
 
@@ -29,7 +32,7 @@ O uso da API do IBGE se deu pelo fato da sugerida ter caído durante o desenvolv
 
 - KnowAboutMe -> Quando essa intenção é acionada, ela fala qual foi o propósito do bot e fala um pouco sobre o desenvolvedor responsável;
 
-- Welcome -> Cumprimenta o usuário e mostra algumas das possibilidades de ações que ele pode ter.
+- Welcome -> Cumprimenta o usuário e mostra algumas das possibilidades de ações que ele pode ter;
 
 - Há outras intenções, mas elas não possuem grande expressão, pois são de confirmação e negação dentro do contexto.
 
