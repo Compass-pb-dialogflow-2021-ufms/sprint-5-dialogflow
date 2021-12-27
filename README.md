@@ -17,7 +17,7 @@ Quinta sprint do programa de bolsas Compass.uol para formação em chatbot Dialo
 
 - Subir o trabalho na branch com um readme.md, documentando detalhes sobre como a avaliação foi desenvolvida e como utilizar o sistema.
 
-- O prazo de entrega é até às 14h Horário de Brasília do dia 37/12 no repositório do github (https://github.com/Compass-pb-dialogflow-2021-ufms/sprint-5-dialogflow).
+- O prazo de entrega é até às 14h Horário de Brasília do dia 27/12 no repositório do github (https://github.com/Compass-pb-dialogflow-2021-ufms/sprint-5-dialogflow).
 
 # Especificação do Bot
 
