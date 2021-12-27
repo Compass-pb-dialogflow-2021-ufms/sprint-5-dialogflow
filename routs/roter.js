@@ -10,6 +10,7 @@ const aboutMe = require('../dialogflow/intents/aboutMe')
 const fallback = require('../dialogflow/intents/fallback/fallback')
 const secondTimeInFallback = require('../dialogflow/intents/fallback/secondTimeInFallback')
 const secondTimeInFallbackYes = require('../dialogflow/intents/fallback/secondTimeInFallback-yes')
+const helpMenu = require('../dialogflow/intents/helpMenu')
 
 //Intents with external API call
 const getWeatherForecast = require('../dialogflow/intents/getWeatherForecast')
@@ -63,6 +64,11 @@ router.post('', async (req, res) =>
 
         case 'SecondTimeInFallbackYes':
             res.send(eventTrigger(secondTimeInFallbackYes())) 
+            break
+
+
+        case 'Help':
+            res.send(formattedMessage(helpMenu())) 
             break
         default:
             break;

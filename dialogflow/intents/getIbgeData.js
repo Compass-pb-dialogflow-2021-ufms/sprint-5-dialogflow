@@ -27,13 +27,17 @@ async function getIbgeData(id)
             }
         })
         
-        aux2 = '\n\nPosso ajudar com mais alguma coisa?'
+        aux2 = '\n\n\nPosso ajudar com mais alguma coisa?'
+        text += aux2
         return text
     }
     catch(erro)
     {
         console.log(erro)
-        return 'Ocorreu um erro em nossos servidores. Tente novamente e caso o erro persista, aguarde que nossa equipe está trabalhando para resolver o mais rápido possível'
+        if(erro.data =! '')
+            return 'Aguarde um pouco e tente novamente, voce pediu muitas previsões de tempo em um curto intervalo de tempo.'
+        else
+            return 'Ocorreu um erro em nossos servidores. Tente novamente e caso o erro persista, aguarde que nossa equipe está trabalhando para resolver o mais rápido possível'
     }
 }
 
