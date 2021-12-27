@@ -87,9 +87,7 @@ app.post('/', async (req, res) => {
       console.log(error);
     }
     
-   
-    
-    console.log(req.body.queryResult.parameters['supported-city'])
+  
     objMessage.text.text.push(` Previsão para ${cityName} - Última atualização: ${time} |
     Dia: ${dateDay1}. Máxima/mínima: ${tempMaxDay1}°C/${tempMinDay1}°C - ${descDay1}\n | 
     Dia: ${dateDay2}. Máxima/mínima: ${tempMaxDay2}°C/${tempMinDay2}°C - ${descDay2}\n | 

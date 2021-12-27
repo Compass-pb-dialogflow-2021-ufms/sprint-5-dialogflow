@@ -4,72 +4,52 @@
 Quinta sprint do programa de bolsas Compass.uol para formação em chatbot Dialogflow.
 
 
-## Execução
+## Diário de bordo
+De início eu pretendia utilizar a Api que foi dada como sugestão, estudei como tratar uma SOAP, porém na tarde sexta(24/11) ela começou a apresentar instabilidade. O que me obrigou a mudar de Api, visto que eu não fazia ideia do tempo de interrupção do serviço. Mudei para a [HG Brasil](https://hgbrasil.com/status/weather) que possui uma boa documentação e segue o padrão REST, em contra partida possui um limite de buscas de cidade por dia (foi a única gratuita que pssuia a função de previsão para n dias). 
+Tive dificuldade em definir quais são as cidades brasileiras e as estrangeiras, resolvi fazer isso utilizando as entidades do dialogflow, mas acredito que é possível melhorar esse tratamento. Também acho que a estrutura do projeto poderia ficar melhor dividida, na próximas entregas pretendo utilizar o express.Router() para definir melhorar as rotas e exportar funcionalidades de uma forma mais limpa dentro do projeto. 
 
-- Criar BOT em Dialogflow que atenda a necessidade de previsão do clima;
+## Funcionamento e tecnologias
 
+- A aplicação dá boas vindas para o usuário, e passa uma instrução básica sobre o funcionamento da ferramenta. Quando o usuário informa o nome da cidade que deseja obter a previsão, o bot exibe o nome da cidade, a hora da última atualização da previsão consultada e a temperatura máxima, temperatura mínima e condição nos próximos 7 dias. 
+Quando o usuário se despede o chatbot exibe uma mensagem instigando o retorno do mesmo.
+ 
+Primeiramente é necessário que o [Node.JS](https://nodejs.org/en/) e o [Ngrok](https://ngrok.com/) esteja instalado na máquina. 
+  
+  
+  Clone este repositório e no mesmo diretório instale as depenêcias pelo terminal:
 
-## Entrega
+  ```
+  npm install
+  ```
 
-- Aceitar o convite do repositório da sprint-5-dialogflow;
+  - Axios para consumir a api externa
+  - Express para tratar das rotas e do servidor
+  
+  Após a instalação dos pacotes, ainda no terminal, digite
+  ```
+  npm start 
+  ```
 
-- Criar uma branch no repositório com o formato nome-sobrenome-numeroEntrega;
+  Após ter feito o passo anterior, abra o terminal na pasta onde se encontra o ngrok e digite
+```
+./ngrok http 3000
+  ```
+ Copie o segundo endereço "forwarding" gerado no webhook(ele inicia com https) dentro do fulfillmet do bot no DialogFlow.
 
-- Subir o trabalho na branch com um readme.md, documentando detalhes sobre como a avaliação foi desenvolvida e como utilizar o sistema.
+ Integrei o chatbot ao Dialogflow Message e ao Line
+  Para executar pelo DialogFlow basta executar o live server no arquivo index.html que está na raiz do projeto e abrir na porta que o live server informou. 
 
-- O prazo de entrega é até às 14h Horário de Brasília do dia 37/12 no repositório do github (https://github.com/Compass-pb-dialogflow-2021-ufms/sprint-5-dialogflow).
+  Para executar pelo Line é necessário ter uma conta na aplicação e ler o QRcode abaixo ou buscar pelo id: @932deesw 
 
-# Especificação do Bot
+  ![QR Code](qrcode.png)
 
-O objetivo desse desafio é desenvolver um chatbot que seja capaz de fazer a previsão do tempo dos próximos 7 dias em uma determinada cidade do Brasil.
+  ## Fluxo de conversa do chatbot
 
-## Regras de negócio
-
-    • Poder informar um nome de município do Brasil e retornar a previsão do tempo nos próximos 7 dias;
-
-    • Se o usuário inserir um nome de uma cidade que não existe ou que não está no Brasil, exibir uma mensagem adequada.
-
-    • Não é necessário fazer a previsão do tempo para estados;
-
-    • Se possível, informar o horário da última atualização dos dados da previsão.
-
-## Intenções
-Além possuir as intenções específicas que contemplem as regras de negócio, as intenções que serão cobradas, são:
-
-    • Saudação
-    • Despedida
-    • Fallback (quando o bot não entender alguma frase)
-
-Use a criatividade para criar novas intenções e fazer o bot ficar mais humanizado.
-
-## Canais de comunicação
-O chatbot deve ter pelo menos 1 canal de comunicação:
-    
-    • Telegram;
-    • Case não consiga Telegram, integrar no canal Line.
-    • Caso não possível, utilizar Dialogflow Messenger;
-    
-Informar canal utilizado e o motivo na documentação.
-
-## Bônus
-
-A tarefa bônus não é obrigatória, mas será muito bem vista se for concluída.
-
-    • Integrar bot ao Telegram, Line e Dialogflow Messenger;
-    
-
-## Documentação
-A documentação é um item muito importante em um projeto, portanto, TUDO deve ser documentado. 
-
-Padrão de projeto, arquitetura, intenções, testes, problemas encontrados e suas soluções, etc... 
-
-Descrever detalhadamente cada item.
-
-Seja criativo!
-
-Você tem total liberdade para fazer o projeto da forma que achar melhor. Além disso, fique
-à vontade para implementar novas funcionalidades para agregar valor ao sistema.
-
-
-## Entrega
-14:00 Horário de Brasília - 27/12/2021
+```
+  usuário: Bom dia
+  chatbot: Saudação
+  usuário: previsão do tempo para Campo Grande
+  chatbot: exibe temperatura de Campo Grande
+  usuário: tchau tchau
+  chatbot: Despedida
+  ```
