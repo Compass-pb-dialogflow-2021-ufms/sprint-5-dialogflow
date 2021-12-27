@@ -1,5 +1,5 @@
 
-# Exercício 2 da quarta sprint
+# Exercício 1 da quinta sprint
 
 Um bot que auxilia o usuário na obtenção da previsão do tempo para municípios brasileiros, sendo o nome do bot Maju. O bot consegue obter os dados dos próximos 4 dias da previsão do tempo para todos os municípios brasileiros, saudar, se despedir e tratar frases que ele não entende.
 
