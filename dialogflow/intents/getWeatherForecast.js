@@ -1,8 +1,10 @@
+require('dotenv').config()
 const axios = require('axios')
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 async function getWeatherForecast(parameters)
 {
+    const key = process.env.KEY
     let city
     const values = Object.values(parameters)
     values.forEach(value => {
@@ -15,7 +17,7 @@ async function getWeatherForecast(parameters)
     if(city == 'Costa Rica') //tratamento de exceção
         return '5003256'
     
-    const request = await fetch(`https://geocode.xyz/${city}?region=BR&geoit=JSON&auth=340415496622814640582x25369`)
+    const request = await fetch(`https://geocode.xyz/${city}?region=BR&geoit=JSON&auth=${key}`)
     const data = await request.json()
 
     if(data.error == undefined)
@@ -26,7 +28,7 @@ async function getWeatherForecast(parameters)
     
         try
         {
-            const getId = await axios.get(`https://geocode.xyz/${coordinates}?json=1&auth=340415496622814640582x25369`)
+            const getId = await axios.get(`https://geocode.xyz/${coordinates}?json=1&auth=${key}`)
         
             const id = getId.data.adminareas.admin8.IBGE_GEOCODIGO 
             return id
