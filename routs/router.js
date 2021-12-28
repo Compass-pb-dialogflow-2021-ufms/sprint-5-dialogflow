@@ -2,6 +2,7 @@ const router = require('express').Router()
 const formattedMessage = require('../dialogflow/responseModels/message')
 
 const welcome = require('../dialogflow/intents/welcome')
+const goodbye = require('../dialogflow/intents/goodbye')
 
 
 router.post('', (req, res)=>
@@ -11,7 +12,12 @@ router.post('', (req, res)=>
     {
         case 'Welcome':
             res.send(formattedMessage(welcome()))
-            break;
+            break
+
+
+        case 'Goodbye':
+            res.send(formattedMessage(goodbye()))
+            break
         default:
             break;
     }
