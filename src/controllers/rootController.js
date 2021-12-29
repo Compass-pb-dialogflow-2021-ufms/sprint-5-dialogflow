@@ -1,3 +1,5 @@
+const { responseBuilder } = require('../util/responseBuilder')
+
 const switchIntent = (req, res, intent) => {
     switch (intent) {
         case 'Default Welcome Intent':
@@ -16,103 +18,57 @@ const switchIntent = (req, res, intent) => {
 }
 
 const defaultWelcomeIntent = (req, res) => {
-    let response = {
-        fulfillmentMessages: [
-            {
-                text: {
-                    text: [
-                          'Olá ! Seja muito bem-vindo.\n'
-                        + 'Eu sou seu assistente pessoal e estou aqui para te atender.\n\n'
-                        + 'Caso precise de ajuda ou queira ver as opções de atendimento digite "Ajuda".'
-                    ]
-                }
-            },
-            {
-                text: {
-                    text: [
-                        'Como posso te ajudar hoje ?'
-                    ]
-                }
-            }
-        ]
-    }
+    let texts = [
+          'Olá ! Seja muito bem-vindo.\n'
+        + 'Eu sou seu assistente pessoal e estou aqui para te atender.\n\n'
+        + 'Caso precise de ajuda ou queira ver as opções de atendimento digite "Ajuda".'
+        , 'Como posso te ajudar hoje ?'
+    ]
 
+
+    const response = responseBuilder(texts)
     res.send(response)
 }
 
 const defaultFallbackIntent = (req, res) => {
-    let response = {
-        fulfillmentMessages: [
-            {
-                text: {
-                    text: [
-                          'Desculpe, mas eu não entendi ou possivelmente eu não trato desses assuntos.\n\n'
-                        + 'Caso precise de ajuda ou queira ver as opções de atendimento digite "Ajuda".'
-                    ]
-                }
-            }
-        ]
-    }
+    let texts = [
+          'Desculpe, mas eu não entendi ou possivelmente eu não trato desses assuntos.\n\n'
+        + 'Caso precise de ajuda ou queira ver as opções de atendimento digite "Ajuda".'
+    ]
 
+    const response = responseBuilder(texts)
     res.send(response)
 }
 
 const helpIntent = (req, res) => {
-    let response = {
-        fulfillmentMessages: [
-            {
-                text: {
-                    text: [
-                        'Estou aqui para te dar assistência em quaisquer problema técnico que você esteja passando.'
-                    ]
-                }
-            },
-            {
-                text: {
-                    text: [
-                          'Por favor escolha uma das opções de acordo com sua necessidade:\n\n'
-                        + 'Hardware: Problemas em seu aparelho ou periféricos.\n\n'
-                        + 'Software: Problemas para utilizar um programa.\n\n'
-                        + 'Menu do Usuário: Operações com sua conta pessoal.'
-                    ]
-                }
-            },
-            {
-                card: {
-                      title: 'Menu'
-                    , buttons: [
-                          { text: 'Hardware' }
-                        , { text: 'Software' }
-                        , { text: 'Menu do Usuário' }
-                    ]
-                }
-            }
+    let texts = [
+          'Estou aqui para te dar assistência em quaisquer problema técnico que você esteja passando.'
+        , 'Por favor escolha uma das opções de acordo com sua necessidade:\n\n'
+        + 'Hardware: Problemas em seu aparelho ou periféricos.\n\n'
+        + 'Software: Problemas para utilizar um programa.\n\n'
+        + 'Menu do Usuário: Operações com sua conta pessoal.'
+    ]
+
+    let card = {
+          title: 'Menu'
+        , buttons: [
+              { text: 'Hardware' }
+            , { text: 'Software' }
+            , { text: 'Menu do Usuário' }
         ]
     }
 
+    const response = responseBuilder(texts, card)
     res.send(response)
 }
 
 const farewellIntent = (req, res) => {
-    let response = {
-        fulfillmentMessages: [
-            {
-                text: {
-                    text: [
-                        'Caso precise estarei sempre aqui para te atender.'
-                    ]
-                }
-            },
-            {
-                text: {
-                    text: [
-                        'Até mais e obrigado pela preferência.'
-                    ]
-                }
-            }
-        ]
-    }
+    let texts = [
+          'Caso precise estarei sempre aqui para te atender.'
+        , 'Até mais e obrigado pela preferência.'
+    ]
 
+    const response = responseBuilder(texts)
     res.send(response)
 }
 
