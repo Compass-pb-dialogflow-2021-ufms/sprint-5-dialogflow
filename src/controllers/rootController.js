@@ -1,9 +1,15 @@
-const { responseBuilder } = require('../util/responseBuilder')
+const {
+      responseBuilder
+    , userIdExtractor
+} = require('../util/index')
 
-const switchIntent = (req, res, intent) => {
+const usersController = require('./usersController')
+const serviceRequestsController = require('./serviceRequestsController')
+
+const switchIntent = (req, res, intent, userId) => {
     switch (intent) {
         case 'Default Welcome Intent':
-            defaultWelcomeIntent(req, res)
+            defaultWelcomeIntent(req, res, userId)
             break
         case 'Default Fallback Intent':
             defaultFallbackIntent(req, res)
@@ -17,17 +23,33 @@ const switchIntent = (req, res, intent) => {
     }
 }
 
-const defaultWelcomeIntent = (req, res) => {
-    let texts = [
-          'Olá ! Seja muito bem-vindo.\n'
-        + 'Eu sou seu assistente pessoal e estou aqui para te atender.\n\n'
-        + 'Caso precise de ajuda ou queira ver as opções de atendimento digite "Ajuda".'
-        , 'Como posso te ajudar hoje ?'
-    ]
+const defaultWelcomeIntent = async (req, res, userId) => {
+    let texts
 
+    try {
+        const userVerified = await usersController.userExists(userId)
+        if (userVerified){
+            texts = [
+                  'Bem-vindo de volta !\n'
+                + 'Lembrando que caso precise de ajuda ou queira relembrar minhas opções de atendimento digite "Ajuda"'
+                , 'Como posso te ajudar dessa vez ?'
+            ]
+        } else {
+            texts = [
+                  'Olá ! Seja muito bem-vindo.\n'
+                + 'Eu sou seu assistente pessoal e estou aqui para te atender.\n\n'
+                + 'Caso precise de ajuda ou queira ver as opções de atendimento digite "Ajuda".'
+                , 'Como posso te ajudar hoje ?'
+            ]
 
-    const response = responseBuilder(texts)
-    res.send(response)
+            await usersController.createUser(userId)
+        }
+
+        const response = responseBuilder(texts)
+        res.send(response)
+    } catch {
+
+    }
 }
 
 const defaultFallbackIntent = (req, res) => {
@@ -72,10 +94,11 @@ const farewellIntent = (req, res) => {
     res.send(response)
 }
 
-const main = (req, res) => {
+const main = async (req, res) => {
     const intent = req.body.queryResult.intent.displayName
+    const userId = userIdExtractor(req)
 
-    switchIntent(req, res, intent)
+    switchIntent(req, res, intent, userId)
 }
 
 module.exports = {
