@@ -20,6 +20,15 @@ const switchIntent = (req, res, intent, userId) => {
         case 'Farewell Intent':
             farewellIntent(req, res)
             break
+        case 'Hardware Assistance Menu Intent':
+            hardwareAssistanceMenuIntent(req, res)
+            break
+        case 'Software Assistance Menu Intent':
+            softwareAssistanceMenuIntent(req, res)
+            break
+        case 'User Menu Intent':
+            userMenuIntent(req, res)
+            break
     }
 }
 
@@ -91,6 +100,48 @@ const farewellIntent = (req, res) => {
     ]
 
     const response = responseBuilder(texts)
+    res.send(response)
+}
+
+const hardwareAssistanceMenuIntent = (req, res) => {
+    let card = {
+          title: 'Atendimento de Hardware'
+        , subtitle: 'Qual opção melhor representa o seu problema ?'
+        , buttons: [
+              { text: 'Aparelho não liga' }
+            , { text: 'Aparelho quebrado' }
+        ]
+    }
+
+    const response = responseBuilder([], card)
+    res.send(response)
+}
+
+const softwareAssistanceMenuIntent = (req, res) => {
+    let card = {
+          title: 'Atendimento de Software'
+        , subtitle: 'Qual opção melhor representa o seu problema ?'
+        , buttons: [
+              { text: 'Problemas de acesso' }
+            , { text: 'Instalação' }
+            , { text: 'Lentidão' }
+        ]
+    }
+
+    const response = responseBuilder([], card)
+    res.send(response)
+}
+
+const userMenuIntent = (req, res) => {
+    let card = {
+          title: 'Menu do Usuário'
+        , buttons: [
+              { text: 'Listar chamados' }
+            , { text: 'Atualizar perfil' }
+        ]
+    }
+
+    const response = responseBuilder([], card)
     res.send(response)
 }
 
