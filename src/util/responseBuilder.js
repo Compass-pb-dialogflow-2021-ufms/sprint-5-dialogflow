@@ -1,4 +1,3 @@
-const {response} = require("express");
 const responseBuilder = (texts, card) => {
     let response = {
         fulfillmentMessages: []
