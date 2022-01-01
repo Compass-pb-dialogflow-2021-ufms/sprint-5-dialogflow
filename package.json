@@ -1,0 +1,30 @@
+{
+  "name": "sprint-5-dialogflow",
+  "version": "1.0.0",
+  "description": "Quinta sprint do programa de bolsas Compass.uol para formação em chatbot Dialogflow.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Compass-pb-dialogflow-2021-ufms/sprint-5-dialogflow.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Compass-pb-dialogflow-2021-ufms/sprint-5-dialogflow/issues"
+  },
+  "homepage": "https://github.com/Compass-pb-dialogflow-2021-ufms/sprint-5-dialogflow#readme",
+  "dependencies": {
+    "actions-on-google": "^3.0.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
