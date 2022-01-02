@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-    const userSchema = new mongoose.Schema({
+    const userReportSchema = new mongoose.Schema({
         name: {
             type: String,
         },
@@ -18,4 +18,4 @@ const mongoose = require('mongoose')
         }
     })
 
-module.exports = userSchema
+module.exports = userReportSchema

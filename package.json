@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/MashiroK/sprint-5-2#readme",
   "dependencies": {
-    "axios": "^0.24.0",
+    "@notionhq/client": "^0.4.11",
     "config": "^3.3.6",
     "express": "^4.17.2",
     "mongoose": "^6.1.3"

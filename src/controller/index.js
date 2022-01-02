@@ -1,160 +1,112 @@
-const config = require("config")
-const axios = require("axios")
 const db = require("../db")
 const functions = require("../functions")
+const notion = require("../functions/notionAPI") 
 
-const intents = async (req, res) => {
+const main = async (req, res) => {
     try {
+        const { Function } = require("../functions")
+        const dialog = new Function( { req, res } ) //Constructing dialog class
 
         const { queryResult, originalDetectIntentRequest } = req.body
         const { intent, parameters } = queryResult
-
-        let displayName = intent.displayName
+        
         let platform = originalDetectIntentRequest.source ? originalDetectIntentRequest.source : "DIALOGFLOW_MESSENGER"
         let userId = functions.userPlatform(req, platform) //sets userId based on platform
+        let nickname = await functions.getNickname(db, userId) //Get nickname from db, if there is one, else sets as empty
+        let uid = await functions.checkUserId(req, db, userId, platform) //Checks if user already used bot, depending on platform (UserId or Session)
 
-        //NICKNAME VERIFICATION START------------------------------------------------------------------
-        try { //Checks if UserID exists on Nicknames DB. Note: This is separated in another DB from Platform because platform treats not only userId, but sessions aswell.
-            username = await db.Nickname.findOne({
-                userId : userId
-            }).orFail()
-        } catch (error) {
-            username = {name: ""}
-        }
-        const nickname = username.name ? ', ' + username.name : '' //Formats string properly depending whether user has a nickname set
-        //NICKNAME VERIFICATION END--------------------------------------------------------------------
+        const { Intent } = require("../intentStrings")
+        const intents = new Intent( { uid, userId, nickname, queryResult } ) //Constructing intents class
 
-        //USER-ID VERIFICATION START-------------------------------------------------------------------
-        try { //Checks if UserID or Session exists on Platform DB, if it doesn't, adds to database depending on platform
-            uid = await db.Platform.findOne({$or: [
-                {userId : userId},
-                {session : userId}
-
-            ]}).orFail()
-        } catch (error) {
-            uid = { userId: "", session: "" }
-            if((platform !== "DIALOGFLOW_CONSOLE") && (platform !== "DIALOGFLOW_MESSENGER")) //DialogFlow console and messenger do not have payloads, so they need to use sessions.
-                db.Platform.create(originalDetectIntentRequest.payload.data.source) //Create User from payload from platform (userID)
-            else
-                db.Platform.create(req.body) //Create User from Dialogflow's session ID
-        }
-        //USER-ID VERIFICATION END---------------------------------------------------------------------
-
-        switch (displayName) {
-                
-            //DEFAULT WELCOME INTENT START-------------------------------------------------------------
+        switch (intent.displayName) { //Cases by Intent----------------------------------
+            //---------------------------------------------------------------------------
             case 'Default Welcome Intent':
-                functions.randomize()
-                try {
-                    switch (rand) {
-                        case 0:
-                            if((uid.userId === userId) || (uid.session === userId))
-                                functions.answer(res, `Olá! Que bom ver você novamente${nickname}! Default Welcome Intent.`)
-                            else
-                                functions.answer(res, `Olá! Default Welcome Intent! É um prazer te conhecer!`)
-                        break
-                    
-                        case 1:
-                            if((uid.userId === userId) || (uid.session === userId))
-                                functions.answer(res, `Oi! Seja bem vindo de volta${nickname}! Default Welcome Intent!`)
-                            else
-                                functions.answer(res, `Oi! É um prazer lhe conhecer! Default Welcome Intent.`)
-                        break
-                    }
-
-                } catch (error) {
-                    console.log(error)
-                } 
+                dialog.answer(intents.welcome()) 
             break
-            //DEFAULT WELCOME INTENT END---------------------------------------------------------------
-
-            //DEFAULT GOODBYE INTENT START-------------------------------------------------------------
+            //---------------------------------------------------------------------------
             case 'Default Goodbye Intent':
-                functions.randomize()
-                try {
-                    switch (rand) {
-                        case 0:
-                                functions.answer(res, `Estou aqui sempre que precisar! Até mais${nickname}!`)
-                        break
-                    
-                        case 1:
-                                functions.answer(res, `Foi um prazer lhe ajudar hoje${nickname}.`)
-                        break
-                    }
-
-                } catch (error) {
-                    console.log(error)
-                } 
+                dialog.answer(intents.goodbye())
             break
-            //DEFAULT GOODBYE INTENT END---------------------------------------------------------------
-
-            //DEFAULT FALLBACK INTENT START------------------------------------------------------------
+            //---------------------------------------------------------------------------
             case 'Default Fallback Intent':
-                functions.randomize()
-                try {
-                    switch (rand) {
-                        case 0:
-                                functions.answer(res, "Não consegui compreender o que você disse. Se estiver precisando, pode me pedir ajuda.")
-                        break
-                    
-                        case 1:
-                                functions.answer(res, "Desculpe, não entendi o que você quis dizer. Se precisar, basta me pedir ajuda.")
-                        break
-                    }
-
-                } catch (error) {
-                    console.log(error)
-                } 
+                dialog.answer(intents.fallback())
             break
-            //DEFAULT FALLBACK INTENT END--------------------------------------------------------------
-
-            //HELP INTENT START------------------------------------------------------------------------
+            //---------------------------------------------------------------------------
             case 'Help Intent':
-                functions.answer(res, 
-                    `Entendi! Vamos lá${nickname}! Help Intent\n`
-                    )
+                dialog.answer(intents.help())
             break
-            //HELP INTENT END--------------------------------------------------------------------------
-
-            //NICKNAME INTENT START--------------------------------------------------------------------
+            //---------------------------------------------------------------------------
             case 'Nickname Intent':
-                functions.answer(res, "Certo, e como quer que eu te chame?")
+                dialog.answer(intents.nicknameStart())
             break
-            //NICKNAME INTENT END----------------------------------------------------------------------
-
-            //NICKNAME INTENT - NEXT START------------------------------------------------------------- //TODO - Implement change username
+            //---------------------------------------------------------------------------
             case 'Nickname Intent - next':
-                    try {
-                        nicknames = await db.Nickname.findOne( {
-                            userId : userId
-                        } ).orFail()
-                    } catch (error) {
-                        nicknames = ''
-                    }
-
-                    if(nicknames !== '')
-                        functions.answer(res, `Você já tem um nome cadastrado: ${nicknames.name}`)
-                    else {
-                        db.Nickname.create({ name : parameters["given-name"], userId : userId})
-                        functions.answer(res, `Certo, te chamarei de ${parameters["given-name"]} a partir de agora!`)
-                    }
+                if(nickname == '') //Only adds to mongoDB if nickname exists.
+                    db.Nickname.create({ name : parameters["given-name"], userId : userId})
+                
+                dialog.answer(intents.nicknameNext()) //Dynamic msg 'added/not added'.
             break
-            //NICKNAME INTENT - NEXT END---------------------------------------------------------------
+            //---------------------------------------------------------------------------
+            case 'Report Intent':
+                try { //Pushes to both mongoDB and notion, else calls fallback.
+                    db.Report.create( { name : parameters.person.name, phone: parameters.phone, email : parameters.email,
+                                        cpf : functions.formatCpf(parameters.cpf), description : parameters.description } )
+                    
+                    notion.create(  parameters.person.name, parameters.phone, parameters.email, 
+                                    functions.formatCpf(parameters.cpf), parameters.description )
+                    
+                    dialog.answerContext(intents.report(), "goodbyeContext", 1)
+                } catch (error) {
+                    dialog.answer(intents.reportFallback())
+                }
+            break
+            //---------------------------------------------------------------------------
+            case 'Diagnose Intent':
+                dialog.answer(intents.diagnose())
+            break
+            //---------------------------------------------------------------------------
+            
+            //---------------------------------------------------------------------------
+            case 'Diagnose Intent - fallback':
+                dialog.answer(intents.diagnoseFallback())
+            break
+            //---------------------------------------------------------------------------
+            case 'Diagnose Confirmation Intent':
+                try { //Constructs next event name based on type 'hardware/software'.
+                    dialog.nextEvent(intents.diagnoseConfirmation())
+                } catch (error) { //Prevent trying to call non-existant event.
+                    dialog.answer(intents.diagnoseConfirmationFallback())
+                }
+            break
+            //---------------------------------------------------------------------------
+            case 'Diagnose Intent - hardware':
+                if(parameters.hardwareProblem[0] !== 'broken') {
+                    dialog.answer(intents.diagnoseHardware())
+                    break
+                }
+                dialog.nextEvent("callReport")
+            break
+            //---------------------------------------------------------------------------
+            case 'Diagnose Intent - hardware - no':
+                dialog.nextEvent("callReport")    
+            break
+            //---------------------------------------------------------------------------
+            case 'Diagnose Intent - hardware - yes':
+                dialog.nextEvent("goodbyeEvent")    
+            break
+            //---------------------------------------------------------------------------
+            case 'Diagnose Intent - software':
+                dialog.nextEvent("callReport")
+            break
+            //---------------------------------------------------------------------------
         }
-
     } catch (error) {    
-            console.log(error)
+        console.log(error)
     }
-
-}
-
-const log = (req, res) => {
-    functions.answer(res, "GET sucessful")
 }
 
 //EXPORTS-------
 
 module.exports = {
-    intents,
-    log
+    main
 }

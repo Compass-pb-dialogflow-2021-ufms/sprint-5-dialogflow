@@ -3,6 +3,6 @@ const router = express.Router()
 const controller = require('../controller')
 
 
-router.post('/', controller.intents)
-router.get('/', controller.log)
+router.post('/', controller.main)
+//router.get('/', controller.log)
 module.exports = router

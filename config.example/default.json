@@ -1,5 +1,9 @@
 {
     "mongo": {
         "con" : "Add your connection string here"
+    },
+    "notion": {
+        "key" : "Your API key here",
+        "db" : "Your Database ID here"
     }
 }
