@@ -2,7 +2,7 @@ const axios = require('axios');
 module.exports = {
     async chamadasAtivas() {
         try {
-            const resultado = await axios(`https://199a-45-237-255-132.ngrok.io/bd/ativas`);
+            const resultado = await axios(`https://projeto-sprint-five-two.herokuapp.com/bd/ativas`);
             return this.mensagemChamadasAtivas(resultado.data);
         } catch (erro) {
             console.error(erro);
@@ -14,7 +14,7 @@ module.exports = {
     },
     async chamadasPorCpf(parametros) {
         try {
-            const resultado = await axios(`https://199a-45-237-255-132.ngrok.io/bd/${parametros.cpf}/`);
+            const resultado = await axios(`https://projeto-sprint-five-two.herokuapp.com/bd/${parametros.cpf}/`);
             return this.mensagemChamadasPorCpf(resultado.data);
         } catch (erro) {
             console.error(erro);

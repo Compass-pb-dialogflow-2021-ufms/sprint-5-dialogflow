@@ -51,7 +51,7 @@ module.exports = {
         try {
             await axios({
                 method: 'post',
-                url: 'https://199a-45-237-255-132.ngrok.io/bd/adicionar',
+                url: 'https://projeto-sprint-five-two.herokuapp.com/bd/adicionar',
                 data: dadosChamada
 
               });
