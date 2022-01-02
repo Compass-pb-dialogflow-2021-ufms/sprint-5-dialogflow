@@ -8,6 +8,7 @@ const goodbye = require('../dialogflow/intents/goodbye')
 const hardwareProblem = require('../dialogflow/intents/hardwareProblem')
 const getName = require('../dialogflow/intents/getName')
 const getServiceCallParameters = require('../dialogflow/intents/getServiceCallParameters')
+const getStatus = require('../dialogflow/intents/getStatus')
 
 
 router.post('', async (req, res)=>
@@ -54,12 +55,18 @@ router.post('', async (req, res)=>
             break
         
 
-        case 'ChangeTheName':
+        case 'ChangeName':
             res.send(eventGetServiceCallParametersTrigger('serviceCall', req))
             break
 
         case 'GetServiceCallParameters':
             res.send(formattedMessage(await getServiceCallParameters(req)))
+            break
+
+
+        case 'GetStatus':
+            getStatus(req)
+            res.send(formattedMessage('Intent get status'))
             break
 
 
