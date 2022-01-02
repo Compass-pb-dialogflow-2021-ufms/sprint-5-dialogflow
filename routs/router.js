@@ -65,8 +65,7 @@ router.post('', async (req, res)=>
 
 
         case 'GetStatus':
-            getStatus(req)
-            res.send(formattedMessage('Intent get status'))
+            res.send(formattedMessage(await getStatus(req)))
             break
 
 
