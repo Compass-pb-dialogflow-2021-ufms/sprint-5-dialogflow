@@ -36,6 +36,9 @@ const switchIntent = (req, res, intent, userId) => {
         case 'Broken Device Intent':
             brokenDeviceIntent(req, res)
             break
+        case 'Software Assistance Intent':
+            softwareAssistanceIntent(req, res)
+            break
     }
 }
 
@@ -136,13 +139,23 @@ const hardwareAssistanceMenuIntent = (req, res) => {
 }
 
 const softwareAssistanceMenuIntent = (req, res) => {
+    const software = req.body.queryResult.parameters.software
     const card = {
           title: 'Atendimento de Software'
         , subtitle: 'Qual opção melhor representa o seu problema ?'
         , buttons: [
-              { text: 'Problemas de acesso' }
-            , { text: 'Instalação' }
-            , { text: 'Lentidão' }
+            {
+                  text: 'Problemas de acesso'
+                , postback: `O ${software} está sem acesso.`
+            },
+            {
+                  text: 'Instalação'
+                , postback: `O ${software} não está instalado.`
+            },
+            {
+                  text: 'Lentidão'
+                , postback: `O ${software} está lento.`
+            }
         ]
     }
 
@@ -251,6 +264,49 @@ const brokenDeviceIntent = (req, res) => {
     const response = responseBuilder(texts, card)
     res.send(response)
 }
+
+const softwareAssistanceIntent = (req, res) => {
+    const texts = []
+
+    const software = req.body.queryResult.parameters.software
+    const softwareIssue = req.body.queryResult.parameters.softwareIssue
+
+    switch (softwareIssue) {
+        case 'Problemas ao acessar':
+            texts.push(
+                `Para resolver seu problema de acesso ao ${software} precisamos abrir um chamado.`
+            )
+            break
+        case 'Não instalado':
+            texts.push(
+                `Para instalar o ${software} vamos ter que iniciar um chamado.`
+            )
+            break
+        case 'Lentidão':
+            texts.push(
+                `Para resolver o seu problema de lentidão no ${software} temos que abrir um chamado.`
+            )
+            break
+    }
+
+    const card = {
+        title: 'Deseja Confirmar ?'
+        , buttons: [
+            {
+                text: 'Sim'
+                , postbak: 'Sim, abrir um chamado'
+            },
+            {
+                text: 'Não'
+                , postback: 'Não, obrigado'
+            }
+        ]
+    }
+
+    const response = responseBuilder(texts, card)
+    res.send(response)
+}
+
 
 const main = async (req, res) => {
     const intent = req.body.queryResult.intent.displayName
