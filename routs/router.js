@@ -7,9 +7,10 @@ const welcome = require('../dialogflow/intents/welcome')
 const goodbye = require('../dialogflow/intents/goodbye')
 const hardwareProblem = require('../dialogflow/intents/hardwareProblem')
 const getName = require('../dialogflow/intents/getName')
+const getServiceCallParameters = require('../dialogflow/intents/getServiceCallParameters')
 
 
-router.post('', (req, res)=>
+router.post('', async (req, res)=>
 {
     const intent = req.body.queryResult.intent.displayName
     switch(intent) 
@@ -58,8 +59,7 @@ router.post('', (req, res)=>
             break
 
         case 'GetServiceCallParameters':
-            console.log(req.body.queryResult)
-            res.send(formattedMessage('estamos com os dados'))
+            res.send(formattedMessage(await getServiceCallParameters(req)))
             break
 
 
