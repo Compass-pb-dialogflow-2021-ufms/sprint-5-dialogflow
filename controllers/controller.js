@@ -34,6 +34,18 @@ module.exports = function (req, res) {
         case 'CriarChamada':
             supportApi.createTicket(req, res);
             break;
+        case 'CriarChamadaSoftware':
+            supportApi.createTicket(req, res);
+            break;
+        case 'SolucaoPaliativaNegarChamada':
+            supportApi.farewellUser(req, res);
+            break;
+        case 'ConsultarChamadas':
+            supportApi.askCpfTicket(req, res);
+            break;
+        case 'CpfParaConsultarChamada':
+            supportApi.getTicket(req, res);
+            break;
         case 'FallbackPadrao':
             return res.send({
                 "fulfillmentMessages": [{

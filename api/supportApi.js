@@ -29,7 +29,7 @@ function helpUser(req, res) {
 }
 
 function farewellUser(req, res) {
-    const answers = ['Até mais', 'Até logo, espero ter ajudado', 'Tchau, espero ter conseguido resolver seu problema']
+    const answers = ['Até mais, quando precisar é só me avisar', 'Até logo, estarei aqui caso precise', 'Tchau, caso prescise estarei por aqui']
 
     return res.send({
         "fulfillmentMessages": [{
@@ -43,8 +43,8 @@ function farewellUser(req, res) {
 }
 
 function hardWareProblem(req, res) {
-    const hardWarePiece = req.body.queryResult.parameters.hardware
-    const problemType = req.body.queryResult.parameters.tipoProblema
+    const hardWarePiece = req.body.queryResult.parameters.hardware;
+    const problemType = req.body.queryResult.parameters.tipoProblema;
 
     if (!hardWarePiece) {
         return res.send({
@@ -83,6 +83,42 @@ function hardWareProblem(req, res) {
 
 }
 
+function softWareProblem(req, res) {
+    const softwareProgram = req.body.queryResult.parameters.software;
+    const problemType = req.body.queryResult.parameters.problemaSoftware;
+
+    if (!softwareProgram) {
+        return res.send({
+            "fulfillmentMessages": [{
+                "text": {
+                    "text": [
+                        `Me diga qual o programa que está com problema`,
+                    ]
+                }
+            }]
+        })
+    }
+
+    if (!problemType) {
+        return res.send({
+            "fulfillmentMessages": [{
+                "text": {
+                    "text": [
+                        `Qual o problema do(a) ${softwareProgram}`,
+                    ]
+                }
+            }]
+        })
+    }
+
+    return res.send({
+        "followupEventInput": {
+            "name": "pergunta-criar-ticket",
+            "languageCode": "pt-BR"
+        }
+    })
+}
+
 function giveMinorSolution(req, res) {
     const hardWarePiece = req.body.queryResult.outputContexts[1].parameters.hardware;
 
@@ -91,8 +127,7 @@ function giveMinorSolution(req, res) {
             "fulfillmentMessages": [{
                 "text": {
                     "text": [
-                        `Sugiro que remova o fio do ${hardWarePiece} e conecte em outra USB em seu computador\nVerifique também se o fio não esta com mal contato\n`,
-                        `O problema foi resolvido?`
+                        `Sugiro que remova o fio do ${hardWarePiece} e conecte em outra USB em seu computador\nVerifique também se o fio não esta com mal contato\nO problema foi resolvido?`
                     ]
                 }
             }]
@@ -150,15 +185,28 @@ function finishDialog(req, res) {
 }
 
 function askUserCreateTicket(req, res) {
-    return res.send({
-        "fulfillmentMessages": [{
-            "text": {
-                "text": [
-                    `Já que não conseguimos resolver dessa forma, preciso criar uma chamada\nVocê gostaria de criar um ticket para resolvermos seu problema?`
-                ]
-            }
-        }]
-    })
+
+    if (req.body.queryResult.queryText === 'pergunta-criar-ticket') {
+        return res.send({
+            "fulfillmentMessages": [{
+                "text": {
+                    "text": [
+                        `Para o seu problem vou precisar criar uma chamada\nVocê quer criar uma chamada para o problema?`
+                    ]
+                }
+            }]
+        })
+    } else {
+        return res.send({
+            "fulfillmentMessages": [{
+                "text": {
+                    "text": [
+                        `Já que não conseguimos resolver dessa forma, preciso criar uma chamada\nVocê gostaria de criar um ticket para resolvermos seu problema?`
+                    ]
+                }
+            }]
+        })
+    }
 }
 
 function redirectToCreateTicket(req, res) {
@@ -178,7 +226,7 @@ async function createTicket(req, res) {
             "fulfillmentMessages": [{
                 "text": {
                     "text": [
-                        `Qual o seu cpf? Informe somente os numeros, sem pontos e o traço`
+                        `Qual o seu cpf?`
                     ]
                 }
             }]
@@ -221,7 +269,13 @@ async function createTicket(req, res) {
         })
     }
 
-    description = req.body.queryResult.outputContexts[1].parameters.hardware + ' ' + req.body.queryResult.outputContexts[1].parameters.tipoProblema
+    const getContext = req.body.queryResult.outputContexts[1].name.split("/");
+
+    if (getContext[getContext.length - 1] === 'hardwarecontext') {
+        description = req.body.queryResult.outputContexts[1].parameters.hardware + ' ' + req.body.queryResult.outputContexts[1].parameters.tipoProblema
+    } else {
+        description = req.body.queryResult.outputContexts[1].parameters.software + ' ' + req.body.queryResult.outputContexts[1].parameters.problemaSoftware
+    }
 
     const ticket = {
         name: req.body.queryResult.parameters.nome.name,
@@ -247,7 +301,56 @@ async function createTicket(req, res) {
             "fulfillmentMessages": [{
                 "text": {
                     "text": [
-                        `Erro no servidor, não foi possuivel realizar uma chamada`
+                        `Erro no servidor, não foi possuivel cadastrar uma chamada`
+                    ]
+                }
+            }]
+        })
+    }
+}
+
+function askCpfTicket(req, res) {
+    return res.send({
+        "fulfillmentMessages": [{
+            "text": {
+                "text": [
+                    `Vou precisar do seu cpf para realizar a consulta\nInforme seu cpf, por favor`
+                ]
+            }
+        }]
+    })
+}
+
+async function getTicket(req, res) {
+
+    const cpfUser = req.body.queryResult.parameters.cpf;
+
+    const tickets = await Ticket.find({
+        cpf: cpfUser
+    })
+
+    if (!tickets.length > 0) {
+        return res.send({
+            "fulfillmentMessages": [{
+                "text": {
+                    "text": [
+                        `Nenhuma chamada cadastrada com esse cpf\nVocê pode me pedir ajuda a qualquer momento`
+                    ]
+                }
+            }]
+        })
+    } else {
+        let ticketData = '';
+
+        for (let i = 0; i < tickets.length; i++) {
+            ticketData += `Chamada ${i+1}\nNome: ${tickets[i].name}\nProblema: ${tickets[i].problemDecription}\nStatus: Em andamento\n`;
+        }
+
+        return res.send({
+            "fulfillmentMessages": [{
+                "text": {
+                    "text": [
+                        `${ticketData}`
                     ]
                 }
             }]
@@ -264,5 +367,8 @@ module.exports = {
     finishDialog,
     askUserCreateTicket,
     redirectToCreateTicket,
-    createTicket
+    createTicket,
+    softWareProblem,
+    askCpfTicket,
+    getTicket
 }
