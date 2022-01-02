@@ -1,36 +1,24 @@
+# Avaliação 5 - Programa de Bolsas Compass.uol e UFMS
 
-# Avaliação Sprint 5 - Programa de Bolsas Compass.uol e UFMS
-
-Quinta sprint do programa de bolsas Compass.uol para formação em chatbot Dialogflow.
-
-
-## Execução
-
-- Criar BOTs em Dialogflow que atenda as necessidades previstas em cada arquivo da pasta "Tasks";
-
+## Diário de bordo
+//TODO
 
 ## Entrega
+Para iniciar a aplicação, deve-se possuir o Node.JS na maquina.
 
-- Aceitar o convite do repositório da sprint-5-dialogflow;
+1- Na pasta do projeto, abra o terminal e digite npm install para instalar todas as dependencias.
 
-- Criar uma branch no repositório com o formato nome-sobrenome-numeroEntrega;
+2- Após instalar, digite npm start para iniciar a aplicação.
 
-- Subir o trabalho na branch com um readme.md, documentando detalhes sobre como a avaliação foi desenvolvida e como utilizar o sistema.
+3- Caso possua o ngrok(https://ngrok.com/download), abra e digite ngrok http 3000, e logo após apareça o link https de onde está hospedado a aplicação.
 
-- O prazo de entrega está incluso em cada arquivo de entrega na pasta "Tasks". O repositório no github é (https://github.com/Compass-pb-dialogflow-2021-ufms/sprint-5-dialogflow).
+4- Logo após extraia o zip e importe o bot para o dialogflow na aba de configurações e Export and Import.
 
-# Especificação do Bot
+5- O bot já deve estar online, copiei e cole o link https feito no ngrok na aba Fulfillment no dialogflow.
 
-Além do dito em cada arquivo de entrega, use da criatividade para criar novas intenções e fazer o bot ficar mais humanizado.
+6- Pronto, o bot já deve estar pronto para uso!
 
-## Documentação
-A documentação é um item muito importante em um projeto, portanto, TUDO deve ser documentado. 
-
-Padrão de projeto, arquitetura, intenções, testes, problemas encontrados e suas soluções, etc... 
-
-Descrever detalhadamente cada item.
-
-Seja criativo!
-
-Você tem total liberdade para fazer o projeto da forma que achar melhor. Além disso, fique
-à vontade para implementar novas funcionalidades para agregar valor ao sistema!
+## Rota e Link do Bot
+<li>Link do bot no telegram: t.me/suporten1_bot
+<li>Link da api no glitch: 
+<li>Link do bot no line: https://line.me/R/ti/p/%40030hcyfd
