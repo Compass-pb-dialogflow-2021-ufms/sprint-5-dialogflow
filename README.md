@@ -1,7 +1,15 @@
 # Avaliação 5 - Programa de Bolsas Compass.uol e UFMS
 
 ## Diário de bordo
-//TODO
+Basicamente iniciei pensando no fluxo proposto e como o usuario poderia iniciar o contexto, logo após fui começando a criar o projeto e as intents no dialogflow, criei as obrigatorias(Saudação, Ajuda e Encerramento), algumas frases foram treinadas e após foi criar elas foi criar as adicionais como Chamado, Hardware, Software e Ultimos Chamados. Chamado pode-se criar um chamado apenas digitando chamado/não resolveu e/outras frase ou indo pelo o contexto de sim do fluxo de hardware; Hardware e Software são bem semelhantes pois ao usuario passar problemas que estão nas Entities, na mensagem eu retorno uma frase especifica de suporte para cada caso. E Ultimos Chamados que apenas lista o ultimo chamado feito para que a pessoa possa acompanhar o que foi criado. Nos ultimos dias da sprint, foi-se tentado aplicar o feedback passado pelo o Vitor então muito no codigo está modularizado menos uma função que é a do instagramUser que volta a mensagem personalizada e não foi dada-se um tempo necessario a ela.
+
+## Intents
+- Ajuda: Apenas uma mensagem que auxilia o usuario, sobre o que ele pode realizar com o bot.
+- Chamado: Intenção que cria um chamado, e o usuario passa suas informação e manda para o banco.
+- Encerramento: Uma mensagem de despedida para o usuario.
+- Hardware: Intenção no qual se passa um problema de Hardware e volta uma mensagem especifica para cada caso sobre o suporte para aquele problema.
+- Software: Intenção no qual se passa um problema de Software e volta uma mensagem especifica para cada caso sobre o suporte para aquele problema.
+- Ultimos Chamados: Intenção que mostra o ultimo chamado criado no banco.
 
 ## Entrega
 Para iniciar a aplicação, deve-se possuir o Node.JS na maquina.
