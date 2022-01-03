@@ -20,5 +20,5 @@ Para iniciar a aplicação, deve-se possuir o Node.JS na maquina.
 
 ## Rota e Link do Bot
 <li>Link do bot no telegram: t.me/suporten1_bot
-<li>Link da api no glitch: 
+<li>Link da api no glitch: https://suporten1bot.glitch.me/botsuporte 
 <li>Link do bot no line: https://line.me/R/ti/p/%40030hcyfd
