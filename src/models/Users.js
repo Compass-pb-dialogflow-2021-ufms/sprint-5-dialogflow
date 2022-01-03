@@ -16,8 +16,7 @@ const UsersSchema = new mongoose.Schema({
         type: String
     },
     cpf: {
-          type: String
-        , unique: true
+        type: String
     }
 })
 

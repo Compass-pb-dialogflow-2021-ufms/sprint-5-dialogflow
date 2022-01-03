@@ -3,7 +3,6 @@ const mongoose = require('../database/connection')
 const ServiceRequestsSchema = new mongoose.Schema({
     userId: {
           type: String
-        , unique: true
         , required: true
     },
     description: {

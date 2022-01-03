@@ -6,8 +6,8 @@ const userIdExtractor = (req) => {
         case 'line':
             userId = req.body.originalDetectIntentRequest.payload.data.source.userId
             break
-        case 'telegram':
-            userId = req.body.originalDetectIntentRequest.payload.data.from.id
+        case 'facebook':
+            userId = req.body.originalDetectIntentRequest.payload.data.sender.id
             break
     }
 
