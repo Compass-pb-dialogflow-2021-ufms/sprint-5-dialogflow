@@ -39,6 +39,10 @@ const responses =
     '\n\nApós testar as medidas apresentadas, seu problema foi resolvido?',
     
     
+    helpMenu: 'Olá, sou o Mr. Robot. Tenho duas funções principais, te auxiliar com o seu problema técnico, seja esse no hardware ou no software, criando até um chamado, caso necessário e te mostrar o status do seu chamado. \nPara conseguir utilizar essas funções, basta dizer qual problema técnico está enfrentando, como por exemplo "Não consigo acessar o meu Outlook", ou mesmo me perguntar o status de um chamado, tal como "Status do chamado 21", que irei te responder :)' + 
+    '\n\nComo posso te ajudar?',
+
+
     welcome: ['Olá, seja bem vindo. Eu sou o Mr. Robot, assistente virtual da loja Vitor Torino Tec. Nossa loja é especialista em resolução de problemas envolvendo tecnologia, desde a parte de hardware quanto de software. Como posso te ajudar hoje?',
 
     'Olá, sou o Mr. Robot da Vitor Torino Tec, como posso te ajudar hoje?',
