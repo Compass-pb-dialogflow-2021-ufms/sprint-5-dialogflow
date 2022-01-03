@@ -39,6 +39,12 @@ const switchIntent = (req, res, intent, userId) => {
         case 'Software Assistance Intent':
             softwareAssistanceIntent(req, res)
             break
+        case 'Service Request Intent':
+            serviceRequestIntent(req, res, userId)
+            break
+        case 'Set User Data Intent':
+            setUserDataIntent(req, res, userId)
+            break
     }
 }
 
@@ -307,6 +313,92 @@ const softwareAssistanceIntent = (req, res) => {
     res.send(response)
 }
 
+const serviceRequestIntent = async (req, res, userId) => {
+    try {
+        const texts = []
+        const card = {}
+
+        const User = await usersController.findUser(userId)
+        const dataCompleted = await usersController.userDataCompleted(User)
+        if (dataCompleted) {
+            const description = req.body.queryResult.parameters.description
+
+            await serviceRequestsController.createServiceRequest(userId, description)
+
+            texts.push(
+                'Já enviamos o chamado, em breve um técnico irá resolver o seu problema.'
+            )
+
+            card.title = 'Posso ajudar em algo mais ?'
+            card.buttons = [
+                {
+                      text: 'Sim'
+                    , postback: 'Sim, ir para o menu.'
+                },
+                {
+                      text: 'Não'
+                    , postback: 'Não, até mais.'
+                }
+            ]
+        } else {
+            texts.push(
+                  'Vi aqui que você ainda não tem todos seus dados cadastrados.\n\n'
+                + 'Para abrir um chamado precisamos ter alguns dados (Nome completo, telefone, e-mail e CPF).'
+            )
+
+            card.title = 'Posso iniciar o formulário ?'
+            card.buttons = [
+                {
+                      text: 'Sim'
+                    , postback: 'Sim, iniciar formulário.'
+                },
+                {
+                      text: 'Não'
+                    , postback: 'Não, obrigado.'
+                }
+            ]
+        }
+
+        const response = responseBuilder(texts, card)
+        res.send(response)
+    } catch {
+
+    }
+}
+
+const setUserDataIntent = async (req, res, userId) => {
+    try {
+        const text = [
+            'Seus dados foram cadastrados com sucesso.'
+        ]
+
+        const card = {
+              title: 'Voltar para abertura de chamado ?'
+            , buttons: [
+                {
+                      text: 'Sim'
+                    , postback: 'Sim, voltar para abertura de chamado.'
+                },
+                {
+                      text: 'Não'
+                    , postback: 'Não, obrigado.'
+                }
+            ]
+        }
+
+        const name = req.body.queryResult.parameters.name
+        const phone = req.body.queryResult.parameters.phone
+        const email = req.body.queryResult.parameters.email
+        const cpf = req.body.queryResult.parameters.cpf
+
+        await usersController.setUserData(userId, name, phone, email, cpf)
+
+        const response = responseBuilder(text, card)
+        res.send(response)
+    } catch {
+
+    }
+}
 
 const main = async (req, res) => {
     const intent = req.body.queryResult.intent.displayName
