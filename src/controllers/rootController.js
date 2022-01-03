@@ -2,10 +2,38 @@ const {
       responseBuilder
     , userIdExtractor
     , arrayToStringFormatter
+    , messageRandomizer
 } = require('../util/index')
 
 const usersController = require('./usersController')
 const serviceRequestsController = require('./serviceRequestsController')
+
+const welcomeAgainMessages = [
+      'Bem-vindo de volta !\n'
+    + 'Lembrando que caso precise de ajuda ou queira relembrar minhas opções de atendimento digite "Ajuda".'
+    , 'Olá novamente !\n'
+    + 'Lembrando que caso queira, pedindo por "Menu" irei mostrar minhas opções de atendimento.'
+    , 'Olá, serei seu atendente novamente !\n'
+    + 'Não se esqueça que se precisar de um guia para seu atendimento basta pedir pelo "Menu".'
+]
+
+const fallbackMessages = [
+      'Desculpe, mas eu não entendi ou possivelmente eu não trato desses assuntos.\n\n'
+    + 'Caso precise de ajuda ou queira ver as opções de atendimento digite "Ajuda".'
+    , 'Perdão, mas acredito que não trato desses assuntos.\n\n'
+    + 'Lembre-se que tenho um menu que pode ajudar no atendimento. Para acessa-lo digite "Menu".'
+    , 'Acho que não entendi, cuidado com erros ortográficos e abreviações. Pode ser também que não trato desse tipo de assunto.\n\n'
+    + 'Para facilitar seu atendimento sugiro seguir pelo menu. Para visualiza-lo é so digitar "Menu".'
+]
+
+const farewellMessages = [
+      'Caso precise estarei sempre aqui para te atender.\n\n'
+    + 'Até mais e obrigado pela preferência.'
+    , 'Sempre que precisar estarei aqui para te atender.\n\n'
+    + 'Até logo e obrigado por escolher nossos serviços.'
+    , 'Não se esqueça de me chamar sempre que precisar suporte técnico.\n\n'
+    + 'Até mais e obrigado por nos escolher.'
+]
 
 const switchIntent = (req, res, intent, userId) => {
     switch (intent) {
@@ -58,8 +86,7 @@ const defaultWelcomeIntent = async (req, res, userId) => {
         const userVerified = await usersController.userExists(userId)
         if (userVerified){
             texts.push(
-                  'Bem-vindo de volta !\n'
-                + 'Lembrando que caso precise de ajuda ou queira relembrar minhas opções de atendimento digite "Ajuda"'
+                messageRandomizer(welcomeAgainMessages, welcomeAgainMessages.length)
             )
             texts.push(
                 'Como posso te ajudar dessa vez ?'
@@ -86,8 +113,7 @@ const defaultWelcomeIntent = async (req, res, userId) => {
 
 const defaultFallbackIntent = (req, res) => {
     const texts = [
-          'Desculpe, mas eu não entendi ou possivelmente eu não trato desses assuntos.\n\n'
-        + 'Caso precise de ajuda ou queira ver as opções de atendimento digite "Ajuda".'
+        messageRandomizer(fallbackMessages, fallbackMessages.length)
     ]
 
     const response = responseBuilder(texts)
@@ -96,8 +122,7 @@ const defaultFallbackIntent = (req, res) => {
 
 const helpIntent = (req, res) => {
     const texts = [
-          'Estou aqui para te dar assistência em quaisquer problema técnico que você esteja passando.'
-        , 'Por favor escolha uma das opções de acordo com sua necessidade:\n\n'
+          'Por favor escolha uma das opções de acordo com sua necessidade:\n\n'
         + 'Hardware: Problemas em seu aparelho ou periféricos.\n\n'
         + 'Software: Problemas para utilizar um programa.\n\n'
         + 'Menu do Usuário: Operações com sua conta pessoal.'
@@ -118,8 +143,7 @@ const helpIntent = (req, res) => {
 
 const farewellIntent = (req, res) => {
     const texts = [
-          'Caso precise estarei sempre aqui para te atender.'
-        , 'Até mais e obrigado pela preferência.'
+        messageRandomizer(farewellMessages, farewellMessages.length)
     ]
 
     const response = responseBuilder(texts)
