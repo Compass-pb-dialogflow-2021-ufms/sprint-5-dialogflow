@@ -3,6 +3,7 @@ const {
     , userIdExtractor
     , arrayToStringFormatter
     , messageRandomizer
+    , offlineService
 } = require('../util/index')
 
 const usersController = require('./usersController')
@@ -107,7 +108,8 @@ const defaultWelcomeIntent = async (req, res, userId) => {
         const response = responseBuilder(texts)
         res.send(response)
     } catch {
-
+        const errorMessage = responseBuilder(offlineService())
+        res.send(errorMessage)
     }
 }
 
@@ -388,7 +390,8 @@ const serviceRequestIntent = async (req, res, userId) => {
         const response = responseBuilder(texts, card)
         res.send(response)
     } catch {
-
+        const errorMessage = responseBuilder(offlineService())
+        res.send(errorMessage)
     }
 }
 
@@ -422,7 +425,8 @@ const setUserDataIntent = async (req, res, userId) => {
         const response = responseBuilder(text, card)
         res.send(response)
     } catch {
-
+        const errorMessage = responseBuilder(offlineService())
+        res.send(errorMessage)
     }
 }
 
@@ -458,11 +462,12 @@ const listServicesRequestIntent = async (req, res, userId) => {
         const response = responseBuilder(texts, card)
         res.send(response)
     } catch {
-
+        const errorMessage = responseBuilder(offlineService())
+        res.send(errorMessage)
     }
 }
 
-const main = async (req, res) => {
+const main = (req, res) => {
     const intent = req.body.queryResult.intent.displayName
     const userId = userIdExtractor(req)
 
