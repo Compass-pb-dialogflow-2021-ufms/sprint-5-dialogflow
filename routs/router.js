@@ -4,12 +4,14 @@ const eventTrigger = require('../dialogflow/responseModels/eventTrigger')
 const eventGetServiceCallParametersTrigger = require('../dialogflow/responseModels/eventGetServiceCallParametersTrigger')
 
 const aboutMe = require('../dialogflow/intents/aboutMe')
+const fallback = require('../dialogflow/intents/fallback/fallback')
 const getName = require('../dialogflow/intents/getName')
 const getServiceCallParameters = require('../dialogflow/intents/getServiceCallParameters')
 const getStatus = require('../dialogflow/intents/getStatus')
 const goodbye = require('../dialogflow/intents/goodbye')
 const hardwareProblem = require('../dialogflow/intents/hardwareProblem')
 const helpMenu = require('../dialogflow/intents/helpMenu')
+const secondTimeInFallback = require('../dialogflow/intents/fallback/secondTimeInFallback')
 const welcome = require('../dialogflow/intents/welcome')
 
 
@@ -20,6 +22,11 @@ router.post('', async (req, res)=>
     {
         case 'ChangeName':
             res.send(eventGetServiceCallParametersTrigger('serviceCall', req))
+            break
+
+        
+        case 'Fallback':
+            res.send(formattedMessage(fallback())) 
             break
         
 
@@ -60,6 +67,16 @@ router.post('', async (req, res)=>
 
         case 'KnowAboutMe':
             res.send(formattedMessage(aboutMe()))
+            break
+
+
+        case 'SecondTimeInFallback':
+            res.send(formattedMessage(secondTimeInFallback())) 
+            break
+        
+        
+        case 'SecondTimeInFallbackYes':
+            res.send(eventTrigger('helpMenu')) 
             break
             
 

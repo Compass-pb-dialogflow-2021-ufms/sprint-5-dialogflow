@@ -4,6 +4,9 @@ const responses =
     'Quem fez ele -> O desenvolvedor responsável por esse bot foi o Horiel Corrêa Costa. No momento que ele fez, ele era um aluno de segundo semestre de faculdade e sua experiência profissional se resumia a 2 meses de estágio. Esse foi o quinto bot que ele fez, portanto, tenha paciência com a Mr. Robot :)\n\nPosso te ajudar com mais alguma coisa?',
 
 
+    fallback: 'Lamento, mas infelizmente não consegui compreender o que você disse. Poderia reformular a frase para mim, por gentileza?',
+
+
     getName: [(fullName) => {return `Só confirmando, seu nome completo é: ${fullName}, correto?`}],
 
 
@@ -41,6 +44,9 @@ const responses =
     
     helpMenu: 'Olá, sou o Mr. Robot. Tenho duas funções principais, te auxiliar com o seu problema técnico, seja esse no hardware ou no software, criando até um chamado, caso necessário e te mostrar o status do seu chamado. \nPara conseguir utilizar essas funções, basta dizer qual problema técnico está enfrentando, como por exemplo "Não consigo acessar o meu Outlook", ou mesmo me perguntar o status de um chamado, tal como "Status do chamado 21", que irei te responder :)' + 
     '\n\nComo posso te ajudar?',
+
+
+    secondTimeInFallback: 'Desculpe-me, mas infelizmente não consegui compreender. Deseja ver o menu de ajuda? Ele contêm informações que podem ser úteis, como um pequeno guia para utilizar as minhas funcionalidades.',
 
 
     welcome: ['Olá, seja bem vindo. Eu sou o Mr. Robot, assistente virtual da loja Vitor Torino Tec. Nossa loja é especialista em resolução de problemas envolvendo tecnologia, desde a parte de hardware quanto de software. Como posso te ajudar hoje?',
