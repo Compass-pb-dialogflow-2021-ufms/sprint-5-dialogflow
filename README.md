@@ -13,11 +13,11 @@ A necessidade do email na intent de GetStatus se deu como uma ideia de "validaç
 
 ## Intenções
 
-- Fallback Intent -> Por ser um bot com poucas funcionalidades, optei por deixar um fallback único, que informa quando não compreendeu algo e pede para o usuário repetir;
+- Fallback Intent -> Intenção que informa quando o bot não compreendeu algo e pede para o usuário reformular a mensagem;
 
 - ChangeName -> Captura o novo nome digitado pelo usuário e acionando e enviando o nome para a intent de GetServiceCallParameters;
 
-- GetName -> Captura o nome do usuário e pergunta se está correto. Há duas follow ups para essa intenção, caso a resposta seja positiva, essa follow up aciona a intent de GetServiceCallParameters e envia o nome junto, caso a resposta seja negativa, a intent de ChangeName é acionada;
+- GetName -> Captura o nome do usuário e pergunta se está correto. Há duas follow-ups para essa intenção, caso a resposta seja positiva, uma follow-up aciona a intent de GetServiceCallParameters e envia o nome junto, caso a resposta seja negativa, a intent de ChangeName é acionada por meio da outra follow-up;
 
 - GetServiceCallParameters -> Intenção que captura os outros dados necessários para criar um chamado, além de criar o chamado nobanco de dados com os parametros coletados;
 
@@ -25,7 +25,7 @@ A necessidade do email na intent de GetStatus se deu como uma ideia de "validaç
 
 - Goodbye -> Intenção que se despede do usuário e marca um fim de conversa;
 
-- Help -> Uma intenção que busca elucidar melhor como o usuário pode utilizar o bot ao seu favor, com alguns exemplos para elucidar as funcionalidades;
+- Help -> Uma intenção que busca elucidar melhor como o usuário pode utilizar o bot ao seu favor, com alguns exemplos para mostrar as funcionalidades;
 
 - KnowAboutMe -> Quando essa intenção é acionada, ela fala qual foi o propósito do bot e fala um pouco sobre o desenvolvedor responsável;
 
@@ -46,7 +46,7 @@ Quando ele recebe uma mensagem, o Dialogflow atribui a uma intenção e faz um r
 
 ## Pastas e arquivos
 
-O arquivo na raíz server.js conecta e incia o servidor, passando a requisição na rota /assistencia para o roteador, que por sua vez extrai a intent e aciona a função necessária para a resposta. Cada função que trata as intenções estão na pasta dialogflow/intencoes. Dentro da pasta dialogflow também temos a pasta responseModels, que possui o arquivo message.js, que a partir de uma string, formata ela para poder enviar para o Dialogflow, o arquivo eventTrigger.js que a partir de uma string, formata ela para o DialogFlow acionar uma outra intenção que não necessita de parametros, além do arquivo eventGetServiceCallParametersTrigger.js que aciona a intenção GetServiceCallParameters passando os parametros necessários. Temos também na raíz a pasta dataBase/models que contém um arquivo .js com os dados para o modelo no atlas, além da auxiliaryFunctions, contendo randomIntFromInterval.js que tem uma função para gerar um número inteiro entre dois limites, usado para gerar respostas diferentes em algumas intenções e dois arquivos para deixar os dados (cpf e número de telefone) no formato mais formal e legível. 
+O arquivo na raíz server.js conecta e incia o servidor, passando a requisição na rota "/assistencia" para o roteador, que por sua vez extrai a intent e aciona a função necessária para a resposta. Cada função que trata as intenções estão na pasta dialogflow/intencoes. Dentro da pasta dialogflow também temos a pasta responseModels, que possui o arquivo message.js, que a partir de uma string, formata ela para poder enviar para o Dialogflow, o arquivo eventTrigger.js que a partir de uma string, formata ela para o DialogFlow acionar uma outra intenção que não necessita de parametros, além do arquivo eventGetServiceCallParametersTrigger.js que aciona a intenção GetServiceCallParameters passando os parametros necessários. Temos também na raíz a pasta dataBase/models que contém um arquivo .js com os dados para o modelo no atlas, além da auxiliaryFunctions, contendo randomIntFromInterval.js que tem uma função para gerar um número inteiro entre dois limites, usado para gerar respostas diferentes em algumas intenções e dois arquivos para deixar os dados (cpf e número de telefone) em um formato mais formal e legível. Por último, mas não menos importante, temos a pasta responses na raíz, que contem um arquivo .js com quase todas as strings de resposta para o usuário.
 
 
 ## Integrações
