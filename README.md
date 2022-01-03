@@ -10,6 +10,7 @@ Basicamente iniciei pensando no fluxo proposto e como o usuario poderia iniciar 
 - Hardware: Intenção no qual se passa um problema de Hardware e volta uma mensagem especifica para cada caso sobre o suporte para aquele problema.
 - Software: Intenção no qual se passa um problema de Software e volta uma mensagem especifica para cada caso sobre o suporte para aquele problema.
 - Ultimos Chamados: Intenção que mostra o ultimo chamado criado no banco.
+- Hardware - yes: Intenção que vem do Sim dentro do followup de hardware que cria um chamado e adiciona no banco.
 
 ## Entrega
 Para iniciar a aplicação, deve-se possuir o Node.JS na maquina.
