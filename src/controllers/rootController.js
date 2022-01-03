@@ -45,6 +45,9 @@ const switchIntent = (req, res, intent, userId) => {
         case 'Set User Data Intent':
             setUserDataIntent(req, res, userId)
             break
+        case 'List Services Request Intent':
+            listServicesRequestIntent(req, res, userId)
+            break
     }
 }
 
@@ -173,8 +176,7 @@ const userMenuIntent = (req, res) => {
     const card = {
           title: 'Menu do Usuário'
         , buttons: [
-              { text: 'Listar chamados' }
-            , { text: 'Atualizar perfil' }
+            { text: 'Listar chamados' }
         ]
     }
 
@@ -394,6 +396,42 @@ const setUserDataIntent = async (req, res, userId) => {
         await usersController.setUserData(userId, name, phone, email, cpf)
 
         const response = responseBuilder(text, card)
+        res.send(response)
+    } catch {
+
+    }
+}
+
+const listServicesRequestIntent = async (req, res, userId) => {
+    try {
+        const texts = []
+        const card = {
+              title: 'Posso ajudar em algo mais ?'
+            , buttons: [
+                {
+                      text: 'Sim'
+                    , postback: 'Sim, ir para o menu.'
+                },
+                {
+                      text: 'Não'
+                    , postback: 'Não, até mais.'
+                }
+            ]
+        }
+
+        texts.push(
+            'Sua lista de chamados:'
+        )
+
+        const serviceRequests = await serviceRequestsController.listUserServiceRequests(userId)
+        for (let x = 0; x < serviceRequests.length; x++) {
+            texts.push(
+                  `Chamado nº${x+1}:\n`
+                + `Descrição: ${serviceRequests[x].description}`
+            )
+        }
+
+        const response = responseBuilder(texts, card)
         res.send(response)
     } catch {
 
