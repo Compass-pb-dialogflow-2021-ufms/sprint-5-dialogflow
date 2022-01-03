@@ -291,7 +291,7 @@ async function createTicket(req, res) {
             "fulfillmentMessages": [{
                 "text": {
                     "text": [
-                        `${ticket.name}, a chamada foi realizada com sucesso, em breve entraremos em contato com você`
+                        `${ticket.name}, a chamada foi realizada com sucesso, em breve entraremos em contato com você\nÉ possivel consultar as chamadas cadastradas`
                     ]
                 }
             }]
