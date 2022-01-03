@@ -1,36 +1,32 @@
+### Desenvolvimento
+Uma das dificuldades deste projeto foi o desenvolvimento do fluxo do chatbot, no início foi desenvolvido um fluxo que somente funcionam para uma condição (problemas de hardware), o problema foi solucionado adicionando um contexto auxiliar para armazenar o hardware/software e o problema dele, colocando um output context com lifespan alto porém não adicionando esse output em nenhum input de intent. Uma outra dificuldade foi capturar a descrição do problema quando o usuário desejava criar uma chamada, uma solução que encontrei foi no momento de criar a chamada para o usuário eu somente coletava as demais informações (nome, cpf, email e telefone), já para o descrição eu utilizei dos dados capturados no início do fluxo o hardware/software e o problema.
 
-# Avaliação Sprint 5 - Programa de Bolsas Compass.uol e UFMS
+O projeto foi integrado no Line: @849hhigy
+Também foi integrado no Telegram : @assistenteTecnicoBot
+Hosteado na heroku disponivel em https://assistente-suporte-bot.herokuapp.com/
 
-Quinta sprint do programa de bolsas Compass.uol para formação em chatbot Dialogflow.
+### Tecnologias
+- nodejs
+  - express
+  - mongoose
+  - actions-on-google
+  - dotenv
+- Heroku
 
 
-## Execução
-
-- Criar BOTs em Dialogflow que atenda as necessidades previstas em cada arquivo da pasta "Tasks";
-
-
-## Entrega
-
-- Aceitar o convite do repositório da sprint-5-dialogflow;
-
-- Criar uma branch no repositório com o formato nome-sobrenome-numeroEntrega;
-
-- Subir o trabalho na branch com um readme.md, documentando detalhes sobre como a avaliação foi desenvolvida e como utilizar o sistema.
-
-- O prazo de entrega está incluso em cada arquivo de entrega na pasta "Tasks". O repositório no github é (https://github.com/Compass-pb-dialogflow-2021-ufms/sprint-5-dialogflow).
-
-# Especificação do Bot
-
-Além do dito em cada arquivo de entrega, use da criatividade para criar novas intenções e fazer o bot ficar mais humanizado.
-
-## Documentação
-A documentação é um item muito importante em um projeto, portanto, TUDO deve ser documentado. 
-
-Padrão de projeto, arquitetura, intenções, testes, problemas encontrados e suas soluções, etc... 
-
-Descrever detalhadamente cada item.
-
-Seja criativo!
-
-Você tem total liberdade para fazer o projeto da forma que achar melhor. Além disso, fique
-à vontade para implementar novas funcionalidades para agregar valor ao sistema!
+### Intenções
+As intenções obrigatórias são necessárias para o funcionamento básico do bot, para o funcionamento esperado e com todas as funcionalidades necessárias foi preciso a inclusão de mais intenções, para capturar e identificar os problemas de hardware ou software do usuário, bem como criar e consultar chamadas ativas.
+Intenções adicionadas:
+```
+ConsultarChamadas
+CpfParaConsultarChamada
+CriarChamada
+Despedida
+ProblemaHardware
+ProblemaSoftware
+SolucaoPaliativa
+ - SolucaoPaliativaFollowupNao
+    - SolucaoPaliativaNegarChamada
+    - SolucaoPaliativaAceitaChamada
+ - SolucaoPaliativaFollowupSim
+```
