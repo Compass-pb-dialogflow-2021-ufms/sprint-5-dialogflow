@@ -1,0 +1,5 @@
+{
+    "mongo": {
+        "con" : "Add your connection string here"
+    }
+}

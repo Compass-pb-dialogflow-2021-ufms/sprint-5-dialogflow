@@ -1,0 +1,32 @@
+{
+  "name": "sars-cov-2-info",
+  "version": "1.0.0",
+  "description": "Dialogflow bot with NodeJS webhook for faq info about sars-cov-2",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MashiroK/sars-cov-2-info.git"
+  },
+  "author": "Jose Ferreira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MashiroK/sars-cov-2-info/issues"
+  },
+  "homepage": "https://github.com/MashiroK/sars-cov-2-info#readme",
+  "dependencies": {
+    "config": "^3.3.6",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "engines": {
+    "node": "14.17.6"
+  }
+}
