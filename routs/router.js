@@ -1,22 +1,25 @@
 const router = require('express').Router()
-const formattedMessage = require('../dialogflow/responseStructure/message')
 
 
 //Intents
 const welcome = require('../dialogflow/intents/welcome')
+const goodbye = require('../dialogflow/intents/goodbye')
 
 
 router.post('', (req, res) => {
     const intent = req.body.queryResult.intent.displayName
-    // console.log(req.body.originalDetectIntentRequest.payload)
     switch (intent) 
     {
         case 'Welcome':
             welcome(req, res)
-            break;
-            
+            break
+
+        case 'Goodbye':
+            goodbye(req, res)
+            break
+
         default:
-            break;
+            break
     }
 })
 
