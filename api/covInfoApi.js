@@ -1,6 +1,8 @@
-function welcomeUser(req, res) {
-    console.log(req.body.originalDetectIntentRequest.payload)
-    console.log(req.body.originalDetectIntentRequest.payload.data.source.userId)
+const dbInfoCovid = require('../infoCovidDB/infoCovidDB');
+
+async function welcomeUser(req, res) {
+
+    dbInfoCovid.saveUserMessageId(req.body.originalDetectIntentRequest.payload.data.source.userId);
 
     return res.send({
         "fulfillmentMessages": [{
