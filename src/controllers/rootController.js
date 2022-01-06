@@ -7,6 +7,9 @@ const selectIntent = (intent, userId) => ({
     , 'Default Fallback Intent': defaultFallbackIntent()
     , 'Farewell Intent': farewellIntent()
     , 'Main Menu Intent': mainMenuIntent(userId)
+    , 'Prevention Intent': preventionIntent()
+    , 'Basic Prevention Intent': basicPreventionIntent()
+    , 'Health Professional Prevention Intent': healthProfessionalPreventionIntent()
 }[intent] || null)
 
 const defaultWelcomeIntent = async (userId) => {
@@ -63,6 +66,67 @@ const mainMenuIntent = async (userId) => {
     ]
 
     return responseBuilder([], quickReplies)
+}
+
+const preventionIntent = () => {
+    const texts = [
+        'Eu sei ótimas dicas de prevenções básicas e do profissional da saúde.🙂'
+    ]
+
+    const quickReplies = {
+          title: 'Qual a sua dúvida?'
+        , quickReplies: [
+              'Básica'
+            , 'Profissional'
+        ]
+    }
+
+    return responseBuilder(texts, quickReplies)
+}
+
+const basicPreventionIntent = () => {
+    const texts = [
+          'Vou citar alguns cuidados básicos que reduzem o risco geral de contrair ou transmitir infecções respiratórias agudas, incluindo o coronavírus:\n\n'
+        + '✋ Lave com frequência as mãos até a altura dos punhos, com água e sabão, ou use álcool em gel 70%;\n\n'
+        + '🤧 Ao tossir ou espirrar, cubra o nariz e a boca com lenço ou com o braço. Não use as mãos;\n\n'
+        + '👀 Evite tocar nos olhjos, nariz e boca com as mãos não lavadas;\n\n'
+        + '📱 Não compartilhe objetos pessoais;\n\n'
+        + '🏠 Mantenha os ambientes bem ventilados;\n\n'
+        + '👋 Tenha um comportamento amigável mas sem o contato físico, ou seja, sem apertos de mão, beijos e abraços;\n\n'
+        + '🧑🏼‍🤝‍🧑🏼 Evite aglomerações se estiver doente;\n\n'
+        + '😷 Quando precisar sair de sua residência, sempre utilize máscaras caseiras feitas de tecido.'
+    ]
+
+    const quickReplies = {
+          title: 'Voce também pode assistir o video informativo do Ministério da Saúde: https://www.youtube.com/watch?v=cvdskDhw-Ps\n\n'
+               + 'Posso ajudar em algo mais?'
+        , quickReplies: [
+              'Sim'
+            , 'Não, era só isso'
+        ]
+    }
+
+    return responseBuilder(texts, quickReplies)
+}
+
+const healthProfessionalPreventionIntent = () => {
+    const texts = [
+          'Os profissionais de saúde devem utilizar as medidas de precaução padrão estabelecidas.👍\n\n'
+        + 'Ao prestar serviços que atendem casos suspeitos do vírus, é orientado que os profissionais tenham disponibilidade dos seguintes equipamentos de proteção individual:\n\n'
+        + '⚠Para serviços em ambulatório: O uso de máscara cirúrgica e luvas descartáveis.\n\n'
+        + '⚠Para o atendimento em IPA, Pronto Socorro, UTI e Unidade semi-intensiva: É importante o uso de máscaras padrão N95 ou similar; luvas descartáveis; gorro; capote cirúrgico e óculos de proteção ou protetor facial.\n\n'
+        + '⚠Além disso, para a realizaçãode procedimentos que gerem aerossolização de secreções respiratórias como intubação, aspiração de vias aéreas ou indução de escarro, deve ser utilizado precaução por aerossóis, com uso de máscara N95.😷'
+    ]
+
+    const quickReplies = {
+          title: 'Posso ajudar em algo mais?'
+        , quickReplies: [
+              'Sim'
+            , 'Não, era só isso'
+        ]
+    }
+
+    return responseBuilder(texts, quickReplies)
 }
 
 const main = async (req, res) => {
