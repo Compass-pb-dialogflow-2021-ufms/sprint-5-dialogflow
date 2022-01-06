@@ -10,6 +10,9 @@ const selectIntent = (intent, userId) => ({
     , 'Prevention Intent': preventionIntent()
     , 'Basic Prevention Intent': basicPreventionIntent()
     , 'Health Professional Prevention Intent': healthProfessionalPreventionIntent()
+    , 'Contagion Intent': contagionIntent()
+    , 'Contagion Forms Intent': contagionFormsIntent()
+    , 'Incubation Period Intent': incubationPeriodIntent()
 }[intent] || null)
 
 const defaultWelcomeIntent = async (userId) => {
@@ -116,6 +119,57 @@ const healthProfessionalPreventionIntent = () => {
         + '⚠Para serviços em ambulatório: O uso de máscara cirúrgica e luvas descartáveis.\n\n'
         + '⚠Para o atendimento em IPA, Pronto Socorro, UTI e Unidade semi-intensiva: É importante o uso de máscaras padrão N95 ou similar; luvas descartáveis; gorro; capote cirúrgico e óculos de proteção ou protetor facial.\n\n'
         + '⚠Além disso, para a realizaçãode procedimentos que gerem aerossolização de secreções respiratórias como intubação, aspiração de vias aéreas ou indução de escarro, deve ser utilizado precaução por aerossóis, com uso de máscara N95.😷'
+    ]
+
+    const quickReplies = {
+          title: 'Posso ajudar em algo mais?'
+        , quickReplies: [
+              'Sim'
+            , 'Não, era só isso'
+        ]
+    }
+
+    return responseBuilder(texts, quickReplies)
+}
+
+const contagionIntent = () => {
+    const texts = [
+        'Eu posso te informar sobre as principais formas de contágio e sobre o período de incubação por coronavírus.🙂'
+    ]
+
+    const quickReplies = {
+          title: 'Qual a sua dúvida?'
+        , quickReplies: [
+              'Formas de contágio'
+            , 'Período de incubação'
+        ]
+    }
+
+    return responseBuilder(texts, quickReplies)
+}
+
+const contagionFormsIntent = () => {
+    const texts = [
+          'A transmissão do vírus acontece por via respiratória, através de gotículas que se espalham pelo ar quando uma pessoa que está infectada tosse ou espirra.💦\n\n'
+        + 'Também é possível se contaminar por contato pessoal com as secreções infectadas, como: gotículas de saliva; espirro; tosse; catarro; contato pessoal próximo, como toque ou aperto de mão; e o contato com roupas e objetos contaminados.'
+    ]
+
+    const quickReplies = {
+          title: 'Posso ajudar em algo mais?'
+        , quickReplies: [
+              'Sim'
+            , 'Não, era só isso'
+        ]
+    }
+
+    return responseBuilder(texts, quickReplies)
+}
+
+const incubationPeriodIntent = () => {
+    const texts = [
+          'O "período de incubação" significa o tempo entre a contração do vírus e o início dos sintomas da doença.\n\n'
+        + 'Esse tempo varia de 1 a 14 dias, mas geralmente pode ocorrer em torno de 5 dias.\n\n'
+        + '⚠No entanto, dados preliminares do Coronavírus sugerem que a transmissão possa ocorrer também mesmo sem o aparecimento de sinais e sintomas.'
     ]
 
     const quickReplies = {
