@@ -1,4 +1,4 @@
-const Users = require('../models/Users')
+const Users = require('../models/DAO/Users')
 
 const userExists = (userId) => {
     return Users.find({
