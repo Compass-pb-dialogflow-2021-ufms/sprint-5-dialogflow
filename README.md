@@ -10,15 +10,7 @@ Quinta sprint do programa de bolsas Compass.uol para formação em chatbot Dialo
 
 
 ## Entrega
-
-- Aceitar o convite do repositório da sprint-5-dialogflow;
-
-- Criar uma branch no repositório com o formato nome-sobrenome-numeroEntrega;
-
-- Subir o trabalho na branch com um readme.md, documentando detalhes sobre como a avaliação foi desenvolvida e como utilizar o sistema.
-
-- O prazo de entrega está incluso em cada arquivo de entrega na pasta "Tasks". O repositório no github é (https://github.com/Compass-pb-dialogflow-2021-ufms/sprint-5-dialogflow).
-
+ 03/01/2022 - Criação do bot no dialogflow, fiz a estrutura básica do código, conectei o bot ao dil
 # Especificação do Bot
 
 Além do dito em cada arquivo de entrega, use da criatividade para criar novas intenções e fazer o bot ficar mais humanizado.
