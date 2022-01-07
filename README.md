@@ -23,9 +23,9 @@ O usuário envia uma mensagem através do canal de chat (Telegram, Line, chat te
 * **Default Welcome Intent** : Intent padrão do dialogflow que reconhece quando o usuário envia uma mensagem de saudação;
 * **Default Fallback Intent** : Intent padrão do dialogflow que é acionada quando a mensagem do usuário não se encaixa em nehuma intent;
 * **menu** : Intent que ira apresentar os serviços do Bot ao usuário;
-* **Intents inicial "PV" como 'PV-prevencao' : São as intençoes de prevenção, logo responsáveis por devolver informações sobre prevenção
-* **Intents inicial "CT" como 'CT-contagio' : São as intençoes de contágio, logo responsáveis por devolver informações sobre contágio
-* **Intents inicial "PD" como 'PD-PreDiagnostico' : São as intençoes de Pré-diagnóstico, logo responsáveis receber as informações do usuário e devolver um diagnóstico
+* **Intents inicial "PV" como 'PV-prevencao'** : São as intençoes de prevenção, logo responsáveis por devolver informações sobre prevenção
+* **Intents inicial "CT" como 'CT-contagio'** : São as intençoes de contágio, logo responsáveis por devolver informações sobre contágio
+* **Intents inicial "PD" como 'PD-PreDiagnostico'** : São as intençoes de Pré-diagnóstico, logo responsáveis receber as informações do usuário e devolver um diagnóstico
 * **encerramento** : Intent que é chamanda quando o usuário encerra a conversa e agradece;
 
 ## Como utilizar a Aplicação:
