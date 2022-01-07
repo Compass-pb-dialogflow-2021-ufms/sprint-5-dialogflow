@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 app.use(express.json())
 
-const rotaSuporte = require('./rotas/suporte')
-app.use('/botsuporte', rotaSuporte)
+const rotaCoronabot = require('./rotas/corona')
+app.use('/botcorona', rotaCoronabot)
 
 app.listen(3000, () => console.log("A api tá on!"))
