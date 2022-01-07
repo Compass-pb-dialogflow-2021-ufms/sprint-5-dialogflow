@@ -4,6 +4,7 @@ const router = require('express').Router()
 const aboutMe = require('../dialogflow/intents/aboutMe')
 const agree = require('../dialogflow/intents/agree')
 const basicPrevention = require('../dialogflow/intents/basicPrevention')
+const casesInBrazil = require('../dialogflow/intents/casesInBrazil')
 const contagion = require('../dialogflow/intents/contagion')
 const fallback = require('../dialogflow/intents/fallback/fallback')
 const formsOfContagion = require('../dialogflow/intents/formsOfContagion')
@@ -28,6 +29,10 @@ router.post('', (req, res) => {
 
         case 'BasicPrevention':
             basicPrevention(res)
+            break
+
+        case 'CasesInBrazil':
+            casesInBrazil(req, res)
             break
 
         case 'Contagion':

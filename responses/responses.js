@@ -21,6 +21,9 @@ const responses =
     'Posso ajudar em algo mais?'],
 
 
+    casesInBrazil: 'Essa funcionalidade ainda está em processo de desenvolvimento e portanto não está disponível. Posso ajudar com algo mais, como saber como funciona o contágio ou mesmo sobre as precauções que devem ser tomadas?',
+
+
     contagion: ['Eu posso te informar sobre as principais formas de contágio e sobre o período de incubação por Coronavírus. 🙂',
     
     'Qual a sua dúvida?'],
