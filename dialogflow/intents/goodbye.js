@@ -6,6 +6,7 @@ function goodbye(req, res)
 {
     let message
     const userInput = req.body.queryResult.fulfillmentMessages[0].text.text[0]
+    const queryText = req.body.queryResult.queryText
     const hour = new Date().getHours()
     let greeting
 
@@ -16,7 +17,7 @@ function goodbye(req, res)
     else
         greeting = 'uma boa noite'
     
-    if(userInput != '')
+    if(queryText != 'goodbye' || userInput != '')
         message = formattedMessage([responses.goodbye[0], responses.goodbye[1](greeting)])
     else
         message = formattedMessage([responses.thirdTimeInFallback.prevention, responses.goodbye[0], responses.goodbye[1](greeting)])

@@ -15,7 +15,6 @@ function fallback(req, res)
         res.send(formattedMessage([responses.fallback.default[randomIntFromInterval(0, 3)]]))
     else
     {
-        console.log(contextName)
         const sessionId = contextParameters[1]
         const context = formattedContext(sessionId, contextName)
         contextName = (contextName.split('-'))[0]
