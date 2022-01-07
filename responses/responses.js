@@ -15,6 +15,11 @@ const responses =
     'Posso ajudar em algo mais?'],
 
 
+    contagion: ['Eu posso te informar sobre as principais formas de contágio e sobre o período de incubação por Coronavírus. 🙂',
+    
+    'Qual a sua dúvida?'],
+
+
     fallback: {
         default: ['Desculpe, não consegui entender.',
 
@@ -24,8 +29,18 @@ const responses =
 
         prevention: ['Desculpe, algumas perguntas ainda não consigo te responder. 😓',
 
+        'Me diga, qual a sua dúvida relacionada ao Coronavírus?'],
+
+        contagion: ['Desculpe, algumas perguntas ainda não consigo te responder. 😓',
+
         'Me diga, qual a sua dúvida relacionada ao Coronavírus?']
     },
+
+
+    formsOfContagion: ['A transmissão do vírus acontece por via respiratória, através de gotículas que se espalham pelo ar quando uma pessoa que está infectada tosse ou espirra. 💦' +
+    '\n\nTambém é possível se contaminar por contato pessoal com as secreções infectadas, como: gotículas de saliva; espirro; tosse; catarro; contato pessoal próximo, como toque ou aperto de mão; e o contato com roupas e objetos contaminados.',
+
+    'Posso ajudar em algo mais?'],
 
 
     goodbye: ['Se você precisar de mais informações sobre o Coronavírus, pode me chamar.' +
@@ -42,7 +57,15 @@ const responses =
     '\n\nPosso ajudar em algo mais?'],
 
 
+    incubationPeriod: ['O "período de incubação" significa o tempo da contração do vírus e o início dos sintomas da doença.' +
+    '\n\nEsse tempo varia de 1 a 14 dias, mas geralmente pode ocorrer em torno de 5 dias.' +
+    '\n\n⚠ No entanto, dados prelimires do Coronavírus sugerem que a transmissão possa ocorrer também mesmo sem o aparecimento de sinais e sintomas.',
+
+    'Posso ajudar em algo mais?'],
+
+
     prevention: ['Eu sei ótimas dicas de prevenções básica e do profissional da saúde. 🙂',
+
     'Qual a sua dúvida?'],
 
 
@@ -50,6 +73,11 @@ const responses =
         default: 'Eu ainda não entendi o que você disse. Vamos tentar novamente...',
 
         prevention: ['Ainda não consegui identificar a sua dúvida.' + 
+        '\n\nVocê pode me perguntar sobre prevenção, contágio, casos no Brasil ou realizar um pré-diagnóstico, por exemplo. 😊',
+
+        'Me conta, qual a sua dúvida?'],
+
+        contagion: ['Ainda não consegui identificar a sua dúvida.' + 
         '\n\nVocê pode me perguntar sobre prevenção, contágio, casos no Brasil ou realizar um pré-diagnóstico, por exemplo. 😊',
 
         'Me conta, qual a sua dúvida?']
@@ -62,7 +90,9 @@ const responses =
     
         'Caso você precise de mais informações sobre o Coronavírus, pode me procurar! 👋'],
 
-        prevention: 'Desculpe, não consegui identificar a sua dúvida. Vamos parar por aqui. 😓'
+        prevention: 'Desculpe, não consegui identificar a sua dúvida. Vamos parar por aqui. 😓',
+
+        contagion: 'Desculpe, não consegui identificar a sua dúvida. Vamos parar por aqui. 😓'
     },
 
 

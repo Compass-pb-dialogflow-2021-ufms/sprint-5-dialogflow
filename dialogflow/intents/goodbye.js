@@ -9,7 +9,7 @@ function goodbye(req, res)
     const hour = new Date().getHours()
     let greeting
 
-    if(hour < 13)
+    if(hour < 12)
         greeting = 'um bom dia'
     else if(hour < 19)
         greeting = 'uma boa tarde'

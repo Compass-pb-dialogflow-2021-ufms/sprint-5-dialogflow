@@ -18,7 +18,7 @@ function getContextName(req)
                 contextName = aux
                 i = inputContexts.length
             }
-            else if(!contextNameDefault.includes(aux))
+            else if(contextNameDefault.includes(aux))
             {
                 contextName = 'default'
                 i = inputContexts.length

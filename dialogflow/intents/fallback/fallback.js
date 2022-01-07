@@ -10,10 +10,12 @@ function fallback(req, res)
     const contextParameters = getContextName(req)
     let contextName = contextParameters[0]
 
+
     if(typeof contextParameters == 'string' || contextName == 'default')
         res.send(formattedMessage([responses.fallback.default[randomIntFromInterval(0, 3)]]))
     else
     {
+        console.log(contextName)
         const sessionId = contextParameters[1]
         const context = formattedContext(sessionId, contextName)
         contextName = (contextName.split('-'))[0]
