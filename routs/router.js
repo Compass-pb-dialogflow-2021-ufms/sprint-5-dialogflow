@@ -11,6 +11,7 @@ const formsOfContagion = require('../dialogflow/intents/formsOfContagion')
 const goodbye = require('../dialogflow/intents/goodbye')
 const healthProfessionalPrevention = require('../dialogflow/intents/healthProfessionalPrevention')
 const incubationPeriod = require('../dialogflow/intents/incubationPeriod')
+const preDiagnosis = require('../dialogflow/intents/preDiagnosis')
 const prevention = require('../dialogflow/intents/prevention')
 const secondTimeInFallback = require('../dialogflow/intents/fallback/secondTimeInFallback')
 const thirdTimeInFallback = require('../dialogflow/intents/fallback/thirdTimeInFallback')
@@ -63,6 +64,10 @@ router.post('', (req, res) => {
             aboutMe(req, res)
             break
             
+        case 'PreDiagnosis':
+            preDiagnosis(req, res)
+            break
+
         case 'Prevention':
             prevention(res)
             break
