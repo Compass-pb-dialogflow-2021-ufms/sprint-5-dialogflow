@@ -9,6 +9,14 @@ const responseBuilder = (texts, quickReplies) => {
     return response
 }
 
+const eventCall = (event) => {
+    const response = {}
+
+    eventInserter(response, event)
+
+    return response
+}
+
 const textInserter = (response, texts) => {
     for (let x = 0; x < texts.length; x++) {
         response.fulfillmentMessages.push({
@@ -25,6 +33,11 @@ const quickRepliesInserter = (response, quickReplies) => {
     )
 }
 
+const eventInserter = (response, event) => {
+    response.followupEventInput = event
+}
+
 module.exports = {
-    responseBuilder
+      responseBuilder
+    , eventCall
 }

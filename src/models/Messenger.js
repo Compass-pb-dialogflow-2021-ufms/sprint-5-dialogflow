@@ -105,6 +105,57 @@ const incubationPeriodText = [
     + '⚠No entanto, dados preliminares do Coronavírus sugerem que a transmissão possa ocorrer também mesmo sem o aparecimento de sinais e sintomas.'
 ]
 
+// Textos e Respostas Rápidas para a Pre Diagnostic Intent.
+const preDiagnosticText = [
+      'Vou te fazer algumas perguntas relacionadas aos sintomas do Coronavírus.\n\n'
+    + 'Vale lembrar que esta consulta NÂO é um diagnótico e sim uma orientação para caso você precise de um exame médico.'
+]
+
+const preDiagnosticQuickReplies = {
+      title: 'Vamos lá?🙂'
+    , quickReplies: [
+          'Sim'
+        , 'Não'
+    ]
+}
+
+// Textos para a Abort Pre Diagnostic Intent
+const abortPreDiagnosticText = [
+    'Tudo bem, caso queira fazer um pré-diagnóstico mande uma mensagem.👍'
+]
+
+// Textos e Respostas Rápidas para a Risk Groups Intent.
+const riskGroupsText = [
+    'Você pertence a algum desses grupos citados a seguir?'
+]
+
+const riskGroupsQuickReplies = {
+      title: '🧓Pessoas com mais de 60 anos;\n'
+           + '🤰Gestantes;\n'
+           + '🤒Pessoas com doenças crônicas (como: Diabetes, doenças cardiovasculares ou pulmonares);\n'
+           + '💊Pessoas em tratamento contra o câncer.'
+    , quickReplies: [
+          'Pertenço'
+        , 'Não pertenço'
+    ]
+}
+
+// Textos e Respostas Rápidas para a Fever Intent.
+const riskGroupsResponseText = [
+      'Ok. Pelo o que você me contou, vejo que você se enquadra no grupo de risco.\n\n'
+    + 'Vamos continuar.'
+    , 'Ok. Pelo o que você me contou, vejo que você não se enquadra no grupo de risco.\n\n'
+    + 'Vamos continuar.'
+]
+
+const feverQuickReplies = {
+      title: 'Você teve febre maior que 37,8ºC nos últimos 7 dias?🌡️'
+    , quickReplies: [
+          'Sim'
+        , 'Não'
+    ]
+}
+
 // Respostas Rápidas "Posso ajudar em algo mais?"
 const needMoreHelpQuickReplies = {
       title: 'Posso ajudar em algo mais?'
@@ -130,6 +181,13 @@ const getContagionText = () => { return contagionText }
 const getContagionQuickReplies = () => { return contagionQuickReplies }
 const getContagionFormsText = () => { return contagionFormsText }
 const getIncubationPeriodText = () => { return incubationPeriodText }
+const getPreDiagnosticText = () => { return preDiagnosticText }
+const getPreDiagnosticQuickReplies = () => { return preDiagnosticQuickReplies }
+const getAbortPreDiagnosticText = () => { return abortPreDiagnosticText }
+const getRiskGroupsText = () => { return riskGroupsText }
+const getRiskGroupsQuickReplies = () => { return riskGroupsQuickReplies }
+const getRiskGroupsResponseText = () => { return riskGroupsResponseText }
+const getFeverQuickReplies = () => { return feverQuickReplies }
 const getNeedMoreHelpQuickReplies = () => { return needMoreHelpQuickReplies }
 
 module.exports = {
@@ -148,5 +206,12 @@ module.exports = {
     , getContagionQuickReplies
     , getContagionFormsText
     , getIncubationPeriodText
+    , getPreDiagnosticText
+    , getPreDiagnosticQuickReplies
+    , getAbortPreDiagnosticText
+    , getRiskGroupsText
+    , getRiskGroupsQuickReplies
+    , getRiskGroupsResponseText
+    , getFeverQuickReplies
     , getNeedMoreHelpQuickReplies
 }

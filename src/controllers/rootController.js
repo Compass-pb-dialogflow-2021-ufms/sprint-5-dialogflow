@@ -1,9 +1,9 @@
-const { responseBuilder } = require('../util/index')
+const { responseBuilder, eventCall } = require('../util/index')
 
 const usersController = require('./usersController')
 const messengerController = require('./messengerController')
 
-const selectIntent = (intent, userId) => ({
+const selectIntent = (intent, userId, req) => ({
       'Default Welcome Intent': defaultWelcomeIntent(userId)
     , 'Default Fallback Intent': defaultFallbackIntent()
     , 'Farewell Intent': farewellIntent()
@@ -14,6 +14,12 @@ const selectIntent = (intent, userId) => ({
     , 'Contagion Intent': contagionIntent()
     , 'Contagion Forms Intent': contagionFormsIntent()
     , 'Incubation Period Intent': incubationPeriodIntent()
+    , 'Pre Diagnostic Intent': preDiagnosticIntent()
+    , 'Abort Pre Diagnostic Intent': abortPreDiagnosticIntent()
+    , 'Risk Groups Intent': riskGroupsIntent()
+    , 'Fever Intent': feverIntent(req)
+    , 'Yes Intent': yesIntent(req)
+    , 'No Intent': noIntent(req)
 }[intent] || null)
 
 const defaultWelcomeIntent = async (userId) => {
@@ -97,11 +103,77 @@ const incubationPeriodIntent = () => {
     return responseBuilder(texts, quickReplies)
 }
 
+const preDiagnosticIntent = () => {
+    const texts = messengerController.selectMessage('Pre Diagnostic Text')
+    const quickReplies = messengerController.selectMessage('Pre Diagnostic Quick Replies')
+
+    return responseBuilder(texts, quickReplies)
+}
+
+const abortPreDiagnosticIntent = () => {
+    const texts = messengerController.selectMessage('Abort Pre Diagnostic Text')
+    const quickReplies = messengerController.selectMessage('Need More Help Quick Replies')
+
+    return responseBuilder(texts, quickReplies)
+}
+
+const riskGroupsIntent = () => {
+    const texts = messengerController.selectMessage('Risk Groups Text')
+    const quickReplies = messengerController.selectMessage('Risk Groups Quick Replies')
+
+    return responseBuilder(texts, quickReplies)
+}
+
+const feverIntent = (req) => {
+    const texts = []
+
+    const riskGroupsResponse = req.body.queryResult.parameters.response
+    if (riskGroupsResponse === 'Pertenço') {
+        texts.push( messengerController.selectMessage('Risk Groups Response Text')[0] )
+    } else {
+        texts.push( messengerController.selectMessage('Risk Groups Response Text')[1] )
+    }
+
+    const quickReplies = messengerController.selectMessage('Fever Quick Replies')
+
+    return responseBuilder(texts, quickReplies)
+}
+
+const yesIntent = (req) => {
+    const event = {}
+
+    const context = (req.body.queryResult.outputContexts[0].name).substring(97)
+    if (context === 'preventioncontext' || context === 'contagioncontext' || context === 'abortprediagnosticcontext') {
+        event.name = 'MenuCall'
+    } else if (context === 'prediagnosticcontext') {
+        event.name = 'RiskGroupsCall'
+    } else if (context === 'fevercontext') {
+
+    }
+
+    return eventCall(event)
+}
+
+const noIntent = (req) => {
+    const event = {}
+
+    const context = (req.body.queryResult.outputContexts[0].name).substring(97)
+    if (context === 'preventioncontext' || context === 'contagioncontext' || context === 'abortprediagnosticcontext') {
+        event.name = 'FarewellCall'
+    } else if (context === 'prediagnosticcontext') {
+        event.name = 'AbortPreDiagnosticCall'
+    } else if (context === 'fevercontext') {
+
+    }
+
+    return eventCall(event)
+}
+
 const main = async (req, res) => {
     const intent = req.body.queryResult.intent.displayName
     const userId = req.body.originalDetectIntentRequest.payload.data.source.userId
 
-    const response = await selectIntent(intent, userId)
+    const response = await selectIntent(intent, userId, req)
     res.send(response)
 }
 

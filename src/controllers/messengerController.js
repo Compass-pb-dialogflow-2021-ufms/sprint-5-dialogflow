@@ -18,6 +18,13 @@ const selectMessage = (messageName) => ({
     , 'Contagion Quick Replies':  Messenger.getContagionQuickReplies()
     , 'Contagion Forms Text': Messenger.getContagionFormsText()
     , 'Incubation Period Text': Messenger.getIncubationPeriodText()
+    , 'Pre Diagnostic Text': Messenger.getPreDiagnosticText()
+    , 'Pre Diagnostic Quick Replies': Messenger.getPreDiagnosticQuickReplies()
+    , 'Abort Pre Diagnostic Text': Messenger.getAbortPreDiagnosticText()
+    , 'Risk Groups Text': Messenger.getRiskGroupsText()
+    , 'Risk Groups Quick Replies': Messenger.getRiskGroupsQuickReplies()
+    , 'Risk Groups Response Text': Messenger.getRiskGroupsResponseText()
+    , 'Fever Quick Replies': Messenger.getFeverQuickReplies()
     , 'Need More Help Quick Replies': Messenger.getNeedMoreHelpQuickReplies()
 }[messageName] || 'Menssagem não encontrada.')
 
