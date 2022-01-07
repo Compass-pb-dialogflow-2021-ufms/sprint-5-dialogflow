@@ -4,6 +4,8 @@ const formattedMessage = require('../responseStructure/message')
 
 function goodbye(req, res)
 {
+    let message
+    const userInput = req.body.queryResult.fulfillmentMessages[0].text.text[0]
     const hour = new Date().getHours()
     let greeting
 
@@ -14,8 +16,11 @@ function goodbye(req, res)
     else
         greeting = 'uma boa noite'
     
-    
-    const message = formattedMessage([responses.goodbye[0], responses.goodbye[1](greeting)])
+    if(userInput != '')
+        message = formattedMessage([responses.goodbye[0], responses.goodbye[1](greeting)])
+    else
+        message = formattedMessage([responses.thirdTimeInFallback.prevention, responses.goodbye[0], responses.goodbye[1](greeting)])
+
     res.send(message)
 }
 

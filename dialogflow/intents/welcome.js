@@ -8,7 +8,7 @@ const randomIntFromInterval = require('../../helpers/randomIntFromInterval')
 async function welcome(req, res)
 {
     let message
-    const chipsNames = ['Prevenção', 'Contágio', 'Casos no Brasil', 'Pré-diagnóstico', 'Outras dúvidas']
+    // const chipsNames = ['Prevenção', 'Contágio', 'Casos no Brasil', 'Pré-diagnóstico', 'Outras dúvidas']
     const id = req.body.originalDetectIntentRequest.payload.data.from.id
     if(await TelegramUser.findOne({id: id}) == null)
     {
@@ -19,7 +19,6 @@ async function welcome(req, res)
     {
         message = formattedMessage([responses.welcome[1], responses.welcome[2] + '\n\n' + responses.welcome[randomIntFromInterval(3, 4)]])
     }
-    //const chips = formattedChips(chipsNames)
     res.send(message)
 }
 
