@@ -4,26 +4,29 @@ const hourOfTheDay = require('../utils/getGreetingTime');
 async function welcomeUser(req, res) {
     const welcomeAnswers = ['Sobre qual assunto você quer saber?', 'Como posso te ajudar?', 'O que gostaria de saber?']
 
-    const idUserSaved = await dbInfoCovid.saveUserMessageId(req.body.originalDetectIntentRequest.payload.data.source.userId);
+    if (req.body.originalDetectIntentRequest.source === 'line') {
+        const idUserSaved = await dbInfoCovid.saveUserMessageId(req.body.originalDetectIntentRequest.payload.data.source.userId);
 
-    if (idUserSaved) {
-        return res.send({
-            "fulfillmentMessages": [{
-                    "text": {
-                        "text": [
-                            `Olá novamente! Sou uma assistente virtual treinada para tirar suas dúvidas relacionadas ao Coronavírus`
-                        ]
+        if (idUserSaved) {
+            return res.send({
+                "fulfillmentMessages": [{
+                        "text": {
+                            "text": [
+                                `Olá novamente! Sou uma assistente virtual treinada para tirar suas dúvidas relacionadas ao Coronavírus`
+                            ]
+                        },
                     },
-                },
-                {
-                    "text": {
-                        "text": [
-                            `Você pode tirar dúvidas comigo sobre prevenção, contágio ou realizar um pré-diagnóstico.\n\n${welcomeAnswers[Math.floor(Math.random() * 3)]}\n\nPrevenção, Contágio ou Pré-diagnóstico?`
-                        ]
+                    {
+                        "text": {
+                            "text": [
+                                `Você pode tirar dúvidas comigo sobre prevenção, contágio ou realizar um pré-diagnóstico.\n\n${welcomeAnswers[Math.floor(Math.random() * 3)]}\n\nPrevenção, Contágio ou Pré-diagnóstico?`
+                            ]
+                        },
                     },
-                },
-            ]
-        })
+                ]
+            })
+        }
+
     }
 
     return res.send({
@@ -75,7 +78,11 @@ function helpUser(req, res) {
     })
 }
 
-function farewellUser(req, res) {
+async function farewellUser(req, res) {
+
+    if (req.body.originalDetectIntentRequest.source === 'linse')
+        await dbInfoCovid.removeUserMesseId(req.body.originalDetectIntentRequest.payload.data.source.userId);
+
 
     return res.send({
         "fulfillmentMessages": [{
