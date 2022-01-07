@@ -9,10 +9,14 @@
 
 
 ## Diário de bordo
-- <b>03/01/2021</b> - Início do projeto, setup de rotas, bot no dialogflow, integrações. Também foquei um pouco na refatoração de funções envolvendo o banco de dados, que estava redundante. Além disso, desenvolvi algumas das respostas das intenções básicas.
+- <b>03/01/2022</b> - Início do projeto, setup de rotas, bot no dialogflow, integrações. Também foquei um pouco na refatoração de funções envolvendo o banco de dados, que estava redundante. Além disso, desenvolvi algumas das respostas das intenções básicas.
+- <b>04/01/2022</b> - Finalização das intents básicas, e mais organização das classes, de modo mais escalável. Também alterei a função de processamento de resposta, a fim de ter suporte para as cards.
+- <b>05/01/2022</b> - Tive impedimentos relatados na daily que me impossibilitaram de codar muito, então apenas fiz a mudança da intent de boas vindas, para inserir a card, e também comecei a ver sobre o payload do line para cards, que não estava funcionando inicialmente.
+- <b>06/01/2022</b> - Segui implementando o projeto, optando por iniciar pela parte de pré-diagnóstico, ja que aparentava ser a maior e mais significante funcionalidade. Fiquei procurando um meio de gerar o relatório, salvando os dados no mongo, e fiquei até o restante do meu tempo do dia fazendo essa implementação.
+- <b>07/01/2021</b> - Sendo o dia final para entrega do bot, vi que, devido ao escopo grande do diagnóstico, dei uma pausa no fluxo e desenvolvi por completo os outros dois fluxos, de Prevenção e Contágio, respectivamente. Fiz o tratamento da fallback de ambos, embora não tive o tempo de implementar a ideia mais abstraida de um único fallback que trataria todos futuros, dependendo do contexto, ja que era muito mais complexo, e me faltava tempo. Voltei ao fluxo de diagnóstico, e finalizei a parte dos sintomas leves. Por fim, me faltando ainda terminar a documentação e fazer o deploy, com uma hora para entrega, finalizei a revisão do código, principalmente focado no fallback e no fluxo através das cards, e terminei de documentar o projeto e fazer o deploy.
 
 ## Dificuldades
-
+- Tive bastante dificuldade com o payload de cards do Line, que têm muitas regras especificas para o uso, como a limitação de somente 4 balões de reposta, que me fez mudar algumas opções do fluxo já que era uma limitação do software. Encontrei várias dificuldades com isso, já que foi a primeira vez usando o sistema de cards também, e sofri para encontrar algumas soluções. Outro problema é caso o texto do balão de resposta ultrapassar um limite de caracteres, toda a card não é gerada. Além disso, noto que as cards não são suportadas na versão desktop do line, sendo apenas possível testar via mobile. Fiz a integração do Telegram, porém devido ao probema ainda não resolvido com a plataforma, não tive meios de testar. Segue o link: (https://t.me/sarscovinfobot). A aplicação funciona sem problemas pelo console do dialogflow.
 
 ## Tecnologias: 
 [Config](https://www.npmjs.com/package/config): Definição de parâmetros locais.  
@@ -37,12 +41,16 @@
     - Agora, o bot pode ser executado no painel direito do console. Ainda, é possível adicionar integrações novas através do menu Integrations.
 
 ## Intents
-- Implementadas:
-
-## Contexts
+- `Default Welcome Intent`: Dá boas vindas ao usuário, com mensagem customizada caso já tenha usado o sistema anteriormente.
+- `Default Goodbye Intent`: Se despede do usuário, quando identifica que ele não quer mais conversar com o bot.
+- `Default Fallback Intent`: Intenção que é chamada sempre que o bot não entende algo.
+- `Nickname Intents`: Intenção extra, que permite o usuário escolher um apelido, e caso tenha um, este é referenciado em outras intenções.
+- `Menu - Contagion Intents`: Intents do tópico 2.0.0 do fluxo
+- `Menu - Diagnostic Intents` Intents do tópico 6.1.0 do fluxo
+- `Menu - Prevention Intents` Intents do tópico 1.0.0 do fluxo
+- `Menu Only Intent`: Intent com o menu sem mensagem de boas vindas anexada.
 
 
 ## Integração
 - O bot está integrado com o LINE, e para acessar ele, é necessário entrar no aplicativo e procurar pelo ID @613ehdne, ou [escaneie o QR Code](https://qr-official.line.me/sid/L/613ehdne.png).
-- O bot também tem integração com o Telegram, que pode ser acessada via [este link](t.me/sarscovinfobot).
-- Por fim, o bot também foi integrado com o Dialogflow Messenger, para acessar, basta ir em 'Integrations' após importar e configurar o bot no Dialogflow, 'Text Based -> DialogFlow Messenger -> Try it Now' e a janela aparecerá no canto inferior direito. Alternativamente, acesse o [Glitch.me](#) contendo o script do mensageiro.
+- O bot também foi integrado com o Dialogflow Messenger, para acessar, basta ir em 'Integrations' após importar e configurar o bot no Dialogflow, 'Text Based -> DialogFlow Messenger -> Try it Now' e a janela aparecerá no canto inferior direito. Alternativamente, acesse o [Glitch.me](#) contendo o script do mensageiro.

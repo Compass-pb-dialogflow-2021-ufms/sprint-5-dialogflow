@@ -1,12 +1,45 @@
-//DialogFlow Functions Class
+/**
+ * Function class Params:
+ * @param {Object} req Webhook Requisition from DialogFlow
+ * @param {Object} res Webhook Response to DialogFlow
+ */
 class Function {
     constructor(options) {
         this.req = options.req
         this.res = options.res
     }
 
-    answer(text) { //Default Text answer
-        return this.res.json({ "fulfillmentText": text })
+    answer(text) { //Defines type of fulfillment Message to send, werther there are multiple responses or not
+        //text.title = 0
+        const msg = { "fulfillmentMessages": [] }
+        if(typeof text == 'string') //If answer is simpleText
+            return this.res.json({ "fulfillmentText": text })
+        else if(typeof text.title == 'string') { //If answer is card
+            msg['fulfillmentMessages'].push({
+                card : text,
+                "platform": getPlatform(this.req)
+            })
+            return this.res.json(msg)
+        } else { //If answer is richText
+            text.forEach(text => {
+                if(typeof text.title == 'string'){ //If any of richTexts is a card
+                    msg['fulfillmentMessages'].push({
+                        card : text,
+                        "platform": getPlatform(this.req)
+                    })
+                } else {
+                    msg['fulfillmentMessages'].push({
+                        "text": {
+                            "text": [
+                                text
+                            ]
+                        },
+                        "platform": getPlatform(this.req)
+                    })
+                }
+            })
+            return this.res.json(msg)
+        }
     }
 
     nextEvent(eventName) { //Calls event passed as parameter, throws fallback if event does not exist.
@@ -92,6 +125,10 @@ async function updateNickname(req, db) {
 
 //Util functions----------------------------
 
+function symptoms(queryResult) {
+    return queryResult.parameters.symptoms
+}
+
 function randomize(responses) { //Randomizer for answer variety based on array length
     return rand = Math.floor(Math.random() * responses.length)
 }
@@ -110,7 +147,7 @@ function formatCpf(text) { //Strips dots and dashes from CPF
 
 function formatNickname(text) { //Uppercase first letter of name
     return text.charAt(0).toUpperCase() + text.slice(1);
-  }
+}
 
 //EXPORTS------------------------------------
 
@@ -123,5 +160,6 @@ module.exports = {
     formatCpf,
     formatNickname,
     getNickname,
-    updateNickname
+    updateNickname,
+    symptoms
 }
