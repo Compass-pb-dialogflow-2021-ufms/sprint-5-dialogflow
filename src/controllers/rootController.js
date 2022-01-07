@@ -1,11 +1,19 @@
-const { responseBuilder, eventCall } = require('../util/index')
+const { responseBuilder, eventCall, contextExists } = require('../util/index')
 
 const usersController = require('./usersController')
 const messengerController = require('./messengerController')
+const fallbackController = require('./fallbackController')
 
 const selectIntent = (intent, userId, req) => ({
       'Default Welcome Intent': defaultWelcomeIntent(userId)
-    , 'Default Fallback Intent': defaultFallbackIntent()
+    , 'Default Fallback Intent': fallbackController.defaultFallbackIntent(req)
+    , 'Prevention Intent - fallback': fallbackController.preventionIntentFallback(req)
+    , 'Contagion Intent - fallback': fallbackController.contagionIntentFallback(req)
+    , 'Risk Groups Intent - fallback': fallbackController.riskGroupIntentFallback(req)
+    , 'Fever Intent - fallback': fallbackController.feverIntentFallback(req)
+    , 'Mild Symptoms Intent - fallback': fallbackController.mildSymptomsFallback(req)
+    , 'Drugs Taken Intent - fallback': fallbackController.drugsTakenFallback(req)
+    , 'Severe Symptoms Intent - fallback': fallbackController.severeSymptomsFallback(req)
     , 'Farewell Intent': farewellIntent()
     , 'Main Menu Intent': mainMenuIntent(userId)
     , 'Prevention Intent': preventionIntent()
@@ -42,8 +50,6 @@ const defaultWelcomeIntent = async (userId) => {
 
     return responseBuilder(texts, quickReplies)
 }
-
-const defaultFallbackIntent = () => {}
 
 const farewellIntent = () => {
     const texts = messengerController.selectMessage('Farewell Text')
@@ -133,7 +139,8 @@ const feverIntent = (req) => {
     const texts = []
 
     const riskGroupsResponse = req.body.queryResult.parameters.response
-    if (riskGroupsResponse === 'Pertenço') {
+    const riskGroupsBoolResponse = req.body.queryResult.parameters.boolResponse
+    if (riskGroupsResponse === 'Pertenço' || riskGroupsBoolResponse === 'Sim') {
         texts.push( messengerController.selectMessage('Risk Groups Response Text')[0] )
     } else {
         texts.push( messengerController.selectMessage('Risk Groups Response Text')[1] )
@@ -207,18 +214,25 @@ const severeSymptomsIntent = (req) => {
 const yesIntent = (req) => {
     const event = {}
 
-    const context = (req.body.queryResult.outputContexts[0].name).substring(97)
-    if (context === 'preventioncontext' || context === 'contagioncontext' || context === 'abortprediagnosticcontext') {
+    const contexts = req.body.queryResult.outputContexts
+    const feverResponse = req.body.queryResult.parameters.feverResult
+    const drugsTakenResponse = req.body.queryResult.parameters.drugsTakenResponse
+    if (contextExists('preventioncontext', req.body.session, contexts)
+        || contextExists('contagioncontext', req.body.session, contexts)
+        || contextExists('abortprediagnosticcontext', req.body.session, contexts))
+    {
         event.name = 'MenuCall'
-    } else if (context === 'prediagnosticcontext') {
+    } else if (contextExists('prediagnosticcontext', req.body.session, contexts)) {
         event.name = 'RiskGroupsCall'
-    } else if (context === 'fevercontext') {
+    } else if (contextExists('risckgroupscontext', req.body.session, contexts)) {
+        event.name = 'FeverCall'
+    } else if (contextExists('fevercontext', req.body.session, contexts) || feverResponse === 'Tive febre') {
         event.name = 'MildSymptomsCall'
-    } else if (context === 'drugstakencontext') {
+    } else if (contextExists('drugstakencontext', req.body.session, contexts) || drugsTakenResponse === 'Usei medicamentos') {
         event.name = 'GotWellCall'
-    } else if (context === 'gotwellcontext') {
+    } else if (contextExists('gotwellcontext', req.body.session, contexts)) {
         event.name = 'GotWellSevereSymptomsCall'
-    } else if (context === 'severesymptomscontext') {
+    } else if (contextExists('severesymptomscontext', req.body.session, contexts)) {
         event.name = 'ResultCall'
     }
 
@@ -228,18 +242,25 @@ const yesIntent = (req) => {
 const noIntent = (req) => {
     const event = {}
 
-    const context = (req.body.queryResult.outputContexts[0].name).substring(97)
-    if (context === 'preventioncontext' || context === 'contagioncontext' || context === 'abortprediagnosticcontext') {
+    const contexts = req.body.queryResult.outputContexts
+    const feverResponse = req.body.queryResult.parameters.feverResult
+    const drugsTakenResponse = req.body.queryResult.parameters.drugsTakenResponse
+    if (contextExists('preventioncontext', req.body.session, contexts)
+        || contextExists('contagioncontext', req.body.session, contexts)
+        || contextExists('abortprediagnosticcontext', req.body.session, contexts))
+    {
         event.name = 'FarewellCall'
-    } else if (context === 'prediagnosticcontext') {
+    } else if (contextExists('prediagnosticcontext', req.body.session, contexts)) {
         event.name = 'AbortPreDiagnosticCall'
-    } else if (context === 'fevercontext') {
+    } else if (contextExists('risckgroupscontext', req.body.session, contexts)) {
+        event.name = 'FeverCall'
+    } else if (contextExists('fevercontext', req.body.session, contexts) || feverResponse === 'Não tive febre') {
         event.name = 'MildSymptomsCall'
-    } else if (context === 'drugstakencontext') {
+    } else if (contextExists('drugstakencontext', req.body.session, contexts) || drugsTakenResponse === 'Não usei') {
         event.name = 'NoDrugsTakenSevereSymptomsCall'
-    } else if (context === 'gotwellcontext') {
+    } else if (contextExists('gotwellcontext', req.body.session, contexts)) {
         event.name = 'StillSickSevereSymptoms'
-    } else if (context === 'severesymptomscontext') {
+    } else if (contextExists('severesymptomscontext', req.body.session, contexts)) {
         event.name = 'ResultCall'
     }
 

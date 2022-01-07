@@ -7,6 +7,115 @@ const welcomeText = 'Olá! Sou a Doutora Silvia, uma assistente virtual treinada
 
 const welcomeAgainText = 'Olá novamente! Sou uma assistente virtual treinada para tirar suas dúvidas relacionadas ao Coronavírus.👱‍♀'
 
+// Textos e Respostas Rápidas para a Default Fallback Intent.
+const fallbackFirstInteractionText = 'Desculpe, não consegui entender'
+
+const fallbackSecondInteractionText = 'Eu ainda não entendi o que você disse. Vamos tentar novamente...'
+
+const fallbackThirdInteractionText = [
+      'Desculpe, realmente não consegui entender o que você disse. Vamos parar por aqui.\n\n'
+    + 'Cuide se, e não se esqueça: caso você se enquadre em alguns dos sintomas, ligue para o Disque saúde 136.☎'
+    , 'Caso você precise de mais informações sobre o Coronavírus, pode me procurar!👋'
+]
+
+// Textos para Prevention Intent - fallback e Contagion Intent - fallback.
+const preventionNContagionFalbackFirstInteractionText = [
+      'Desculpe, algumas perguntas ainda não consigo te responder.😓'
+    , 'Me diga, qual a sua dúvida relacionada ao Coronavírus?'
+]
+
+const preventionNContagionFalbackSecondInteractionText = [
+      'Ainda não consegui identificar a sua dúvida.\n\n'
+    + 'Você pode me perguntar sobre prevenção, contágio, casos no Brasil ou realizar um pré-diagnóstico, por exemplo.😊'
+    , 'Me conta, qual a sua dúvida?'
+]
+
+// Textos e Respostas Rápidas para Risk Groups Intent - fallback.
+const riskGroupsFallbackFirstInteractionText = 'Não entendi. Para continuarmos, você precisa me indicar se pertence a algum desses grupos citados:'
+
+const riskGroupsFallbackSecondInteractionText = 'Desculpe, ainda não consegui entender.😓'
+
+const riskGroupsFallbackSecondInteractionQuickReplies = {
+      title: 'Você pertence a algum dos grupos citados?'
+    , quickReplies: [
+          'Sim'
+        , 'Não'
+    ]
+}
+
+// Textos e Respostas Rápidas para Fever Intent - fallback.
+const feverFallbackFirstInteractionText = 'Não entendi.'
+
+const feverFallbackFirstInteractionQuickReplies = {
+      title: 'Para continuarmos, você precisa me indicar se teve ou não, febre maio que 37,8ºC nos últimos 7 dias.🌡'
+    , quickReplies: [
+          'Tive febre'
+        , 'Não tive febre'
+    ]
+}
+
+const feverFallbackSecondInteractionText = 'Desculpe, ainda não consegui entender.'
+
+// Textos e Respotas Rápidas para Severe Symptoms Intent - fallback.
+const mildSymptomsFallbackFirstInteractionText = 'Não entendi. Para continuarmos, você precisa me indicar se apresentou ou não algum desses sintomas citados:'
+
+const mildSymptomsFallbackSecondInteractionText = 'Desculpe, ainda não consegui entender.'
+
+const mildSymptomsFallbaclSecondInteractionQuickReplies = {
+      title: 'Quantos dos sintomas citados você apresenta?'
+    , quickReplies: [
+          'Nenhum'
+        , '1'
+        , '2'
+        , '3'
+        , 'Mais de 3 sintomas'
+    ]
+}
+
+// Textos e Respostas Rápidas para Drugs Taken Intent - fallback.
+const drugsTakenFallbackFirstInteractionText = 'Não entendi.😓'
+
+const drugsTakenFallbackFirstInteractionQuickReplies = {
+      title: 'Para continuarmos, você precisa me indicar se usou ou não algum medicamento.💊'
+    , quickReplies: [
+          'Usei medicamentos'
+        , 'Não usei'
+    ]
+}
+
+const drugsTakenFallbackSecondInteractionText = 'Desculpe, ainda não consegui entender.'
+
+const drugsTakenFallbackSecondInteractionQuickReplies = {
+      title: 'Você usou algum medicamento? 💊'
+    , quickReplies: [
+          'Sim'
+        , 'Não'
+    ]
+}
+
+// Textos e Respostas Rápidas para a Severe Symptoms Intent - fallback.
+const severeSymptomsFallbackFirstInteractionText = 'Não entendi.😓'
+
+const severeSymptomsFallbackFirstInteractionQuickReplies = {
+      title: 'Para concluir o pré diagnóstico, você precisa me indicar se teve ou não algum desses sintomas citados:\n\n'
+           + '- Convulsão ou Vômito;\n'
+           + '- Dificuldade para respirar;\n'
+           + '- Sensação de desmaio;\n'
+           + '- Dedos azulados e pálidos.'
+    , quickReplies: [
+          'Sim'
+        , 'Não'
+    ]
+}
+
+const severeSymptomsFallbackSecondInteractionQuickReplies = {
+      title: 'Desculpe, ainda não consegui entender. Você teve algum dos sintomas citados?'
+    , quickReplies: [
+          'Sim'
+        , 'Não'
+    ]
+}
+
 // Textos para a Farewell Intent
 const farewellText = [
       'Se você precisar de mais informações sobre o Coronavírus, pode me chamar.\n\n'
@@ -232,6 +341,27 @@ const needMoreHelpQuickReplies = {
 // Getters
 const getWelcomeText = () => { return welcomeText }
 const getWelcomeAgainText = () => { return welcomeAgainText }
+const getFallbackFirstInteractionText = () => { return fallbackFirstInteractionText }
+const getFallbackSecondInteractionText = () => { return fallbackSecondInteractionText }
+const getFallbackThirdInteractionText = () => { return fallbackThirdInteractionText }
+const getPreventionNContagionFalbackFirstInteractionText = () => { return preventionNContagionFalbackFirstInteractionText }
+const getPreventionNContagionFalbackSecondInteractionText = () => { return preventionNContagionFalbackSecondInteractionText }
+const getRiskGroupsFallbackFirstInteractionText = () => { return riskGroupsFallbackFirstInteractionText }
+const getRiskGroupsFallbackSecondInteractionText = () => { return riskGroupsFallbackSecondInteractionText }
+const getRiskGroupsFallbackSecondInteractionQuickReplies = () => { return riskGroupsFallbackSecondInteractionQuickReplies }
+const getFeverFallbackFirstInteractionText = () => { return feverFallbackFirstInteractionText }
+const getFeverFallbackFirstInteractionQuickReplies = () => { return feverFallbackFirstInteractionQuickReplies }
+const getFeverFallbackSecondInteractionText = () => { return feverFallbackSecondInteractionText }
+const getMildSymptomsFallbackFirstInteractionText = () => { return mildSymptomsFallbackFirstInteractionText }
+const getMildSymptomsFallbackSecondInteractionText = () => { return mildSymptomsFallbackSecondInteractionText }
+const getMildSymptomsFallbackSecondInteractionQuickReplies = () => { return mildSymptomsFallbaclSecondInteractionQuickReplies }
+const getDrugsTakenFallbackFirstInteractionText = () => { return drugsTakenFallbackFirstInteractionText }
+const getDrugsTakenFallbackFirstInteractionQuickReplies = () => { return drugsTakenFallbackFirstInteractionQuickReplies }
+const getDrugsTakenFallbackSecondInteractionText = () => { return drugsTakenFallbackSecondInteractionText }
+const getDrugsTakenFallbackSecondInteractionQuickReplies = () => { return drugsTakenFallbackSecondInteractionQuickReplies }
+const getSevereSymptomsFallbackFirstInteractionText = () => { return severeSymptomsFallbackFirstInteractionText }
+const getSevereSymptomsFallbackFirstInteractionQuickReplies = () => { return severeSymptomsFallbackFirstInteractionQuickReplies }
+const getSevereSymptomsFallbackSecondInteractionQuickReplies = () => { return severeSymptomsFallbackSecondInteractionQuickReplies }
 const getFarewellText = () => { return farewellText }
 const getMainMenuQuickReplies = () => { return mainMenuQuickReplies }
 const getMainMenuQuickRepliesTitles = () => { return mainMenuQuickRepliesTitles }
@@ -265,6 +395,27 @@ const getNeedMoreHelpQuickReplies = () => { return needMoreHelpQuickReplies }
 module.exports = {
       getWelcomeText
     , getWelcomeAgainText
+    , getFallbackFirstInteractionText
+    , getFallbackSecondInteractionText
+    , getFallbackThirdInteractionText
+    , getPreventionNContagionFalbackFirstInteractionText
+    , getPreventionNContagionFalbackSecondInteractionText
+    , getRiskGroupsFallbackFirstInteractionText
+    , getRiskGroupsFallbackSecondInteractionText
+    , getRiskGroupsFallbackSecondInteractionQuickReplies
+    , getFeverFallbackFirstInteractionText
+    , getFeverFallbackFirstInteractionQuickReplies
+    , getFeverFallbackSecondInteractionText
+    , getMildSymptomsFallbackFirstInteractionText
+    , getMildSymptomsFallbackSecondInteractionText
+    , getMildSymptomsFallbackSecondInteractionQuickReplies
+    , getDrugsTakenFallbackFirstInteractionText
+    , getDrugsTakenFallbackFirstInteractionQuickReplies
+    , getDrugsTakenFallbackSecondInteractionText
+    , getDrugsTakenFallbackSecondInteractionQuickReplies
+    , getSevereSymptomsFallbackFirstInteractionText
+    , getSevereSymptomsFallbackFirstInteractionQuickReplies
+    , getSevereSymptomsFallbackSecondInteractionQuickReplies
     , getFarewellText
     , getMainMenuQuickReplies
     , getMainMenuQuickRepliesTitles
