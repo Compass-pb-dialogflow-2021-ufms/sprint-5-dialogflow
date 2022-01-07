@@ -1,6 +1,7 @@
 const router = require('express').Router()
 
 //Intents
+const aboutMe = require('../dialogflow/intents/aboutMe')
 const agree = require('../dialogflow/intents/agree')
 const basicPrevention = require('../dialogflow/intents/basicPrevention')
 const contagion = require('../dialogflow/intents/contagion')
@@ -18,7 +19,7 @@ const welcome = require('../dialogflow/intents/welcome')
 router.post('', (req, res) => {
     const intent = req.body.queryResult.intent.displayName
     // console.log(intent)
-    console.log(req.body.queryResult.outputContexts)
+    // console.log(req.body.queryResult.outputContexts)
     switch (intent) 
     {
         case 'Agree':
@@ -51,6 +52,10 @@ router.post('', (req, res) => {
 
         case 'IncubationPeriod':
             incubationPeriod(req, res)
+            break
+
+        case 'KnowAboutMe':
+            aboutMe(req, res)
             break
             
         case 'Prevention':
