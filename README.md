@@ -1,36 +1,22 @@
+## Diário de Bordo
 
-# Avaliação Sprint 5 - Programa de Bolsas Compass.uol e UFMS
+Primeiro momento fiz a preparação do projeto, criando a estrutura básica do projeto, conexão com o banco de dados e integração com o Line.
 
-Quinta sprint do programa de bolsas Compass.uol para formação em chatbot Dialogflow.
+Então fiz os fluxos de Prevenção e Contágio, o que ocorreu de forma esperada.
 
+O fluxo de pré-diagnóstico exigiu um bom tempo mas também ocorreu de forma esperada.
 
-## Execução
+Então parti para os Fallbacks, o que demandou um grande tempo.
 
-- Criar BOTs em Dialogflow que atenda as necessidades previstas em cada arquivo da pasta "Tasks";
+## Problemas
 
+O tempo foi o principal problema enfrentado.
 
-## Entrega
+Por conta do tempo que os fallbacks demandaram, não foi possivel fazer a devolutiva do resultado do Pré-Diagnóstico. O tempo também me impossibilitou de fazer uma boa curadoria nas frases de treino, o que fez com que o bot ficasse básico e fraco.
 
-- Aceitar o convite do repositório da sprint-5-dialogflow;
+A entrega final também foi atrasada por conta disso.
 
-- Criar uma branch no repositório com o formato nome-sobrenome-numeroEntrega;
+## Integração
 
-- Subir o trabalho na branch com um readme.md, documentando detalhes sobre como a avaliação foi desenvolvida e como utilizar o sistema.
-
-- O prazo de entrega está incluso em cada arquivo de entrega na pasta "Tasks". O repositório no github é (https://github.com/Compass-pb-dialogflow-2021-ufms/sprint-5-dialogflow).
-
-# Especificação do Bot
-
-Além do dito em cada arquivo de entrega, use da criatividade para criar novas intenções e fazer o bot ficar mais humanizado.
-
-## Documentação
-A documentação é um item muito importante em um projeto, portanto, TUDO deve ser documentado. 
-
-Padrão de projeto, arquitetura, intenções, testes, problemas encontrados e suas soluções, etc... 
-
-Descrever detalhadamente cada item.
-
-Seja criativo!
-
-Você tem total liberdade para fazer o projeto da forma que achar melhor. Além disso, fique
-à vontade para implementar novas funcionalidades para agregar valor ao sistema!
+Integração ao LINE
+- Para adicionar o bot você deverá ir em Adicionar amigos -> Pesquisar e procurar pelo ID @193mofny.
