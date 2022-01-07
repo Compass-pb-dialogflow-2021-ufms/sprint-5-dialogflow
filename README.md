@@ -1,36 +1,23 @@
+### Desenvolvimento
+O projeto não está completo, tomando o design apresentado como referência, está faltando muitas condições e funcionalidades. Somente alguns fluxos de conversa que estão funcionando da maneira esperada, outros fluxos que deveriam possuir uma fallback próprio também não foram implementados. O fluxo de pré-diagnóstico é o que está mais incompleto, ele apenas funciona caso o usuário responda sim em todos os casos e no final não apresenta o resultado do diagnóstico.
 
-# Avaliação Sprint 5 - Programa de Bolsas Compass.uol e UFMS
+A maior dificuldade do projeto foi devido o tamanho do chatbot, pois são vários fluxos com muitas condições, não consegui desenvolver uma forma prática de navegar pelo fluxo, ou seja, criei várias intents de followup para responder às questões de sim e não o que imagino que não seja a melhor forma de desenvolver o chatbot, mas atribuindo contextos corretamente o fluxo acabou funcionando da maneira esperada. 
 
-Quinta sprint do programa de bolsas Compass.uol para formação em chatbot Dialogflow.
+O bot consegue identificar se usuário já tenha se comunicado com o bot, também implementei o reset dessa condição quando o bot se despede do usuário (quando a intent de encerramento é ativada uma chamada no banco para remover o id do usuário).
+
+O bot foi integrado no Line @355ugvex
+
+Projeto foi hosteado no heroku https://sars-cov-2-chatbot.herokuapp.com/
+
+### Tecnologias
+- nodejs
+ - express
+ - actions-on-google
+ - dotenv
+ - ngrok
+- heroku
 
 
-## Execução
 
-- Criar BOTs em Dialogflow que atenda as necessidades previstas em cada arquivo da pasta "Tasks";
-
-
-## Entrega
-
-- Aceitar o convite do repositório da sprint-5-dialogflow;
-
-- Criar uma branch no repositório com o formato nome-sobrenome-numeroEntrega;
-
-- Subir o trabalho na branch com um readme.md, documentando detalhes sobre como a avaliação foi desenvolvida e como utilizar o sistema.
-
-- O prazo de entrega está incluso em cada arquivo de entrega na pasta "Tasks". O repositório no github é (https://github.com/Compass-pb-dialogflow-2021-ufms/sprint-5-dialogflow).
-
-# Especificação do Bot
-
-Além do dito em cada arquivo de entrega, use da criatividade para criar novas intenções e fazer o bot ficar mais humanizado.
-
-## Documentação
-A documentação é um item muito importante em um projeto, portanto, TUDO deve ser documentado. 
-
-Padrão de projeto, arquitetura, intenções, testes, problemas encontrados e suas soluções, etc... 
-
-Descrever detalhadamente cada item.
-
-Seja criativo!
-
-Você tem total liberdade para fazer o projeto da forma que achar melhor. Além disso, fique
-à vontade para implementar novas funcionalidades para agregar valor ao sistema!
+###### Observação
+No tempo previsto para o desenvolvimento do projeto houveram alguns impedimentos pessoais, imagino que conseguiria desenvolver um melhor projeto caso tivesse mais tempo
