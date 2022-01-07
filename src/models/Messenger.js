@@ -156,6 +156,57 @@ const feverQuickReplies = {
     ]
 }
 
+// Textos e Respostas Rápidas para a Mild Symptoms Intent.
+const mildSymptomsText = [
+    'A seguir vou citar alguns sintomas e gostaria que você me informasse se teve algum deles. E se sim, quantos voce sentiu'
+]
+
+const mildSymptomsQuickReplies = {
+      title: '- Coriza ou nariz entupido;\n'
+           + '- Cansaço;\n'
+           + '- Dores no corpo ou abdominais;\n'
+           + '- Dor de garganta;\n'
+           + '- Diarréia ou mal estar;\n'
+           + '- Tosse;\n'
+           + '- E Perda do olfato ou paladar;'
+    , quickReplies: [
+          'Nenhum'
+        , '1'
+        , '2'
+        , '3'
+        , 'Mais de 3 sintomas'
+    ]
+}
+
+// Textos e Respostas Rápidas para a Grugs Taken Intent.
+const mildSymptomsNumberText = [
+      'Entendi, você está com poucos sintomas de gripe.'
+    , 'Entendi, você está com vários sintomas de gripe.'
+]
+
+const drugsTakenQuickReplies = {
+      title: 'E voce usou algum medicamento para tratar os sintomas?💊'
+    , quickReplies: [
+          'Sim'
+        , 'Não'
+    ]
+}
+
+// Resposatas Rápidas para a Got Well Intent.
+const gotWellQuickReplies = {
+      title: 'Sente que melhorou?'
+    , quickReplies: [
+          'Sim'
+        , 'Não'
+    ]
+}
+
+// Textos e Respostas Rápidas para Severe Symptoms Intent.
+const noMildSymptomsText = [
+      'Que bom! Sem sintomas de gripe. 😊'
+    , 'Ótimo! Sem sintomas gripais. 😊'
+]
+
 // Respostas Rápidas "Posso ajudar em algo mais?"
 const needMoreHelpQuickReplies = {
       title: 'Posso ajudar em algo mais?'
@@ -188,6 +239,12 @@ const getRiskGroupsText = () => { return riskGroupsText }
 const getRiskGroupsQuickReplies = () => { return riskGroupsQuickReplies }
 const getRiskGroupsResponseText = () => { return riskGroupsResponseText }
 const getFeverQuickReplies = () => { return feverQuickReplies }
+const getMildSymptomsText = () => { return mildSymptomsText }
+const getMildSymptomsQuickReplies = () => { return mildSymptomsQuickReplies }
+const getMildSymptomsNumberText = () => { return mildSymptomsNumberText }
+const getDrugsTakenQuickReplies = () => { return drugsTakenQuickReplies }
+const getGotWellQuickReplies = () => { return gotWellQuickReplies }
+const getNoMildSymptomsText = () => { return noMildSymptomsText }
 const getNeedMoreHelpQuickReplies = () => { return needMoreHelpQuickReplies }
 
 module.exports = {
@@ -213,5 +270,11 @@ module.exports = {
     , getRiskGroupsQuickReplies
     , getRiskGroupsResponseText
     , getFeverQuickReplies
+    , getMildSymptomsText
+    , getMildSymptomsQuickReplies
+    , getMildSymptomsNumberText
+    , getDrugsTakenQuickReplies
+    , getGotWellQuickReplies
+    , getNoMildSymptomsText
     , getNeedMoreHelpQuickReplies
 }

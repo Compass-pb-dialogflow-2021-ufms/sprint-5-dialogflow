@@ -25,6 +25,12 @@ const selectMessage = (messageName) => ({
     , 'Risk Groups Quick Replies': Messenger.getRiskGroupsQuickReplies()
     , 'Risk Groups Response Text': Messenger.getRiskGroupsResponseText()
     , 'Fever Quick Replies': Messenger.getFeverQuickReplies()
+    , 'Mild Symptoms Text': Messenger.getMildSymptomsText()
+    , 'Mild Symptoms Quick Replies': Messenger.getMildSymptomsQuickReplies()
+    , 'Mild Symptoms Number Text': Messenger.getMildSymptomsNumberText()
+    , 'Drugs Taken Quick Replies': Messenger.getDrugsTakenQuickReplies()
+    , 'Got Well Quick Replies': Messenger.getGotWellQuickReplies()
+    , 'No Mild Symptoms Text': Messenger.getNoMildSymptomsText()
     , 'Need More Help Quick Replies': Messenger.getNeedMoreHelpQuickReplies()
 }[messageName] || 'Menssagem não encontrada.')
 
