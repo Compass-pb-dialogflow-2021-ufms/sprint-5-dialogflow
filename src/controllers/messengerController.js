@@ -31,6 +31,8 @@ const selectMessage = (messageName) => ({
     , 'Drugs Taken Quick Replies': Messenger.getDrugsTakenQuickReplies()
     , 'Got Well Quick Replies': Messenger.getGotWellQuickReplies()
     , 'No Mild Symptoms Text': Messenger.getNoMildSymptomsText()
+    , 'Severe Symptoms Text': Messenger.getSevereSymptomsText()
+    , 'Severe Symptoms Quick Replies': Messenger.getSevereSymptomsQuickReplies()
     , 'Need More Help Quick Replies': Messenger.getNeedMoreHelpQuickReplies()
 }[messageName] || 'Menssagem não encontrada.')
 

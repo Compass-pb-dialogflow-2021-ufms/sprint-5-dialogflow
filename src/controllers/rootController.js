@@ -197,7 +197,11 @@ const severeSymptomsIntent = (req) => {
         texts.push( messengerController.selectMessage('No Mild Symptoms Text')[1] )
     }
 
-    return responseBuilder(texts)
+    texts.push( messengerController.selectMessage('Severe Symptoms Text') )
+
+    const quickReplies = messengerController.selectMessage('Severe Symptoms Quick Replies')
+
+    return responseBuilder(texts, quickReplies)
 }
 
 const yesIntent = (req) => {
@@ -214,6 +218,8 @@ const yesIntent = (req) => {
         event.name = 'GotWellCall'
     } else if (context === 'gotwellcontext') {
         event.name = 'GotWellSevereSymptomsCall'
+    } else if (context === 'severesymptomscontext') {
+        event.name = 'ResultCall'
     }
 
     return eventCall(event)
@@ -233,6 +239,8 @@ const noIntent = (req) => {
         event.name = 'NoDrugsTakenSevereSymptomsCall'
     } else if (context === 'gotwellcontext') {
         event.name = 'StillSickSevereSymptoms'
+    } else if (context === 'severesymptomscontext') {
+        event.name = 'ResultCall'
     }
 
     return eventCall(event)

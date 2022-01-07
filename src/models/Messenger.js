@@ -207,6 +207,19 @@ const noMildSymptomsText = [
     , 'Ótimo! Sem sintomas gripais. 😊'
 ]
 
+const severeSymptomsText = 'E você sentiu algum desses sintomas citados ?'
+
+const severeSymptomsQuickReplies = {
+      title: '- Convulsão ou Vômito;\n'
+           + '- Dificuldade para respirar.\n'
+           + '- Sensação de desmaio;\n'
+           + '- Dedos azulados e pálidos.'
+    , quickReplies: [
+          'Sim'
+        , 'Não'
+    ]
+}
+
 // Respostas Rápidas "Posso ajudar em algo mais?"
 const needMoreHelpQuickReplies = {
       title: 'Posso ajudar em algo mais?'
@@ -245,6 +258,8 @@ const getMildSymptomsNumberText = () => { return mildSymptomsNumberText }
 const getDrugsTakenQuickReplies = () => { return drugsTakenQuickReplies }
 const getGotWellQuickReplies = () => { return gotWellQuickReplies }
 const getNoMildSymptomsText = () => { return noMildSymptomsText }
+const getSevereSymptomsText = () => { return severeSymptomsText }
+const getSevereSymptomsQuickReplies = () => { return severeSymptomsQuickReplies }
 const getNeedMoreHelpQuickReplies = () => { return needMoreHelpQuickReplies }
 
 module.exports = {
@@ -276,5 +291,7 @@ module.exports = {
     , getDrugsTakenQuickReplies
     , getGotWellQuickReplies
     , getNoMildSymptomsText
+    , getSevereSymptomsText
+    , getSevereSymptomsQuickReplies
     , getNeedMoreHelpQuickReplies
 }
