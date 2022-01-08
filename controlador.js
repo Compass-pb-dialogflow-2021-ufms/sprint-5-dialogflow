@@ -1,23 +1,25 @@
 const intents = require('./objetoIntencoes');
-let objetoResposta = {};
-let jsonResponse = {};
 module.exports = async function BuscaResposta(tag,req) {
+    let objetoResposta = {};
+    let jsonResponse = {};
     jsonResponse.fulfillment_messages = [];
     for (const valor of intents) {
         if (tag === valor.intent) {
             valor.parametro ? objetoResposta = await valor.funcao(req) : objetoResposta = await valor.funcao()
         }
     }
-
-    adicionaMensagens();
+    
+    if (objetoResposta.mensagens !== undefined) {
+        jsonResponse = adicionaMensagens(objetoResposta,jsonResponse);
+    }
     if (objetoResposta.quickReplies !== undefined) {
-        adicionaSugestaoBotao()
+       jsonResponse = adicionaSugestaoBotao(objetoResposta,jsonResponse)
     }
     return jsonResponse;
 
 }
 
-function adicionaMensagens() {
+function adicionaMensagens(objetoResposta,jsonResponse) {
     for (const valor of objetoResposta.mensagens) {
         jsonResponse.fulfillment_messages.push({
             text: {
@@ -25,14 +27,17 @@ function adicionaMensagens() {
             }
         })
     }
+    return jsonResponse;
 }
 
-function adicionaSugestaoBotao() {
+function adicionaSugestaoBotao(objetoResposta,jsonResponse) {
 
     jsonResponse.fulfillment_messages.push({
         quickReplies: {
-            quickReplies: objetoResposta.quickReplies
+            title :objetoResposta.quickReplies.title ,
+            quickReplies: objetoResposta.quickReplies.buttons
         }
     })
+    return jsonResponse;
 
 }

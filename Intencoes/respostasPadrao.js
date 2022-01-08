@@ -14,9 +14,11 @@ module.exports = {
     }
   },
   menu : {
-    mensagens : [`Você pode tirar dúvidas comigo sobre prevenção, contágio ou realizar um pré-diagnóstico. 
-    \nSobre qual assunto você quer saber?`],
-    quickReplies: ["Contágio", "Prevenção", "Pré-diagnostico"]
+    mensagens : [`Você pode tirar dúvidas comigo sobre prevenção, contágio ou realizar um pré-diagnóstico. `],
+    quickReplies: {
+      title: `Sobre qual assunto você quer saber?`,
+      buttons: ["Contágio", "Prevenção", "Pré-diagnostico"]
+  }
   },
   encerramento() {
     return {

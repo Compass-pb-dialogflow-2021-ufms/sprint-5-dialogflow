@@ -1,42 +1,57 @@
 module.exports = {
     inicioPreDiagnostico: {
         mensagens: [`Vou te fazer algumas perguntas relacionadas aos sintomas do Coronavírus.
-        \nVale lembrar que esta consulta NÃO é um diagnóstico e sim uma orientação para caso você precise de um exame médico`, `Vamos lá ?`],
-        quickReplies: ["Vamos lá", "Não"]
+        \nVale lembrar que esta consulta NÃO é um diagnóstico e sim uma orientação para caso você precise de um exame médico`],
+        quickReplies: {
+            title: `Vamos lá ?`,
+            buttons: ["Vamos lá", "Não"]
+        }
     },
 
     simPrediagnostico: {
-        mensagens: [`Você pertence a algum desses grupos citados a seguir?`,
-        `- Pessoas com mais de 60 anos; 
+        mensagens: [
+            `- Pessoas com mais de 60 anos; 
         \n- Gestantes;
         \n- Pessoas com doenças crônicas (como: Diabetes, doenças cardiovasculares ou pulmonares);
         \n- Pessoas em tratamento contra o câncer`
         ],
-        quickReplies: ["Pertenço", "Não Pertenço"]
+        quickReplies: {
+            title: `Você pertence a algum desses grupos citados ?`,
+            buttons: ["Pertenço", "Não Pertenço"]
+        }
+        
     },
 
     naoPrediagnostico: {
-        mensagens: [`Tudo bem, caso queira fazer um pré diagnóstico mande uma mensagem.`, 'Posso ajudar em algo mais?'],
-        quickReplies: ["Sim, mostrar MENU", "Não, era só isso"]
+        mensagens: [`Tudo bem, caso queira fazer um pré diagnóstico mande uma mensagem.`],
+        quickReplies: {
+            title: `Posso ajudar em algo mais?`,
+            buttons: ["Sim, mostrar MENU", "Não, era só isso"]
+        }
     },
 
     simGrupoDeRisco: {
-        mensagens: [`Ok. Pelo o que você me contou, vejo que você se enquadra no grupo de risco.\n\nVamos continuar.`,
-            `Você teve febre maior que 37,8ºC nos últimos 7 dias?`
+        mensagens: [`Ok. Pelo o que você me contou, vejo que você se enquadra no grupo de risco.\n\nVamos continuar.`
         ],
-        quickReplies: ["Tive", "Não Tive"]
+        quickReplies: {
+            title: `Você teve febre maior que 37,8ºC nos últimos 7 dias?`,
+            buttons:  ["Tive", "Não Tive"]
+        }
+
     },
 
     naoGrupoDeRisco: {
-        mensagens: [`Ok. Pelo o que você me contou, vejo que você não se enquadra no grupo de risco.\n\nVamos continuar.`,
-            `Você teve febre maior que 37,8ºC nos últimos 7 dias?`
-        ],
-        quickReplies: ["Tive", "Não Tive"]
+        mensagens: [`Ok. Pelo o que você me contou, vejo que você não se enquadra no grupo de risco.\n\nVamos continuar.`
+    ],
+    quickReplies: {
+        title: `Você teve febre maior que 37,8ºC nos últimos 7 dias?`,
+        buttons:  ["Tive", "Não Tive"]
+    }
     },
 
     febre: {
         mensagens: [`Ok, vamos seguir`,
-            `Você apresentou algum desses sintomas ?
+            `
             \n- Coriza ou nariz entupido;
             \n- Cansaço;
             \n- Dor de cabeça;
@@ -45,12 +60,15 @@ module.exports = {
             \n- Diarréia ou mal estar;
             \n- Tosse;
             \n- E Perda do olfato ou paladar`
-        ],
-        quickReplies: ["Sim", "Não"]
+        ], 
+        quickReplies: {
+            title: `Você apresentou algum desses sintomas ?`,
+            buttons: ["Sim", "Não"]
+        }
     },
 
     simSintomasLeves: {
-        mensagens: [`Quantos sintomas desses você apresentou?
+        mensagens: [`
         \n- Coriza ou nariz entupido;
         \n- Cansaço;
         \n- Dor de cabeça;
@@ -59,41 +77,54 @@ module.exports = {
         \n- Diarréia ou mal estar;
         \n- Tosse;
         \n- E Perda do olfato ou paladar`],
-        quickReplies: ["1", "2", "3", "Mais de Três"]
+        quickReplies: {
+            title: `Quantos sintomas desses você apresentou ?`,
+            buttons: ["1", "2", "3", "Mais de Três"]
+        }
     },
 
     naoSintomasLeves: {
-        mensagens: [`E você sentiu algum desses sintomas citados?
+        mensagens: [`
                     \n- Convulsão ou Vômito;
                     \n- Dificuldade para respirar;
                     \n- Sensação de desmaio;
                     \n- Dedos azulados e pálidos.`],
-        quickReplies: ["Senti", "Não Senti"]
+        quickReplies: {
+            title: `E você sentiu algum desses sintomas citados?`,
+            buttons: ["Senti", "Não Senti"]
+        }
     },
 
     qtdSintomasLeves: {
-        mensagens: [`E você usou algum medicamento para tratar os sintomas?`],
-        quickReplies: ["Sim", "Não"]
+        quickReplies: {
+            title: `E você usou algum medicamento para tratar os sintomas?`,
+            buttons: ["Sim", "Não"]
+        }
     },
 
     simRemedio: {
-        mensagens: [`Sente que melhorou de todos os sintomas?`],
-        quickReplies: ["Melhorei", "Não Melhorei"]
+        quickReplies: {
+            title: `Sente que melhorou de todos os sintomas?`,
+            buttons: ["Melhorei", "Não Melhorei"]
+        }
     },
 
     simMelhora: {
         mensagens: [`Ótimo! Sem sintomas gripais. `,
-        `E você sentiu algum desses sintomas citados?
+            `
         \n- Convulsão ou Vômito;
         \n- Dificuldade para respirar;
         \n- Sensação de desmaio;
         \n- Dedos azulados e pálidos.`
         ],
-        quickReplies: ["Senti", "Não Senti"]
+        quickReplies: {
+            title: `E você sentiu algum desses sintomas citados?`,
+            buttons: ["Senti", "Não Senti"]
+        }
+     
     },
 
-    cenarioComGrupoDeRisco: [
-        {
+    cenarioComGrupoDeRisco: [{
             cenario: 'A1',
             codigo: '1000',
             mensagem: [`Que bom! Pelas informações que você me disse, neste momento você não tem suspeita de infecção pelo Coronavírus. 
@@ -181,8 +212,7 @@ module.exports = {
     cenarioSemGrupoDeRisco: [{
             cenario: 'A1',
             codigo: '0000',
-            mensagem: [`Que bom! Pelas informações que você me disse, neste momento você não tem suspeita de infecção pelo Corona vírus. Mas atenção, caso você sinta que se enquadra em alguns dos sintomas ligue para o Disque Saúde 136.`
-            , ` Fique a vontade para tirar dúvidas comigo sobre contágio e também saber como se prevenir. `]
+            mensagem: [`Que bom! Pelas informações que você me disse, neste momento você não tem suspeita de infecção pelo Corona vírus. Mas atenção, caso você sinta que se enquadra em alguns dos sintomas ligue para o Disque Saúde 136.`, ` Fique a vontade para tirar dúvidas comigo sobre contágio e também saber como se prevenir. `]
         },
         {
             cenario: 'A2',

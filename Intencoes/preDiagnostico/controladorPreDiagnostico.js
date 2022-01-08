@@ -18,6 +18,7 @@ module.exports = {
     },
     simGrupoDeRisco() {
         dadosPreDiagnostico.grupoDeRisco = true;
+        console.log(dadosPreDiagnostico);
         return respostas.simGrupoDeRisco;
     },
     naoGrupoDeRisco() {
@@ -25,6 +26,8 @@ module.exports = {
     },
     simFebre() {
         dadosPreDiagnostico.febre = true;
+        console.log(dadosPreDiagnostico);
+
         return respostas.febre;
     },
     naoFebre() {
@@ -40,6 +43,8 @@ module.exports = {
         const parametros =req.body.queryResult.parameters;
         const numeroSintomas = parametros.qtdSintomasLeves;
         numeroSintomas > 3 ? dadosPreDiagnostico.muitoSintomasLeves = true : dadosPreDiagnostico.poucoSintomasLeves = true
+        console.log(dadosPreDiagnostico);
+        
         return respostas.qtdSintomasLeves;
     },
     simRemedio() {
@@ -52,6 +57,8 @@ module.exports = {
     simMelhora() {
         dadosPreDiagnostico.poucoSintomasLeves = false;
         dadosPreDiagnostico.muitoSintomasLeves = false;
+        console.log(dadosPreDiagnostico);
+
         return respostas.simMelhora;
     },
     naoMelhora() {
@@ -59,6 +66,8 @@ module.exports = {
     },
     simSintomasGraves() {
         dadosPreDiagnostico.sintomasGraves = true;
+        console.log(dadosPreDiagnostico);
+
         return this.diagnostico();
     },
     naoSintomasGraves() {
@@ -92,8 +101,12 @@ module.exports = {
 
             if (codigo === objeto.codigo) {
                 return {
-                    mensagens:[objeto.mensagem +'\nPosso ajudar em mais algo?'],
-                    quickReplies: ["Menu", "Obrigado, era só isso"]};
+                    mensagens:[objeto.mensagem],
+                    quickReplies: {
+                        title: 'Posso ajudar em mais algo?',
+                        buttons: ["Sim, mostrar Menu", "Obrigado, era só isso"]
+                    }
+                }    
             }
         }
     }

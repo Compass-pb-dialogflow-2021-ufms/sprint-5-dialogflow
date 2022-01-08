@@ -9,11 +9,11 @@ module.exports = {
             try {
                 const dados = req.body.originalDetectIntentRequest.payload.data;
                 const id = dados.from.id;
-                const {data} = await axios(`https://projeto-sprint-five-three.herokuapp.com/bd/${id}`);
+                const {data} = await axios(`https://3c05-45-237-255-227.ngrok.io/bd/${id}`);
                 if (data === null) {
                     axios({
                         method: "post",
-                        url: `https://projeto-sprint-five-three.herokuapp.com/bd/adicionar`,
+                        url: `https://3c05-45-237-255-227.ngrok.io/bd/adicionar`,
                         data:{
                             primeiroNome: dados.from.first_name,
                             idUsuario: id
