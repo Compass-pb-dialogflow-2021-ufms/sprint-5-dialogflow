@@ -1,6 +1,5 @@
 const responses = require('../../responses/responses')
 const formattedMessage = require('../responseStructure/message')
-const formattedCards = require('../responseStructure/cards')
 const TelegramUser = require('../../dataBase/models/telegramUser')
 const randomIntFromInterval = require('../../helpers/randomIntFromInterval')
 

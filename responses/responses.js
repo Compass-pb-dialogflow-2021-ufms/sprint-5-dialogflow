@@ -1,7 +1,7 @@
 const responses = 
 {
-    aboutMe: 'Esse bot surgiu como uma demanda gerada por um exercício a ser realizado durante a quinta sprint do meu programa de bolsas na Compass UOL. A ideia do exercício é um bot que consiga informar o usuário sobre o vírus SARS-CoV-2.\n\n' + 
-    'Quem fez ele -> O desenvolvedor responsável por esse bot foi o Horiel Corrêa Costa. No momento que ele fez, ele era um aluno de segundo semestre de faculdade e sua experiência profissional se resumia a 2 meses de estágio. Esse foi o sexto bot que ele fez, portanto, tenha paciência com com ele :)\n\nPosso te ajudar com mais alguma coisa?',
+    aboutMe: ['Esse bot surgiu como uma demanda gerada por um exercício a ser realizado durante a quinta sprint do meu programa de bolsas na Compass UOL. A ideia do exercício é um bot que consiga informar o usuário sobre o vírus SARS-CoV-2.\n\n' + 
+    'Quem fez ele -> O desenvolvedor responsável por esse bot foi o Horiel Corrêa Costa. No momento que ele fez, ele era um aluno de segundo semestre de faculdade e sua experiência profissional se resumia a 2 meses de estágio. Esse foi o sexto bot que ele fez, portanto, tenha paciência com com ele :)\n\nPosso te ajudar com mais alguma coisa?'],
 
     
     basicPrevention: ['Vou citar alguns cuidados básicos que reduzem o risco geral de contrair ou transmitir infecções respiratórias agudas, incluindo o coronavírus:' +
@@ -64,6 +64,12 @@ const responses =
     '\n\nPosso ajudar em algo mais?'],
 
 
+    help: ['Olá, sou a doutora Silvia. Tenho três funções principais, informar você como se prevenir, te contar como o Coronavírus se espalha e seu período de incubaçãote, além de poder realizar um pré-diagnóstico baseado em seus sintomas e outras informações.' +
+    '\nPara conseguir utilizar essas funções, basta dizer qual você deseja utilizar, seja usando as respostas rápidas disponíveis, ou mesmo digitando o que você deseja, como por exemplo "Como posso me prevenir do Coronavírus", ou mesmo me perguntar "Qual é o perído de incubação do Coronavírus?", que irei te responder 😉',
+    
+    '\n\nComo posso te ajudar?'],
+
+
     incubationPeriod: ['O "período de incubação" significa o tempo da contração do vírus e o início dos sintomas da doença.' +
     '\n\nEsse tempo varia de 1 a 14 dias, mas geralmente pode ocorrer em torno de 5 dias.' +
     '\n\n⚠ No entanto, dados prelimires do Coronavírus sugerem que a transmissão possa ocorrer também mesmo sem o aparecimento de sinais e sintomas.',
@@ -71,7 +77,9 @@ const responses =
     'Posso ajudar em algo mais?'],
 
 
-    preDiagnosis: 'Essa funcionalidade ainda está em processo de desenvolvimento e portanto não está disponível. Posso ajudar com algo mais, como saber como funciona o contágio ou mesmo sobre as precauções que devem ser tomadas?',
+    preDiagnosis: ['Essa funcionalidade ainda está em processo de desenvolvimento e portanto não está disponível.',
+
+    'Posso ajudar com algo mais, como saber como funciona o contágio ou mesmo sobre as precauções que devem ser tomadas?'],
 
 
     prevention: ['Eu sei ótimas dicas de prevenções básica e do profissional da saúde. 🙂',
