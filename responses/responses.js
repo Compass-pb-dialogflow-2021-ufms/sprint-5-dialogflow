@@ -77,6 +77,13 @@ const responses =
     'Posso ajudar em algo mais?'],
 
 
+    mainMenu: ['Você pode tirar dúvidas comigo sobre prevenção, contágio, casos no Brasil ou realizar um pré-diagnóstico.', 
+    
+    '\n\nSobre qual assunto quer saber?',
+    
+    '\n\nComo posso te ajudar?'],
+
+
     preDiagnosis: ['Essa funcionalidade ainda está em processo de desenvolvimento e portanto não está disponível.',
 
     'Posso ajudar com algo mais, como saber como funciona o contágio ou mesmo sobre as precauções que devem ser tomadas?'],
@@ -119,8 +126,6 @@ const responses =
     '\n\nE não se preocupe, pois todos os dados que eu te contar são retirados de fontes seguras que você pode confiar.',
 
     'Olá novamente! Sou uma assistente virtual treinada para tirar suas dúvidas relacionadas oa Coronavírus. 👩‍🦰',
-
-    'Você pode tirar dúvidas comigo sobre prevenção, contágio, casos no Brasil ou realizar um pré-diagnóstico.',
 
     'Sobre qual assunto quer saber?',
     

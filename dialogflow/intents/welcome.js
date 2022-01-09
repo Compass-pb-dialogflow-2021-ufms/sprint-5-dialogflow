@@ -1,24 +1,22 @@
-const responses = require('../../responses/responses')
-const formattedMessage = require('../responseStructure/message')
-const TelegramUser = require('../../dataBase/models/telegramUser')
+const eventTrigger = require('../responseStructure/eventTrigger')
+const messageWithQuickReplies = require('../responseStructure/messageWithQuickReplies')
 const randomIntFromInterval = require('../../helpers/randomIntFromInterval')
+const responses = require('../../responses/responses')
+const TelegramUser = require('../../dataBase/models/telegramUser')
 
 
 async function welcome(req, res)
 {
-    let message
-    // const chipsNames = ['Prevenção', 'Contágio', 'Casos no Brasil', 'Pré-diagnóstico', 'Outras dúvidas']
+    const quickRepliesOptions = ['Prevenção', 'Contágio', 'Casos no Brasil', 'Pré-diagnóstico', 'Outras dúvidas']
     const id = req.body.originalDetectIntentRequest.payload.data.from.id
     if(await TelegramUser.findOne({id: id}) == null)
     {
         await TelegramUser.create({id: id})
-        message = formattedMessage([responses.welcome[0], responses.welcome[randomIntFromInterval(3, 4)]])
+        const message = messageWithQuickReplies([responses.welcome[0], responses.welcome[randomIntFromInterval(2, 3)]], quickRepliesOptions)
+        res.send(message)
     }
     else
-    {
-        message = formattedMessage([responses.welcome[1], responses.welcome[2] + '\n\n' + responses.welcome[randomIntFromInterval(3, 4)]])
-    }
-    res.send(message)
+        res.send(eventTrigger('mainMenu'))
 }
 
 

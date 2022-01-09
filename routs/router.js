@@ -11,16 +11,17 @@ const goodbye = require('../dialogflow/intents/goodbye')
 const healthProfessionalPrevention = require('../dialogflow/intents/healthProfessionalPrevention')
 const help = require('../dialogflow/intents/help')
 const incubationPeriod = require('../dialogflow/intents/incubationPeriod')
+const mainMenu = require('../dialogflow/intents/mainMenu')
 const preDiagnosis = require('../dialogflow/intents/preDiagnosis')
 const prevention = require('../dialogflow/intents/prevention')
 const secondTimeInFallback = require('../dialogflow/intents/fallback/secondTimeInFallback')
-const test = require('../test')
 const thirdTimeInFallback = require('../dialogflow/intents/fallback/thirdTimeInFallback')
 const welcome = require('../dialogflow/intents/welcome')
 
 
 router.post('', (req, res) => {
     const intent = req.body.queryResult.intent.displayName
+    // console.log(req.body.queryResult)
     switch (intent) 
     {
         case 'BasicPrevention':
@@ -61,6 +62,10 @@ router.post('', (req, res) => {
 
         case 'KnowAboutMe':
             aboutMe(req, res)
+            break
+
+        case 'MainMenu':
+            mainMenu(req, res)
             break
             
         case 'PreDiagnosis':

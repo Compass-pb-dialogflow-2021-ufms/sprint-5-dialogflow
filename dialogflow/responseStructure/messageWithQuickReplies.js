@@ -25,6 +25,9 @@ const quickRepliesFormat =
 
 function messageWithQuickReplies(text, quickRepliesOptions)
 {
+	console.log(text)
+    format.fulfillmentMessages.length = 0
+
 	for(let i = 0; i < text.length - 1; i++)
 	{
 		messageFormat.text.text = [text[i]]
