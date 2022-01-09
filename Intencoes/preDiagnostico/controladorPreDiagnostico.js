@@ -22,21 +22,24 @@ module.exports = {
         return respostas.simGrupoDeRisco;
     },
     naoGrupoDeRisco() {
+        console.log(dadosPreDiagnostico);
         return respostas.naoGrupoDeRisco;
     },
     simFebre() {
         dadosPreDiagnostico.febre = true;
         console.log(dadosPreDiagnostico);
-
         return respostas.febre;
     },
     naoFebre() {
+        console.log(dadosPreDiagnostico);
         return respostas.febre;
     },
     simSintomasLeves() {
+        console.log(dadosPreDiagnostico);
         return respostas.simSintomasLeves;
     },
     naoSintomasLeves() {
+        console.log(dadosPreDiagnostico);
         return respostas.naoSintomasLeves;
     },
     qtdSintomasLeves(req) {
@@ -48,9 +51,11 @@ module.exports = {
         return respostas.qtdSintomasLeves;
     },
     simRemedio() {
+        console.log(dadosPreDiagnostico);
         return respostas.simRemedio;
     },
     naoRemedio() {
+        console.log(dadosPreDiagnostico);
         return respostas.naoSintomasLeves;
     },
 
@@ -58,10 +63,11 @@ module.exports = {
         dadosPreDiagnostico.poucoSintomasLeves = false;
         dadosPreDiagnostico.muitoSintomasLeves = false;
         console.log(dadosPreDiagnostico);
-
+        
         return respostas.simMelhora;
     },
     naoMelhora() {
+        console.log(dadosPreDiagnostico);
         return respostas.naoSintomasLeves;
     },
     simSintomasGraves() {

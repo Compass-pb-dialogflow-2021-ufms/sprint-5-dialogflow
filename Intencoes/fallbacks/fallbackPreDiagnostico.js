@@ -1,8 +1,7 @@
 const encerramento = require('../respostasEncerramento');
-let umaVez = false;
+const numerosFallback = require('./numeroFallback');
 module.exports = {
     fallbackGrupoDeRisco() {
-        umaVez = false;
         return {
             mensagens: [`Não entendi. Para continuarmos, você precisa me indicar se pertence a algum  desses grupos citados:`,
                 `- Pessoas com mais de 60 anos; 
@@ -16,9 +15,9 @@ module.exports = {
             }
         }
     },
-    fallbackGrupoDeRisco2() {
-        if (!umaVez) {
-            umaVez = true;
+    fallbackGrupoDeRisco2(req) {
+        let  numeroFallback  = numerosFallback(req);
+        if (numeroFallback < 3) {
             return {
                 mensagens: ['Desculpe, ainda não consegui entender. '],
                 quickReplies: {
@@ -33,17 +32,16 @@ module.exports = {
         }
     },
     fallbackFebre() {
-        umaVez = false;
         return {
             quickReplies: {
-                title: `Não entendi.','Para continuarmos, você precisa me indicar se teve ou não, febre maior que 37,8ºC nos últimos 7 dias.`,
+                title: `Não entendi. Para continuarmos, você precisa me indicar se teve ou não, febre maior que 37,8ºC nos últimos 7 dias.`,
                 buttons: ["Tive", "Não Tive"]
             }
         }
     },
-    fallbackFebre2() {
-        if (!umaVez) {
-            umaVez = true;
+    fallbackFebre2(req) {
+        let  numeroFallback  = numerosFallback(req);
+        if (numeroFallback < 3) {
             return {
                 quickReplies: {
                     title: 'Desculpe, ainda não consegui entender. Você teve febre maior que 37,8ºC nos últimos 7 dias ?',
@@ -57,7 +55,6 @@ module.exports = {
         }
     },
     fallbackSintomasLeves() {
-        umaVez = false;
         return {
             quickReplies: {
                 title: 'Não entendi. Para continuarmos, você precisa me indicar se apresentou ou não algum desses sintomas citados',
@@ -65,9 +62,9 @@ module.exports = {
             }
         }
     },
-    fallbackSintomasLeves2() {
-        if (!umaVez) {
-            umaVez = true;
+    fallbackSintomasLeves2(req) {
+        let  numeroFallback  = numerosFallback(req);
+        if (numeroFallback < 3) {
             return {
                 quickReplies: {
                     title: 'Desculpe, ainda não consegui entender. Você precisa me indicar se apresentou algum desses sintomas citados ?',
@@ -81,7 +78,6 @@ module.exports = {
         }
     },
     fallbackQtdSintomasLeves() {
-        umaVez = false;
         return {
             mensagens: ['Não entendi. Para continuarmos, você precisa me falar quantos desses sintomas citados você teve',
                 `\n- Coriza ou nariz entupido;
@@ -99,9 +95,9 @@ module.exports = {
             }
         }
     },
-    fallbackQtdSintomasLeves2() {
-        if (!umaVez) {
-            umaVez = true;
+    fallbackQtdSintomasLeves2(req) {
+        let  numeroFallback  = numerosFallback(req);
+        if (numeroFallback < 3) {
             return {
                 quickReplies: {
                     title: 'Desculpe, ainda não consegui entender. Quantos desses sintomas citados você teve?',
@@ -115,7 +111,6 @@ module.exports = {
         }
     },
     fallbackRemedio() {
-        umaVez = false;
         return {
             quickReplies: {
                 title: 'Não entendi. Para continuarmos, você precisa me indicar se usou ou não algum medicamento',
@@ -123,9 +118,9 @@ module.exports = {
             }
         }
     },
-    fallbackRemedio2() {
-        if (!umaVez) {
-            umaVez = true;
+    fallbackRemedio2(req) {
+        let  numeroFallback  = numerosFallback(req);
+        if (numeroFallback < 3) {
             return {
                 quickReplies: {
                     title: 'Desculpe, ainda não consegui entender. Você usou algum medicamento?',
@@ -139,7 +134,6 @@ module.exports = {
         }
     },
     fallbackMelhora() {
-        umaVez = false;
         return {
             quickReplies: {
                 title: 'Não entendi. Para continuarmos, você precisa me indicar se melhorou ou não de todos os sintomas com o medicamento.',
@@ -147,9 +141,9 @@ module.exports = {
             }
         }
     },
-    fallbackMelhora2() {
-        if (!umaVez) {
-            umaVez = true;
+    fallbackMelhora2(req) {
+        let  numeroFallback  = numerosFallback(req);
+        if (numeroFallback < 3) {
             return {
                 quickReplies: {
                     title: 'Desculpe, ainda não consegui entender. Você sente que melhorou de todos os sintomas?',
@@ -163,7 +157,6 @@ module.exports = {
         }
     },
     fallbackSintomasGraves() {
-        umaVez = false;
         return {
             mensagens: [`
             \n- Convulsão ou Vômito;
@@ -177,9 +170,9 @@ module.exports = {
         }
 
     },
-    fallbackSintomasGraves2() {
-        if (!umaVez) {
-            umaVez = true;
+    fallbackSintomasGraves2(req) {
+        let  numeroFallback  = numerosFallback(req);
+        if (numeroFallback < 3) {
             return {
                 quickReplies: {
                     title: 'Desculpe, ainda não consegui entender. Você sentiu algum dos sintomas citados?',

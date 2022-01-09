@@ -1,21 +1,21 @@
 const encerramento = require('../respostasEncerramento');
+const numerosFallback = require('./numeroFallback');
+
 let umaVez = false;
 module.exports = {
     umFallbackPrevencao() {
-        umaVez = false;
         return {
             mensagens: ['Desculpe, algumas perguntas ainda não consigo te responder', 'Me diga, qual a sua dúvida relacionada ao Coronavírus?']
         }
     },
     umFallbackContagio() {
-        umaVez = false;
         return {
             mensagens: ['Desculpe, algumas perguntas ainda não consigo te responder', 'Me diga, qual a sua dúvida relacionada ao Coronavírus?']
         }
     },
-    doisfallback() {
-        if (!umaVez) {
-            umaVez = true;
+    doisfallback(req) {
+        let  numeroFallback  = numerosFallback(req);
+        if (numeroFallback < 3) {
             return {
                 mensagens: ['Ainda não consegui identificar a sua dúvida.\nVocê pode me perguntar sobre prevenção, contágio ou realizar um pré-diagnóstico, por exemplo.']
             }

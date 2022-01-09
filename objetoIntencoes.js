@@ -7,7 +7,7 @@ const fallback = require('./Intencoes/fallbacks/fallbacks');
 const fallbackPD = require('./Intencoes/fallbacks/fallbackPreDiagnostico');
 module.exports = [
     {
-        intent: 'Default Welcome Intent',
+        intent: 'saudacao',
         parametro: true,
         funcao:  async function(req){
            return await saudacao.saudacaoUsuario(req)
@@ -15,9 +15,9 @@ module.exports = [
     },
     {
         intent: 'Default Fallback Intent',
-        parametro: false,
-        funcao: function(){
-            return padrao.fallback()
+        parametro: true,
+        funcao: function(req){
+            return padrao.fallback(req)
 
         }
     },
@@ -68,9 +68,9 @@ module.exports = [
     },
     {
         intent: 'PV-fallbackPrevencao2',
-        parametro: false,
-        funcao: function(){
-            return fallback.doisfallback()
+        parametro: true,
+        funcao: function(req){
+            return fallback.doisfallback(req)
         }
     },
     ///////////////////////////////////////////////////////////////
@@ -104,9 +104,9 @@ module.exports = [
     },
     {
         intent: 'CT-fallbackContagio2',
-        parametro: false,
-        funcao: function(){
-            return fallback.doisfallback()
+        parametro: true,
+        funcao: function(req){
+            return fallback.doisfallback(req)
         }
     },
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////    
@@ -230,10 +230,10 @@ module.exports = [
         }
     },
     {
-        intent: 'PD-fallbackGrupoDeRisco2',
-        parametro: false,
-        funcao: function(){
-            return fallbackPD.fallbackGrupoDeRisco2()
+        intent: 'PD-fallbackGrupoDeRiscoDois',
+        parametro: true,
+        funcao: function(req){
+            return fallbackPD.fallbackGrupoDeRisco2(req)
         }
     },
     {
@@ -246,8 +246,8 @@ module.exports = [
     {
         intent: 'PD-fallbackFebre2',
         parametro: false,
-        funcao: function(){
-            return fallbackPD.fallbackFebre2()
+        funcao: function(req){
+            return fallbackPD.fallbackFebre2(req)
         }
     },
     {
@@ -259,9 +259,9 @@ module.exports = [
     },
     {
         intent: 'PD-fallbackSintomasLeves2',
-        parametro: false,
-        funcao: function(){
-            return fallbackPD.fallbackSintomasLeves2()
+        parametro: true,
+        funcao: function(req){
+            return fallbackPD.fallbackSintomasLeves2(req)
         }
     },
     {
@@ -273,9 +273,9 @@ module.exports = [
     },
     {
         intent: 'PD-fallbackQtdSintomasLeves2',
-        parametro: false,
-        funcao: function(){
-            return fallbackPD.fallbackQtdSintomasLeves2()
+        parametro: true,
+        funcao: function(req){
+            return fallbackPD.fallbackQtdSintomasLeves2(req)
         }
     },
     {
@@ -287,9 +287,9 @@ module.exports = [
     },
     {
         intent: 'PD-fallbackRemedio2',
-        parametro: false,
-        funcao: function(){
-            return fallbackPD.fallbackRemedio2()
+        parametro: true,
+        funcao: function(req){
+            return fallbackPD.fallbackRemedio2(req)
         }
     },
     {
@@ -301,9 +301,9 @@ module.exports = [
     },
     {
         intent: 'PD-fallbackMelhora2',
-        parametro: false,
-        funcao: function(){
-            return fallbackPD.fallbackMelhora2()
+        parametro: true,
+        funcao: function(req){
+            return fallbackPD.fallbackMelhora2(req)
         }
     },
     {
@@ -315,9 +315,9 @@ module.exports = [
     },
     {
         intent: 'PD-fallbackSintomasGraves2',
-        parametro: false,
-        funcao: function(){
-            return fallbackPD.fallbackSintomasGraves2()
+        parametro: true,
+        funcao: function(req){
+            return fallbackPD.fallbackSintomasGraves2(req)
         }
     },
     
