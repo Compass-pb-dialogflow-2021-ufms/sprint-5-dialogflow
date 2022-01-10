@@ -19,7 +19,8 @@ const responses =
     'Posso ajudar em algo mais?'],
 
 
-    casesInBrazil: 'Essa funcionalidade ainda está em processo de desenvolvimento e portanto não está disponível. Posso ajudar com algo mais, como saber como funciona o contágio ou mesmo sobre as precauções que devem ser tomadas?',
+    casesInBrazil: ['Essa funcionalidade ainda está em processo de desenvolvimento e portanto não está disponível.',
+    'Posso ajudar com algo mais?'],
 
 
     contagion: ['Eu posso te informar sobre as principais formas de contágio e sobre o período de incubação por Coronavírus. 🙂',
@@ -95,7 +96,7 @@ const responses =
 
 
     secondTimeInFallback: {
-        default: 'Eu ainda não entendi o que você disse. Vamos tentar novamente...',
+        default: ['Eu ainda não entendi o que você disse. Vamos tentar novamente...'],
 
         prevention: ['Ainda não consegui identificar a sua dúvida.' + 
         '\n\nVocê pode me perguntar sobre prevenção, contágio, casos no Brasil ou realizar um pré-diagnóstico, por exemplo. 😊',
