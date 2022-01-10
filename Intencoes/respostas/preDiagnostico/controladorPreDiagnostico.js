@@ -1,5 +1,6 @@
 const respostas = require('./respostasPreDiagnostico');
 const axios = require('axios');
+const  encerramento  = require('../respostasEncerramento');
 
 module.exports = {
     'PD-PreDiagnostico' : () => {
@@ -16,9 +17,7 @@ module.exports = {
             sintomasGraves: false
         }
         try {
-            const {
-                data
-            } = await axios({
+            const {data} = await axios({
                 method: "PUT",
                 url: `https://809b-45-237-255-227.ngrok.io/bd/diagnostico/${session}`,
                 data: dados
@@ -34,9 +33,7 @@ module.exports = {
             return respostas.simPrediagnostico;
         } catch (erro) {
             console.error(erro);
-            return {
-                mensagens: ["Infelizmente encontramos um problema. Por favor tente novamente !"]
-            }
+            return encerramento.erroPadrao;
         }
     },
     'PD-naoPreDiagnostico': () => {
@@ -46,9 +43,7 @@ module.exports = {
         if(atualizarDados(req, {grupoDeRisco : true})){
             return respostas.simGrupoDeRisco;
         } else{
-            return {
-                mensagens: ["Infelizmente encontramos um problema. Por favor tente novamente !"]
-            }
+            return encerramento.erroPadrao;
         }
     },
     'PD-naoGrupoDeRisco' : () => {
@@ -58,9 +53,7 @@ module.exports = {
         if(atualizarDados(req, {febre : true})){
             return respostas.febre;
         } else{
-            return {
-                mensagens: ["Infelizmente encontramos um problema. Por favor tente novamente !"]
-            }
+            return encerramento.erroPadrao;
         }
 
     },
@@ -85,9 +78,7 @@ module.exports = {
         if(atualizarDados(req, dados)){
             return respostas.qtdSintomasLeves;
         } else{
-            return {
-                mensagens: ["Infelizmente encontramos um problema. Por favor tente novamente !"]
-            }
+            return encerramento.erroPadrao;
         } 
     },
     'PD-simRemedio' : () => {
@@ -101,9 +92,7 @@ module.exports = {
         if(atualizarDados(req, {poucoSintomasLeves: false,muitoSintomasLeves: false})){
             return respostas.simMelhora;
         } else{
-            return {
-                mensagens: ["Infelizmente encontramos um problema. Por favor tente novamente !"]
-            }
+            return encerramento.erroPadrao;
         }
        
     },
@@ -114,9 +103,7 @@ module.exports = {
         if(atualizarDados(req, {sintomasGraves: true})){
             return await diagnostico(req);
         } else{
-            return {
-                mensagens: ["Infelizmente encontramos um problema. Por favor tente novamente !"]
-            }
+            return encerramento.erroPadrao;
         }
     },
     'PD-naoSintomasGraves': async (req) => {

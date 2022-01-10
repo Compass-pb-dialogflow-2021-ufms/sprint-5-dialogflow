@@ -1,4 +1,4 @@
-//const intents = require('./objetoIntencoes');
+
 const intencoes = require('./Intencoes/intencoes');
 module.exports = async function BuscaResposta(tag,req) {
     let objetoResposta = {};
