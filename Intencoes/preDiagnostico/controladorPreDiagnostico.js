@@ -16,21 +16,17 @@ module.exports = {
             sintomasGraves: false
         }
         try {
-            console.log("session")
-            console.log(session)
             const {
                 data
             } = await axios({
                 method: "PUT",
-                url: `https://de53-45-237-255-227.ngrok.io/bd/diagnostico/${session}`,
+                url: `https://809b-45-237-255-227.ngrok.io/bd/diagnostico/${session}`,
                 data: dados
             });
-            console.log('data')
-            console.log(data)
             if (data === null) {
                 axios({
                     method: "post",
-                    url: `https://de53-45-237-255-227.ngrok.io/bd/diagnostico`,
+                    url: `https://809b-45-237-255-227.ngrok.io/bd/diagnostico`,
                     data: dados
                 });
 
@@ -130,7 +126,7 @@ module.exports = {
         let codigo = '';
         try {
             const session = req.body.session.slice(38);
-            const {data} = await axios(`https://de53-45-237-255-227.ngrok.io/bd/diagnostico/dados/${session}`)
+            const {data} = await axios(`https://809b-45-237-255-227.ngrok.io/bd/diagnostico/dados/${session}`)
             data.grupoDeRisco ? codigo += `1` : codigo += `0`;
 
             data.febre ? codigo += `1` : codigo += `0`;
@@ -155,8 +151,6 @@ module.exports = {
     },
     async diagnostico(req) {
         const codigo = await this.fazCodigoDiagnostico(req);
-        console.log("codigo")
-        console.log(codigo)
         let arrayCenario = [];
         let cenario = codigo.slice(0,-3);
         (cenario === '1') ? arrayCenario = respostas.cenarioComGrupoDeRisco: arrayCenario = respostas.cenarioSemGrupoDeRisco
@@ -174,11 +168,10 @@ module.exports = {
     },
     async atualizarDados(req,dados){
         try {
-            console.log(dados);
             const session = req.body.session.slice(38);
             await axios({
                 method: "put",
-                url: `https://de53-45-237-255-227.ngrok.io/bd/atualizar/${session}`,
+                url: `https://809b-45-237-255-227.ngrok.io/bd/atualizar/${session}`,
                 data: dados
             })
             return true;

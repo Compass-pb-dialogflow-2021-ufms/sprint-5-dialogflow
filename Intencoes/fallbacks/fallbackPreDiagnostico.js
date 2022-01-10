@@ -45,7 +45,7 @@ module.exports = {
             return {
                 quickReplies: {
                     title: 'Desculpe, ainda não consegui entender. Você teve febre maior que 37,8ºC nos últimos 7 dias ?',
-                    quickReplies: ["Tive", "Não Tive"]
+                    buttons: ["Tive", "Não Tive"]
                 }
             }
         } else {
@@ -56,9 +56,10 @@ module.exports = {
     },
     fallbackSintomasLeves() {
         return {
+            mensagens : ['Não entendi.'],
             quickReplies: {
-                title: 'Não entendi. Para continuarmos, você precisa me indicar se apresentou ou não algum desses sintomas citados',
-                quickReplies: ["Sim", "Não"]
+                title: 'Para continuarmos, você precisa me indicar se apresentou ou não algum desses sintomas citados',
+                buttons: ["Sim", "Não"]
             }
         }
     },
@@ -68,7 +69,7 @@ module.exports = {
             return {
                 quickReplies: {
                     title: 'Desculpe, ainda não consegui entender. Você precisa me indicar se apresentou algum desses sintomas citados ?',
-                    quickReplies: ["Sim", "Não"]
+                    buttons : ["Sim", "Não"]
                 }
             }
         } else {
@@ -101,7 +102,7 @@ module.exports = {
             return {
                 quickReplies: {
                     title: 'Desculpe, ainda não consegui entender. Quantos desses sintomas citados você teve?',
-                    quickReplies: ["1", "2", "3", "Mais de Três"]
+                    buttons : ["1", "2", "3", "Mais de Três"]
                 }
             }
         } else {
@@ -114,7 +115,7 @@ module.exports = {
         return {
             quickReplies: {
                 title: 'Não entendi. Para continuarmos, você precisa me indicar se usou ou não algum medicamento',
-                quickReplies: ["Sim", "Não"]
+                buttons : ["Sim", "Não"]
             }
         }
     },
@@ -124,7 +125,7 @@ module.exports = {
             return {
                 quickReplies: {
                     title: 'Desculpe, ainda não consegui entender. Você usou algum medicamento?',
-                    quickReplies: ["Sim", "Não"]
+                    buttons : ["Sim", "Não"]
                 }
             }
         } else {
@@ -137,7 +138,7 @@ module.exports = {
         return {
             quickReplies: {
                 title: 'Não entendi. Para continuarmos, você precisa me indicar se melhorou ou não de todos os sintomas com o medicamento.',
-                quickReplies: ["Melhorei", "Não Melhorei"]
+                buttons : ["Melhorei", "Não Melhorei"]
             }
         }
     },
@@ -147,7 +148,7 @@ module.exports = {
             return {
                 quickReplies: {
                     title: 'Desculpe, ainda não consegui entender. Você sente que melhorou de todos os sintomas?',
-                    quickReplies: ["Melhorei", "Não Melhorei"]
+                    buttons : ["Melhorei", "Não Melhorei"]
                 }
             }
         } else {
@@ -165,7 +166,7 @@ module.exports = {
             \n- Dedos azulados e pálidos.`],
             quickReplies: {
                 title: `Não entendi.Para concluir o pré diagnóstico, você precisa me indicar se sentiu ou não algum sintomas citados?`,
-                quickReplies: ["Senti", "Não Senti"]
+                buttons : ["Senti", "Não Senti"]
             }
         }
 
@@ -176,7 +177,7 @@ module.exports = {
             return {
                 quickReplies: {
                     title: 'Desculpe, ainda não consegui entender. Você sentiu algum dos sintomas citados?',
-                    quickReplies: ["Senti", "Não Senti"]
+                    buttons : ["Senti", "Não Senti"]
                 }
             }
         } else {

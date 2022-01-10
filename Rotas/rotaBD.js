@@ -54,8 +54,6 @@ roteador.get('/diagnostico/dados/:session', async (req,res) =>{
 roteador.put('/atualizar/:session', async (req,res) =>{
     try{
         const session = req.params.session;
-        console.log("req.body");
-        console.log(req.body);
         const dados = req.body;
         await acoes.atualizar(session,dados);    
         return res.status(200).end();   

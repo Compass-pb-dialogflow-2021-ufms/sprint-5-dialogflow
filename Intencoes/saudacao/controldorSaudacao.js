@@ -9,11 +9,11 @@ module.exports = {
             try {
                 const dados = req.body.originalDetectIntentRequest.payload.data;
                 const id = dados.from.id;
-                const {data} = await axios(`https://de53-45-237-255-227.ngrok.io/bd/${id}`);
+                const {data} = await axios(`https://809b-45-237-255-227.ngrok.io/bd/${id}`);
                 if (data === null) {
                     axios({
                         method: "post",
-                        url: `https://de53-45-237-255-227.ngrok.io/bd/usuario`,
+                        url: `https://809b-45-237-255-227.ngrok.io/bd/usuario`,
                         data:{
                             primeiroNome: dados.from.first_name,
                             idUsuario: id
