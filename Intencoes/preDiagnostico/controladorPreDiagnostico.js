@@ -1,119 +1,190 @@
 const respostas = require('./respostasPreDiagnostico');
-let dadosPreDiagnostico = {
-    grupoDeRisco: false,
-    febre: false,
-    poucoSintomasLeves: false,
-    muitoSintomasLeves: false,
-    sintomasGraves: false
-}
+const axios = require('axios');
+
 module.exports = {
     inicioPreDiagnostico() {
         return respostas.inicioPreDiagnostico;
     },
-    simPrediagnostico() {
-        return respostas.simPrediagnostico;
+    async simPrediagnostico(req) {
+        const session = req.body.session.slice(38);
+        const dados = {
+            session: session,
+            grupoDeRisco: false,
+            febre: false,
+            poucoSintomasLeves: false,
+            muitoSintomasLeves: false,
+            sintomasGraves: false
+        }
+        try {
+            console.log("session")
+            console.log(session)
+            const {
+                data
+            } = await axios({
+                method: "PUT",
+                url: `https://de53-45-237-255-227.ngrok.io/bd/diagnostico/${session}`,
+                data: dados
+            });
+            console.log('data')
+            console.log(data)
+            if (data === null) {
+                axios({
+                    method: "post",
+                    url: `https://de53-45-237-255-227.ngrok.io/bd/diagnostico`,
+                    data: dados
+                });
+
+            }
+            return respostas.simPrediagnostico;
+        } catch (erro) {
+            console.error(erro);
+            return {
+                mensagens: ["Infelizmente encontramos um problema. Por favor tente novamente !"]
+            }
+        }
     },
     naoPrediagnostico() {
         return respostas.naoPrediagnostico;
     },
-    simGrupoDeRisco() {
-        dadosPreDiagnostico.grupoDeRisco = true;
-        console.log(dadosPreDiagnostico);
-        return respostas.simGrupoDeRisco;
+    simGrupoDeRisco(req) {
+        if(this.atualizarDados(req, {grupoDeRisco : true})){
+            return respostas.simGrupoDeRisco;
+        } else{
+            return {
+                mensagens: ["Infelizmente encontramos um problema. Por favor tente novamente !"]
+            }
+        }
     },
     naoGrupoDeRisco() {
-        console.log(dadosPreDiagnostico);
         return respostas.naoGrupoDeRisco;
     },
-    simFebre() {
-        dadosPreDiagnostico.febre = true;
-        console.log(dadosPreDiagnostico);
-        return respostas.febre;
+    async simFebre(req) {
+        if(this.atualizarDados(req, {febre : true})){
+            return respostas.febre;
+        } else{
+            return {
+                mensagens: ["Infelizmente encontramos um problema. Por favor tente novamente !"]
+            }
+        }
+
     },
     naoFebre() {
-        console.log(dadosPreDiagnostico);
         return respostas.febre;
     },
     simSintomasLeves() {
-        console.log(dadosPreDiagnostico);
         return respostas.simSintomasLeves;
     },
     naoSintomasLeves() {
-        console.log(dadosPreDiagnostico);
         return respostas.naoSintomasLeves;
     },
-    qtdSintomasLeves(req) {
-        const parametros =req.body.queryResult.parameters;
+    async qtdSintomasLeves(req) {
+        const parametros = req.body.queryResult.parameters;
         const numeroSintomas = parametros.qtdSintomasLeves;
-        numeroSintomas > 3 ? dadosPreDiagnostico.muitoSintomasLeves = true : dadosPreDiagnostico.poucoSintomasLeves = true
-        console.log(dadosPreDiagnostico);
-        
-        return respostas.qtdSintomasLeves;
+        let dados = {};
+        if(numeroSintomas > 3){
+            dados = {muitoSintomasLeves : true}
+        }else{
+             dados = {poucoSintomasLeves : true}
+        }
+        if(this.atualizarDados(req, dados)){
+            return respostas.qtdSintomasLeves;
+        } else{
+            return {
+                mensagens: ["Infelizmente encontramos um problema. Por favor tente novamente !"]
+            }
+        } 
     },
     simRemedio() {
-        console.log(dadosPreDiagnostico);
         return respostas.simRemedio;
     },
     naoRemedio() {
-        console.log(dadosPreDiagnostico);
         return respostas.naoSintomasLeves;
     },
 
-    simMelhora() {
-        dadosPreDiagnostico.poucoSintomasLeves = false;
-        dadosPreDiagnostico.muitoSintomasLeves = false;
-        console.log(dadosPreDiagnostico);
-        
-        return respostas.simMelhora;
+    async simMelhora(req) {
+        if(this.atualizarDados(req, {poucoSintomasLeves: false,muitoSintomasLeves: false})){
+            return respostas.simMelhora;
+        } else{
+            return {
+                mensagens: ["Infelizmente encontramos um problema. Por favor tente novamente !"]
+            }
+        }
+       
     },
     naoMelhora() {
-        console.log(dadosPreDiagnostico);
         return respostas.naoSintomasLeves;
     },
-    simSintomasGraves() {
-        dadosPreDiagnostico.sintomasGraves = true;
-        console.log(dadosPreDiagnostico);
-
-        return this.diagnostico();
+    async simSintomasGraves(req) {
+        if(this.atualizarDados(req, {sintomasGraves: true})){
+            return await this.diagnostico(req);
+        } else{
+            return {
+                mensagens: ["Infelizmente encontramos um problema. Por favor tente novamente !"]
+            }
+        }
     },
-    naoSintomasGraves() {
-        return this.diagnostico();
+    async naoSintomasGraves(req) {
+        return await this.diagnostico(req);
     },
-    fazCodigoDiagnostico() {
+    async fazCodigoDiagnostico(req) {
         let codigo = '';
-        dadosPreDiagnostico.grupoDeRisco ? codigo += `1` : codigo += `0`;
+        try {
+            const session = req.body.session.slice(38);
+            const {data} = await axios(`https://de53-45-237-255-227.ngrok.io/bd/diagnostico/dados/${session}`)
+            data.grupoDeRisco ? codigo += `1` : codigo += `0`;
 
-        dadosPreDiagnostico.febre ? codigo += `1` : codigo +=`0`;
+            data.febre ? codigo += `1` : codigo += `0`;
 
-        if (dadosPreDiagnostico.poucoSintomasLeves) {
-            codigo += `1`;
-        } else if (dadosPreDiagnostico.muitoSintomasLeves) {
-            codigo += `2`;
-        } else {
-            codigo += `0`;
-            
+            if (data.poucoSintomasLeves) {
+                codigo += `1`;
+            } else if (data.muitoSintomasLeves) {
+                codigo += `2`;
+            } else {
+                codigo += `0`;
+
+            }
+
+            data.sintomasGraves ? codigo += `1` : codigo += `0`;
+            return codigo;
+        } catch (erro) {
+            console.error(erro);
+            return erro;
         }
 
-        dadosPreDiagnostico.sintomasGraves ? codigo += `1` : codigo += `0`;
 
-        return codigo;
     },
-    diagnostico() {
-        const codigo = this.fazCodigoDiagnostico();
-
+    async diagnostico(req) {
+        const codigo = await this.fazCodigoDiagnostico(req);
+        console.log("codigo")
+        console.log(codigo)
         let arrayCenario = [];
-        (dadosPreDiagnostico.grupoDeRisco) ? arrayCenario = respostas.cenarioComGrupoDeRisco: arrayCenario = respostas.cenarioSemGrupoDeRisco
+        let cenario = codigo.slice(0,-3);
+        (cenario === '1') ? arrayCenario = respostas.cenarioComGrupoDeRisco: arrayCenario = respostas.cenarioSemGrupoDeRisco
         for (const objeto of arrayCenario) {
-
             if (codigo === objeto.codigo) {
                 return {
-                    mensagens:[objeto.mensagem],
+                    mensagens: objeto.mensagem,
                     quickReplies: {
                         title: 'Posso ajudar em mais algo?',
                         buttons: ["Sim, mostrar Menu", "Obrigado, era só isso"]
                     }
-                }    
+                }
             }
+        }
+    },
+    async atualizarDados(req,dados){
+        try {
+            console.log(dados);
+            const session = req.body.session.slice(38);
+            await axios({
+                method: "put",
+                url: `https://de53-45-237-255-227.ngrok.io/bd/atualizar/${session}`,
+                data: dados
+            })
+            return true;
+        } catch (erro) {
+            console.error(erro);
+            return false;
         }
     }
 

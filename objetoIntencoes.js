@@ -126,16 +126,16 @@ module.exports = [
     },
     {
         intent: 'PD-simPreDiagnostico',
-        parametro: false,
-        funcao: function(){
-            return respostasPD.simPrediagnostico()
+        parametro: true,
+        funcao: function(req){
+            return respostasPD.simPrediagnostico(req)
         }
     },
     {
         intent: 'PD-simGrupoDeRisco',
-        parametro: false,
-        funcao: function(){
-            return respostasPD.simGrupoDeRisco()
+        parametro: true,
+        funcao: function(req){
+            return respostasPD.simGrupoDeRisco(req)
         }
     },
     {
@@ -154,9 +154,9 @@ module.exports = [
     },
     {
         intent: 'PD-simFebre',
-        parametro: false,
-        funcao: function(){
-            return respostasPD.simFebre()
+        parametro: true,
+        funcao: function(req){
+            return respostasPD.simFebre(req)
         }
     },
     {
@@ -196,9 +196,9 @@ module.exports = [
     },
     {
         intent: 'PD-simMelhora',
-        parametro: false,
-        funcao: function(){
-            return respostasPD.simMelhora()
+        parametro: true,
+        funcao: function(req){
+            return respostasPD.simMelhora(req)
         }
     },
     {
@@ -210,16 +210,16 @@ module.exports = [
     },
     {
         intent: 'PD-simSintomasGraves',
-        parametro: false,
-        funcao: function(){
-            return respostasPD.simSintomasGraves()
+        parametro: true,
+        funcao: function(req){
+            return respostasPD.simSintomasGraves(req)
         }
     },
     {
         intent: 'PD-naoSintomasGraves',
-        parametro: false,
-        funcao: function(){
-            return respostasPD.naoSintomasGraves()
+        parametro: true,
+        funcao: function(req){
+            return respostasPD.naoSintomasGraves(req)
         }
     },
     {

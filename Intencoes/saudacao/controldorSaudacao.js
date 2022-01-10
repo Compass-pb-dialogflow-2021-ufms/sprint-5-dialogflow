@@ -13,7 +13,7 @@ module.exports = {
                 if (data === null) {
                     axios({
                         method: "post",
-                        url: `https://3c05-45-237-255-227.ngrok.io/bd/adicionar`,
+                        url: `https://de53-45-237-255-227.ngrok.io/bd/usuario`,
                         data:{
                             primeiroNome: dados.from.first_name,
                             idUsuario: id
