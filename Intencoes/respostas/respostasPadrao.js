@@ -2,7 +2,7 @@ const encerramento = require('./respostasEncerramento');
 const numerosFallback = require('./fallbacks/numeroFallback');
 
 module.exports = {
-  fallback(req) {
+  'Default Fallback Intent': (req) => {
     let numeroFallback = numerosFallback(req);
     if (numeroFallback < 3) {
       let mensagens = [
@@ -21,14 +21,16 @@ module.exports = {
       }
     }
   },
-  menu: {
-    mensagens: [`Você pode tirar dúvidas comigo sobre prevenção, contágio ou realizar um pré-diagnóstico. `],
-    quickReplies: {
-      title: `Sobre qual assunto você quer saber?`,
-      buttons: ["Contágio", "Prevenção", "Pré-diagnostico"]
+  'menu': () => {
+    return {
+      mensagens: [`Você pode tirar dúvidas comigo sobre prevenção, contágio ou realizar um pré-diagnóstico. `],
+      quickReplies: {
+        title: `Sobre qual assunto você quer saber?`,
+        buttons: ["Contágio", "Prevenção", "Pré-diagnostico"]
+      }
     }
   },
-  encerramento() {
+  'encerramento': () => {
     return {
       mensagens: [encerramento.encerramento]
     }

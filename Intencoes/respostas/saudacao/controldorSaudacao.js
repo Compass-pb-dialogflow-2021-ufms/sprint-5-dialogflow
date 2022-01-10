@@ -1,7 +1,7 @@
 const resposta = require('./respostaSaudacao');
 const axios = require('axios');
 module.exports = {
-    async saudacaoUsuario(req) { 
+    'saudacao': async (req) => { 
 
         if (req.body.originalDetectIntentRequest.payload.data === undefined) {
             return resposta.usuarioSemDados;

@@ -2,10 +2,10 @@ const respostas = require('./respostasPreDiagnostico');
 const axios = require('axios');
 
 module.exports = {
-    inicioPreDiagnostico() {
+    'PD-PreDiagnostico' : () => {
         return respostas.inicioPreDiagnostico;
     },
-    async simPrediagnostico(req) {
+    'PD-simPreDiagnostico' : async (req) => {
         const session = req.body.session.slice(38);
         const dados = {
             session: session,
@@ -39,11 +39,11 @@ module.exports = {
             }
         }
     },
-    naoPrediagnostico() {
+    'PD-naoPreDiagnostico': () => {
         return respostas.naoPrediagnostico;
     },
-    simGrupoDeRisco(req) {
-        if(this.atualizarDados(req, {grupoDeRisco : true})){
+    'PD-simGrupoDeRisco' : (req) => {
+        if(atualizarDados(req, {grupoDeRisco : true})){
             return respostas.simGrupoDeRisco;
         } else{
             return {
@@ -51,11 +51,11 @@ module.exports = {
             }
         }
     },
-    naoGrupoDeRisco() {
+    'PD-naoGrupoDeRisco' : () => {
         return respostas.naoGrupoDeRisco;
     },
-    async simFebre(req) {
-        if(this.atualizarDados(req, {febre : true})){
+    'PD-simFebre' : async (req) => {
+        if(atualizarDados(req, {febre : true})){
             return respostas.febre;
         } else{
             return {
@@ -64,16 +64,16 @@ module.exports = {
         }
 
     },
-    naoFebre() {
+    'PD-naoFebre' : () => {
         return respostas.febre;
     },
-    simSintomasLeves() {
+    'PD-simSintomasLeves' : () => {
         return respostas.simSintomasLeves;
     },
-    naoSintomasLeves() {
+    'PD-naoSintomasLeves' : () => {
         return respostas.naoSintomasLeves;
     },
-    async qtdSintomasLeves(req) {
+    'PD-qtdSintomasLeves' : async (req) => {
         const parametros = req.body.queryResult.parameters;
         const numeroSintomas = parametros.qtdSintomasLeves;
         let dados = {};
@@ -82,7 +82,7 @@ module.exports = {
         }else{
              dados = {poucoSintomasLeves : true}
         }
-        if(this.atualizarDados(req, dados)){
+        if(atualizarDados(req, dados)){
             return respostas.qtdSintomasLeves;
         } else{
             return {
@@ -90,15 +90,15 @@ module.exports = {
             }
         } 
     },
-    simRemedio() {
+    'PD-simRemedio' : () => {
         return respostas.simRemedio;
     },
-    naoRemedio() {
+    'PD-naoRemedio' : () => {
         return respostas.naoSintomasLeves;
     },
 
-    async simMelhora(req) {
-        if(this.atualizarDados(req, {poucoSintomasLeves: false,muitoSintomasLeves: false})){
+    'PD-simMelhora': async (req) => {
+        if(atualizarDados(req, {poucoSintomasLeves: false,muitoSintomasLeves: false})){
             return respostas.simMelhora;
         } else{
             return {
@@ -107,78 +107,79 @@ module.exports = {
         }
        
     },
-    naoMelhora() {
+    'PD-naoMelhora': ()=> {
         return respostas.naoSintomasLeves;
     },
-    async simSintomasGraves(req) {
-        if(this.atualizarDados(req, {sintomasGraves: true})){
-            return await this.diagnostico(req);
+    'PD-simSintomasGraves' : async (req)=> {
+        if(atualizarDados(req, {sintomasGraves: true})){
+            return await diagnostico(req);
         } else{
             return {
                 mensagens: ["Infelizmente encontramos um problema. Por favor tente novamente !"]
             }
         }
     },
-    async naoSintomasGraves(req) {
-        return await this.diagnostico(req);
+    'PD-naoSintomasGraves': async (req) => {
+        return await diagnostico(req);
     },
-    async fazCodigoDiagnostico(req) {
-        let codigo = '';
-        try {
-            const session = req.body.session.slice(38);
-            const {data} = await axios(`https://809b-45-237-255-227.ngrok.io/bd/diagnostico/dados/${session}`)
-            data.grupoDeRisco ? codigo += `1` : codigo += `0`;
+    
 
-            data.febre ? codigo += `1` : codigo += `0`;
+}
+async function fazCodigoDiagnostico(req) {
+    let codigo = '';
+    try {
+        const session = req.body.session.slice(38);
+        const {data} = await axios(`https://809b-45-237-255-227.ngrok.io/bd/diagnostico/dados/${session}`)
+        data.grupoDeRisco ? codigo += `1` : codigo += `0`;
 
-            if (data.poucoSintomasLeves) {
-                codigo += `1`;
-            } else if (data.muitoSintomasLeves) {
-                codigo += `2`;
-            } else {
-                codigo += `0`;
+        data.febre ? codigo += `1` : codigo += `0`;
 
-            }
+        if (data.poucoSintomasLeves) {
+            codigo += `1`;
+        } else if (data.muitoSintomasLeves) {
+            codigo += `2`;
+        } else {
+            codigo += `0`;
 
-            data.sintomasGraves ? codigo += `1` : codigo += `0`;
-            return codigo;
-        } catch (erro) {
-            console.error(erro);
-            return erro;
         }
 
+        data.sintomasGraves ? codigo += `1` : codigo += `0`;
+        return codigo;
+    } catch (erro) {
+        console.error(erro);
+        return erro;
+    }
 
-    },
-    async diagnostico(req) {
-        const codigo = await this.fazCodigoDiagnostico(req);
-        let arrayCenario = [];
-        let cenario = codigo.slice(0,-3);
-        (cenario === '1') ? arrayCenario = respostas.cenarioComGrupoDeRisco: arrayCenario = respostas.cenarioSemGrupoDeRisco
-        for (const objeto of arrayCenario) {
-            if (codigo === objeto.codigo) {
-                return {
-                    mensagens: objeto.mensagem,
-                    quickReplies: {
-                        title: 'Posso ajudar em mais algo?',
-                        buttons: ["Sim, mostrar Menu", "Obrigado, era só isso"]
-                    }
+
+}
+async function diagnostico(req) {
+    const codigo = await fazCodigoDiagnostico(req);
+    let arrayCenario = [];
+    let cenario = codigo.slice(0,-3);
+    (cenario === '1') ? arrayCenario = respostas.cenarioComGrupoDeRisco: arrayCenario = respostas.cenarioSemGrupoDeRisco
+    for (const objeto of arrayCenario) {
+        if (codigo === objeto.codigo) {
+            return {
+                mensagens: objeto.mensagem,
+                quickReplies: {
+                    title: 'Posso ajudar em mais algo?',
+                    buttons: ["Sim, mostrar Menu", "Obrigado, era só isso"]
                 }
             }
         }
-    },
-    async atualizarDados(req,dados){
-        try {
-            const session = req.body.session.slice(38);
-            await axios({
-                method: "put",
-                url: `https://809b-45-237-255-227.ngrok.io/bd/atualizar/${session}`,
-                data: dados
-            })
-            return true;
-        } catch (erro) {
-            console.error(erro);
-            return false;
-        }
     }
-
+}
+async function atualizarDados(req,dados){
+    try {
+        const session = req.body.session.slice(38);
+        await axios({
+            method: "put",
+            url: `https://809b-45-237-255-227.ngrok.io/bd/atualizar/${session}`,
+            data: dados
+        })
+        return true;
+    } catch (erro) {
+        console.error(erro);
+        return false;
+    }
 }

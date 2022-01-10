@@ -1,6 +1,5 @@
 module.exports = {
-    sugestaoBotoes : ["Sim, mostrar Menu", "Não, era só isso"],
-    contagio() {
+    'CT-contagio' : () => {
         return {
             mensagens: [`- Tempo de incubação do vírus
             \n- Formas de contágio`],
@@ -10,7 +9,7 @@ module.exports = {
             }
         }
     },
-    incubacao() {
+    'CT-incubacao': () => {
         return {
             mensagens: [`O "período de incubação" significa o tempo entre a contração do vírus e o início dos sintomas da doença.
             \nEsse tempo varia de 1 a 14 dias, mas geralmente pode ocorrer em torno de 5 dias. 
@@ -18,18 +17,18 @@ module.exports = {
             ],
             quickReplies: {
                 title: 'Posso ajudar em algo mais?',
-                buttons: this.sugestaoBotoes
+                buttons: ["Sim, mostrar Menu", "Não, era só isso"]
             }
         }
     },
-    formasContagio() {
+    'CT-formasContagio':()=> {
         return {
             mensagens: [`A transmissão do vírus acontece por via respiratória, através de gotículas que se espalham pelo ar quando uma pessoa que está infectada tosse ou espirra. 
             \nTambém é possível se contaminar por contato pessoal com as secreções infectadas, como: gotículas de saliva; espirro; tosse; catarro; contato pessoal próximo, como toque ou aperto de mão; e o contato com roupas e objetos contaminados.`
             ],
             quickReplies: {
                 title: 'Posso ajudar em algo mais?',
-                buttons: this.sugestaoBotoes
+                buttons: ["Sim, mostrar Menu", "Não, era só isso"]
             }
 
         }

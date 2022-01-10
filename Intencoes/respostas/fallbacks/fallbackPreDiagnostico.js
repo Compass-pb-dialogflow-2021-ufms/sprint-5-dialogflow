@@ -1,7 +1,7 @@
 const encerramento = require('../respostasEncerramento');
 const numerosFallback = require('./numeroFallback');
 module.exports = {
-    fallbackGrupoDeRisco() {
+    'PD-fallbackGrupoDeRisco': () => {
         return {
             mensagens: [`Não entendi. Para continuarmos, você precisa me indicar se pertence a algum  desses grupos citados:`,
                 `- Pessoas com mais de 60 anos; 
@@ -15,7 +15,7 @@ module.exports = {
             }
         }
     },
-    fallbackGrupoDeRisco2(req) {
+    'PD-fallbackGrupoDeRiscoDois': (req) => {
         let  numeroFallback  = numerosFallback(req);
         if (numeroFallback < 3) {
             return {
@@ -31,7 +31,7 @@ module.exports = {
             }
         }
     },
-    fallbackFebre() {
+    'PD-fallbackFebre': () => {
         return {
             quickReplies: {
                 title: `Não entendi. Para continuarmos, você precisa me indicar se teve ou não, febre maior que 37,8ºC nos últimos 7 dias.`,
@@ -39,7 +39,7 @@ module.exports = {
             }
         }
     },
-    fallbackFebre2(req) {
+    'PD-fallbackFebre2': (req) => {
         let  numeroFallback  = numerosFallback(req);
         if (numeroFallback < 3) {
             return {
@@ -54,7 +54,7 @@ module.exports = {
             }
         }
     },
-    fallbackSintomasLeves() {
+    'PD-fallbackSintomasLeves': () => {
         return {
             mensagens : ['Não entendi.'],
             quickReplies: {
@@ -63,7 +63,7 @@ module.exports = {
             }
         }
     },
-    fallbackSintomasLeves2(req) {
+    'PD-fallbackSintomasLeves2': (req) => {
         let  numeroFallback  = numerosFallback(req);
         if (numeroFallback < 3) {
             return {
@@ -78,7 +78,7 @@ module.exports = {
             }
         }
     },
-    fallbackQtdSintomasLeves() {
+    'PD-fallbackQtdSintomasLeves': () => {
         return {
             mensagens: ['Não entendi. Para continuarmos, você precisa me falar quantos desses sintomas citados você teve',
                 `\n- Coriza ou nariz entupido;
@@ -96,7 +96,7 @@ module.exports = {
             }
         }
     },
-    fallbackQtdSintomasLeves2(req) {
+    'PD-fallbackQtdSintomasLeves2': (req) => {
         let  numeroFallback  = numerosFallback(req);
         if (numeroFallback < 3) {
             return {
@@ -111,7 +111,7 @@ module.exports = {
             }
         }
     },
-    fallbackRemedio() {
+    'PD-fallbackRemedio': ()=> {
         return {
             quickReplies: {
                 title: 'Não entendi. Para continuarmos, você precisa me indicar se usou ou não algum medicamento',
@@ -119,7 +119,7 @@ module.exports = {
             }
         }
     },
-    fallbackRemedio2(req) {
+    'PD-fallbackRemedio2': (req) => {
         let  numeroFallback  = numerosFallback(req);
         if (numeroFallback < 3) {
             return {
@@ -134,7 +134,7 @@ module.exports = {
             }
         }
     },
-    fallbackMelhora() {
+    'PD-fallbackMelhora': () => {
         return {
             quickReplies: {
                 title: 'Não entendi. Para continuarmos, você precisa me indicar se melhorou ou não de todos os sintomas com o medicamento.',
@@ -142,7 +142,7 @@ module.exports = {
             }
         }
     },
-    fallbackMelhora2(req) {
+    'PD-fallbackMelhora2': (req) => {
         let  numeroFallback  = numerosFallback(req);
         if (numeroFallback < 3) {
             return {
@@ -157,7 +157,7 @@ module.exports = {
             }
         }
     },
-    fallbackSintomasGraves() {
+    'PD-fallbackSintomasGraves': ()=> {
         return {
             mensagens: [`
             \n- Convulsão ou Vômito;
@@ -171,7 +171,7 @@ module.exports = {
         }
 
     },
-    fallbackSintomasGraves2(req) {
+    'PD-fallbackSintomasGraves2':(req) => {
         let  numeroFallback  = numerosFallback(req);
         if (numeroFallback < 3) {
             return {
