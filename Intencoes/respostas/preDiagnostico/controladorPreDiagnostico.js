@@ -19,13 +19,13 @@ module.exports = {
         try {
             const {data} = await axios({
                 method: "PUT",
-                url: `https://809b-45-237-255-227.ngrok.io/bd/diagnostico/${session}`,
+                url: `https://projeto-sprint-five-three.herokuapp.com/bd/diagnostico/${session}`,
                 data: dados
             });
             if (data === null) {
                 axios({
                     method: "post",
-                    url: `https://809b-45-237-255-227.ngrok.io/bd/diagnostico`,
+                    url: `https://projeto-sprint-five-three.herokuapp.com/bd/diagnostico`,
                     data: dados
                 });
 
@@ -116,7 +116,7 @@ async function fazCodigoDiagnostico(req) {
     let codigo = '';
     try {
         const session = req.body.session.slice(38);
-        const {data} = await axios(`https://809b-45-237-255-227.ngrok.io/bd/diagnostico/dados/${session}`)
+        const {data} = await axios(`https://projeto-sprint-five-three.herokuapp.com/bd/diagnostico/dados/${session}`)
         data.grupoDeRisco ? codigo += `1` : codigo += `0`;
 
         data.febre ? codigo += `1` : codigo += `0`;
@@ -161,7 +161,7 @@ async function atualizarDados(req,dados){
         const session = req.body.session.slice(38);
         await axios({
             method: "put",
-            url: `https://809b-45-237-255-227.ngrok.io/bd/atualizar/${session}`,
+            url: `https://projeto-sprint-five-three.herokuapp.com/bd/atualizar/${session}`,
             data: dados
         })
         return true;
