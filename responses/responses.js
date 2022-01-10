@@ -3,6 +3,17 @@ const responses =
     aboutMe: ['Esse bot surgiu como uma demanda gerada por um exercício a ser realizado durante a quinta sprint do meu programa de bolsas na Compass UOL. A ideia do exercício é um bot que consiga informar o usuário sobre o vírus SARS-CoV-2.\n\n' + 
     'Quem fez ele -> O desenvolvedor responsável por esse bot foi o Horiel Corrêa Costa. No momento que ele fez, ele era um aluno de segundo semestre de faculdade e sua experiência profissional se resumia a 2 meses de estágio. Esse foi o sexto bot que ele fez, portanto, tenha paciência com com ele :)\n\nPosso te ajudar com mais alguma coisa?'],
 
+
+    agree: {
+        basicprevention: 'mainMenu',
+        
+        healthprofessionalprevention: 'mainMenu',
+
+        formsofcontagion: 'mainMenu',
+
+        incubationperiod: 'mainMenu'
+    },
+
     
     basicPrevention: ['Vou citar alguns cuidados básicos que reduzem o risco geral de contrair ou transmitir infecções respiratórias agudas, incluindo o coronavírus:' +
     '\n\n🤚 Lave com frequência as mãos até a altura dos punhos , com água e sabão, ou álcool em gel 70%;' +

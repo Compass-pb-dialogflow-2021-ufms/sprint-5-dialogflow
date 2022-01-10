@@ -13,6 +13,22 @@ const intents =
     'AboutMe': (_, res) => {res.send(formattedMessage(responses.aboutMe))},
 
 
+    'Agree': (req, res) => {
+        const contextParameters = getContextName(req)
+        let contextName = contextParameters[0]
+        console.log(contextName)
+    
+    
+        if(typeof contextParameters == 'string' || contextName == 'default')
+            res.send(eventTrigger('fallback'))
+        else
+        {
+            contextName = (contextName.split('-'))[0]
+            res.send(eventTrigger(responses.agree[contextName]))
+        }
+    },
+
+
     'BasicPrevention': (_, res) => {
         const quickRepliesOptions = ['Sim', 'Não, era só isso']
         res.send(messageWithQuickReplies(responses.basicPrevention, quickRepliesOptions))
@@ -106,7 +122,7 @@ const intents =
         const queryText = req.body.queryResult.queryText
     
     
-        if(queryText != 'mainMenu' || userInput != '')
+        if(queryText != 'mainMenuWelcome' || userInput != '')
             message = messageWithQuickReplies([responses.mainMenu[0] + responses.mainMenu[randomIntFromInterval(1, 2)]], quickRepliesOptions)
         else
             message = messageWithQuickReplies([responses.welcome[1], responses.mainMenu[0] + responses.mainMenu[randomIntFromInterval(1, 2)]], quickRepliesOptions)
@@ -172,7 +188,7 @@ const intents =
             res.send(message)
         }
         else
-            res.send(eventTrigger('mainMenu'))
+            res.send(eventTrigger('mainMenuWelcome'))
     }
 }
 
