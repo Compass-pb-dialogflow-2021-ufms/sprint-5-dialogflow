@@ -28,3 +28,4 @@ Para iniciar a aplicação, deve-se possuir o Node.JS na maquina.
 ## Rota e Link do Bot
 <li>Link do bot no telegram: t.me/compasscorona_bot
 <li>Link da api no glitch: https://delirious-lead-catshark.glitch.me/botcorona 
+<li>Link da api no Heroku: https://compass-coronabot.herokuapp.com/botcorona
