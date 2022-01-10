@@ -1,19 +1,22 @@
-const { responseBuilder, getNoMatchCounter } = require("../util/index")
+const { responseBuilder, eventCall, getNoMatchCounter } = require("../util/index")
 
 const messengerController = require('./messengerController')
 
 const defaultFallbackIntent = (req) => {
     const texts = []
+    const event = {}
 
     const contexts = req.body.queryResult.outputContexts
     const session = req.body.session
     const noMatchCounter = getNoMatchCounter(contexts, session)
     if (noMatchCounter === 1) {
-        texts.push( messengerController.selectMessage('Prevention & Contagion Fallback First Interaction Text')[0] )
-        texts.push( messengerController.selectMessage('Prevention & Contagion Fallback First Interaction Text')[1] )
+        texts.push( messengerController.selectMessage('Fallback First Interaction Text') )
     } else if (noMatchCounter === 2) {
-        texts.push( messengerController.selectMessage('Prevention & Contagion Fallback Second Interaction Text')[0] )
-        texts.push( messengerController.selectMessage('Prevention & Contagion Fallback Second Interaction Text')[1] )
+        texts.push( messengerController.selectMessage('Fallback Second Interaction Text') )
+    } else {
+        event.name = 'FallbackFarewellCall'
+
+        return eventCall(event)
     }
 
     return responseBuilder(texts)
@@ -29,6 +32,7 @@ const contagionIntentFallback = (req) => {
 
 const preventionNContagionFallback = (req) => {
     const texts = []
+    const event = {}
 
     const contexts = req.body.queryResult.outputContexts
     const session = req.body.session
@@ -39,6 +43,10 @@ const preventionNContagionFallback = (req) => {
     } else if (noMatchCounter === 2) {
         texts.push( messengerController.selectMessage('Prevention & Contagion Fallback Second Interaction Text')[0] )
         texts.push( messengerController.selectMessage('Prevention & Contagion Fallback Second Interaction Text')[1] )
+    } else {
+        event.name = 'PreventionNContagionFallbackFarewellCall'
+
+        return eventCall(event)
     }
 
     return responseBuilder(texts)
@@ -47,6 +55,7 @@ const preventionNContagionFallback = (req) => {
 const riskGroupIntentFallback = (req) => {
     const texts = []
     const quickReplies = {}
+    const event = {}
 
     const contexts = req.body.queryResult.outputContexts
     const session = req.body.session
@@ -61,6 +70,10 @@ const riskGroupIntentFallback = (req) => {
 
         quickReplies.title = ( messengerController.selectMessage('Risk Groups Fallback Second Interaction Quick Replies').title )
         quickReplies.quickReplies = ( messengerController.selectMessage('Risk Groups Fallback Second Interaction Quick Replies').quickReplies )
+    } else {
+        event.name = 'PreDiagnosticFallbackFarewellCall'
+
+        return eventCall(event)
     }
 
     return responseBuilder(texts, quickReplies)
@@ -69,6 +82,7 @@ const riskGroupIntentFallback = (req) => {
 const feverIntentFallback = (req) => {
     const texts = []
     const quickReplies = {}
+    const event = {}
 
     const contexts = req.body.queryResult.outputContexts
     const session = req.body.session
@@ -83,6 +97,10 @@ const feverIntentFallback = (req) => {
 
         quickReplies.title = messengerController.selectMessage('Fever Quick Replies').title
         quickReplies.quickReplies = messengerController.selectMessage('Fever Quick Replies').quickReplies
+    } else {
+        event.name = 'PreDiagnosticFallbackFarewellCall'
+
+        return eventCall(event)
     }
 
     return responseBuilder(texts, quickReplies)
@@ -91,6 +109,7 @@ const feverIntentFallback = (req) => {
 const mildSymptomsFallback = (req) => {
     const texts = []
     const quickReplies = {}
+    const event = {}
 
     const contexts = req.body.queryResult.outputContexts
     const session = req.body.session
@@ -105,6 +124,10 @@ const mildSymptomsFallback = (req) => {
 
         quickReplies.title = messengerController.selectMessage('Mild Symptoms Fallback First Interaction Quick Replies').title
         quickReplies.quickReplies = messengerController.selectMessage('Mild Symptoms Fallback First Interaction Quick Replies').quickReplies
+    } else {
+        event.name = 'PreDiagnosticFallbackFarewellCall'
+
+        return eventCall(event)
     }
 
     return responseBuilder(texts, quickReplies)
@@ -113,6 +136,7 @@ const mildSymptomsFallback = (req) => {
 const drugsTakenFallback = (req) => {
     const texts = []
     const quickReplies = {}
+    const event = {}
 
     const contexts = req.body.queryResult.outputContexts
     const session = req.body.session
@@ -127,6 +151,37 @@ const drugsTakenFallback = (req) => {
 
         quickReplies.title = messengerController.selectMessage('Drugs Taken Fallback Second Interaction Quick Replies').title
         quickReplies.quickReplies = messengerController.selectMessage('Drugs Taken Fallback Second Interaction Quick Replies').quickReplies
+    } else {
+        event.name = 'PreDiagnosticFallbackFarewellCall'
+
+        return eventCall(event)
+    }
+
+    return responseBuilder(texts, quickReplies)
+}
+
+const gotWellFallback = (req) => {
+    const texts = []
+    const quickReplies = {}
+    const event = {}
+
+    const contexts = req.body.queryResult.outputContexts
+    const session = req.body.session
+    const noMatchCounter = getNoMatchCounter(contexts, session)
+    if (noMatchCounter === 1) {
+        texts.push( messengerController.selectMessage('Got Well Fallback First Interaction Text') )
+
+        quickReplies.title = messengerController.selectMessage('Got Well Fallback First Interaction Quick Replies').title
+        quickReplies.quickReplies = messengerController.selectMessage('Got Well Fallback First Interaction Quick Replies').quickReplies
+    } else if (noMatchCounter === 2) {
+        texts.push( messengerController.selectMessage('Got Well Fallback Second Interaction Text') )
+
+        quickReplies.title = messengerController.selectMessage('Got Well Fallback Second Interaction Quick Replies').title
+        quickReplies.quickReplies = messengerController.selectMessage('Got Well Fallback Second Interaction Quick Replies').quickReplies
+    } else {
+        event.name = 'PreDiagnosticFallbackFarewellCall'
+
+        return eventCall(event)
     }
 
     return responseBuilder(texts, quickReplies)
@@ -135,6 +190,7 @@ const drugsTakenFallback = (req) => {
 const severeSymptomsFallback = (req) => {
     const texts = []
     const quickReplies = {}
+    const event = {}
 
     const contexts = req.body.queryResult.outputContexts
     const session = req.body.session
@@ -147,6 +203,10 @@ const severeSymptomsFallback = (req) => {
     } else if (noMatchCounter === 2) {
         quickReplies.title = messengerController.selectMessage('Severe Symptoms Fallback Second Interaction Quick Replies').title
         quickReplies.quickReplies = messengerController.selectMessage('Severe Symptoms Fallback Second Interaction Quick Replies').quickReplies
+    } else {
+        event.name = 'PreDiagnosticFallbackFarewellCall'
+
+        return eventCall(event)
     }
 
     return responseBuilder(texts, quickReplies)
@@ -160,5 +220,6 @@ module.exports = {
     , feverIntentFallback
     , mildSymptomsFallback
     , drugsTakenFallback
+    , gotWellFallback
     , severeSymptomsFallback
 }
