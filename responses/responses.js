@@ -39,6 +39,17 @@ const responses =
     'Qual a sua dúvida?'],
 
 
+    desagree: {
+        basicprevention: 'goodbye',
+        
+        healthprofessionalprevention: 'goodbye',
+
+        formsofcontagion: 'goodbye',
+
+        incubationperiod: 'goodbye'
+    },
+
+
     fallback: {
         default: ['Desculpe, não consegui entender.',
 

@@ -47,6 +47,23 @@ const intents =
     },
 
 
+    'Desagree': (req, res) => {
+        const contextParameters = getContextName(req)
+        let contextName = contextParameters[0]
+        console.log(contextName)
+    
+    
+        if(typeof contextParameters == 'string' || contextName == 'default')
+            res.send(eventTrigger('fallback'))
+        else
+        {
+            contextName = (contextName.split('-'))[0]
+            res.send(eventTrigger(responses.desagree[contextName]))
+        }
+    },
+
+
+
     'Fallback': (req, res) => {
         const contextParameters = getContextName(req)
         let contextName = contextParameters[0]
@@ -88,7 +105,7 @@ const intents =
         else
             greeting = 'uma boa noite'
         
-        if(queryText != 'goodbye' || userInput != '')
+        if(queryText != 'goodbyeFallback' || userInput != '')
             message = formattedMessage([responses.goodbye[0], responses.goodbye[1](greeting)])
         else
             message = formattedMessage([responses.thirdTimeInFallback.prevention, responses.goodbye[0], responses.goodbye[1](greeting)])
@@ -173,7 +190,7 @@ const intents =
             if(contextName == 'default')
                 res.send(formattedMessage(responses.thirdTimeInFallback.default))
             else
-                res.send(eventTrigger('goodbye'))
+                res.send(eventTrigger('goodbyeFallback'))
         }
     },
 
