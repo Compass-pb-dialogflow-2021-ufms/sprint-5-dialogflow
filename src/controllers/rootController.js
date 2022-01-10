@@ -1,3 +1,6 @@
+const { contextExists } = require('../util/index')
+
+const usersController = require('./usersController')
 const welcomeController = require('./welcomeController')
 const fallbackController = require('./fallbackController')
 const farewellController = require('./farewellController')
@@ -10,7 +13,7 @@ const resultController = require('./resultController')
 const FAQController = require('./FAQController')
 const yesNoController = require('./yesNoController')
 
-const selectIntent = (intent, userId, req) => ({
+const selectIntent = (intent, User, userId, req) => ({
       'Default Welcome Intent': welcomeController.defaultWelcomeIntent(userId)
     , 'Default Fallback Intent': fallbackController.defaultFallbackIntent(req)
     , 'Prevention Intent - fallback': fallbackController.preventionIntentFallback(req)
@@ -39,17 +42,67 @@ const selectIntent = (intent, userId, req) => ({
     , 'Drugs Taken Intent': preDiagnosticController.drugsTakenIntent(req)
     , 'Got Well Intent': preDiagnosticController.gotWellIntent()
     , 'Severe Symptoms Intent': preDiagnosticController.severeSymptomsIntent(req)
-    , 'Result Intent': resultController.resultIntent()
+    , 'Result Intent': resultController.resultIntent(User)
     , 'FAQ Intent': FAQController.FAQIntent()
     , 'Yes Intent': yesNoController.yesIntent(req)
     , 'No Intent': yesNoController.noIntent(req)
 }[intent] || null)
 
+const setPreDiagnosticData = async (intent, userId, req) => {
+    const contexts = req.body.queryResult.outputContexts
+    const session = req.body.session
+
+    if (intent === 'Fever Intent') {
+        const riskGroupsResponse = req.body.queryResult.parameters.response
+            , riskGroupsBoolResponse = req.body.queryResult.parameters.boolResponse
+        if (riskGroupsResponse === 'Pertenço' || riskGroupsBoolResponse === 'Sim') {
+            await usersController.setRiskGroups(userId, true)
+        } else {
+            await usersController.setRiskGroups(userId, false)
+        }
+    } else if (intent === 'Yes Intent') {
+        const feverResponse = req.body.queryResult.parameters.feverResponse
+        const booleanResponse = req.body.queryResult.parameters.booleanResponse
+        const severeSymptomsResponse = req.body.queryResult.parameters.severeSymptomsResponse
+
+        if (contextExists('fevercontext', session, contexts) && (feverResponse || booleanResponse)) {
+            await usersController.setFever(userId, true)
+        } else if (contextExists('severesymptomscontext', session, contexts) && (severeSymptomsResponse || booleanResponse)) {
+            await usersController.setSevereSymptoms(userId, true)
+        }
+    } else if (intent === 'No Intent') {
+        const feverResponse = req.body.queryResult.parameters.feverResponse
+        const booleanResponse = req.body.queryResult.parameters.booleanResponse
+        const severeSymptomsResponse = req.body.queryResult.parameters.severeSymptomsResponse
+
+        if (contextExists('fevercontext', session, contexts) && (feverResponse || booleanResponse)) {
+            await usersController.setFever(userId, false)
+        } else if (contextExists('severesymptomscontext', session, contexts) && (severeSymptomsResponse || booleanResponse)) {
+            await usersController.setSevereSymptoms(userId, false)
+        }
+    } else if (intent === 'Mild Symptoms Intent - Followup') {
+        const mildSymptomsResponse = req.body.queryResult.parameters.response
+        const mildSymptoms = req.body.queryResult.parameters.symptoms ? req.body.queryResult.parameters.symptoms.length : 0
+
+        if (mildSymptomsResponse === 'Nenhum') {
+            await usersController.setMildSymptoms(userId, 'Sem sintomas')
+        } else if (mildSymptomsResponse === 'Mais de três' || mildSymptoms > 3) {
+            await usersController.setMildSymptoms(userId, 'Muitos sintomas')
+        } else {
+            await usersController.setMildSymptoms(userId, 'Poucos sintomas')
+        }
+    }
+}
+
 const main = async (req, res) => {
     const intent = req.body.queryResult.intent.displayName
     const userId = req.body.originalDetectIntentRequest.payload.data.source.userId
+    const User = await usersController.getUser(userId)
 
-    const response = await selectIntent(intent, userId, req)
+    // Coleta da dados da triagem.
+    setPreDiagnosticData(intent, userId, req)
+
+    const response = await selectIntent(intent, User, userId, req)
     res.send(response)
 }
 
