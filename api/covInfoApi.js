@@ -79,19 +79,37 @@ function helpUser(req, res) {
 }
 
 async function farewellUser(req, res) {
+    let fallbackAnswer = '';
 
-    if (req.body.originalDetectIntentRequest.source === 'linse')
+    console.log(req.body.queryResult.outputContexts[1])
+
+    if (req.body.originalDetectIntentRequest.source === 'line')
         await dbInfoCovid.removeUserMesseId(req.body.originalDetectIntentRequest.payload.data.source.userId);
 
+    if (req.body.queryResult.outputContexts[1]) {
+        if (req.body.queryResult.outputContexts[1].name.includes('/encerrafluxoprevencaofallback')) {
+            fallbackAnswer = 'Desculpe, não consegui identificar a sua dúvida. Vamos parar por aqui'
+        }
+        if (req.body.queryResult.outputContexts[1].name.includes('/encerrafallbackpadrao')) {
+            fallbackAnswer = 'Desculpe, realmente não consegui entender o que você disse. Vamos parar por aqui'
+        }
+    }
 
     return res.send({
         "fulfillmentMessages": [{
                 "text": {
                     "text": [
-                        `Se você precisar de mais informações sobre o Coronavírus, pode me chamar.\n\nE caso sentir que se enquadra em alguns dos sintomas, ligue para o Disque Saúde 136! `,
+                        `${fallbackAnswer}`,
                     ]
                 },
 
+            },
+            {
+                "text": {
+                    "text": [
+                        `Se você precisar de mais informações sobre o Coronavírus, pode me chamar.\n\nE caso sentir que se enquadra em alguns dos sintomas, ligue para o Disque Saúde 136!`
+                    ]
+                },
             },
             {
                 "text": {
@@ -301,18 +319,6 @@ function askPreDiagnosisSecond(req, res) {
     })
 }
 
-function defaultFallBack(req, res) {
-    return res.send({
-        "fulfillmentMessages": [{
-            "text": {
-                "text": [
-                    `Desculpe, não consegui entender.`,
-                ]
-            }
-        }]
-    })
-}
-
 function askRiskGroup(req, res) {
     return res.send({
         "fulfillmentMessages": [{
@@ -498,6 +504,76 @@ function showResult(req, res) {
     })
 }
 
+function preventionFallback(req, res) {
+    return res.send({
+        "fulfillmentMessages": [{
+                "text": {
+                    "text": [
+                        `Desculpe, algumas perguntas ainda não consigo te responder'.`
+                    ]
+                },
+            },
+            {
+                "text": {
+                    "text": [
+                        `Me diga, qual a sua dúvida relacionada ao Coronavírus?`
+                    ]
+                },
+            },
+
+        ]
+    })
+}
+
+function preventionFallbackSecondTry(req, res) {
+    return res.send({
+        "fulfillmentMessages": [{
+                "text": {
+                    "text": [
+                        `Ainda não consegui identificar a sua dúvida.\nVocê pode me perguntar sobre prevenção, contágio ou realizar um pré-diagnóstico, por exemplo.`
+                    ]
+                },
+            },
+            {
+                "text": {
+                    "text": [
+                        `Me conta, qual a sua duvida?`
+                    ]
+                },
+            },
+
+        ]
+    })
+}
+
+function defaultFallBack(req, res) {
+
+    const fallbackAnswers = ['Desculpe, não consegui entender', 'Eu não entendi o que você disse']
+
+
+    return res.send({
+        "fulfillmentMessages": [{
+            "text": {
+                "text": [
+                    `${fallbackAnswers[Math.floor(Math.random() * 2)]}`,
+                ]
+            }
+        }]
+    })
+}
+
+function defaultFallBackSecondTry(req, res) {
+    return res.send({
+        "fulfillmentMessages": [{
+            "text": {
+                "text": [
+                    `Eu ainda não entendi o que você disse.\nVamos tentar novamente...`,
+                ]
+            }
+        }]
+    })
+}
+
 module.exports = {
     welcomeUser,
     helpUser,
@@ -523,5 +599,8 @@ module.exports = {
     askStrongSymptoms,
     redirectToResult,
     showResult,
-    defaultFallBack
+    preventionFallback,
+    preventionFallbackSecondTry,
+    defaultFallBack,
+    defaultFallBackSecondTry
 }

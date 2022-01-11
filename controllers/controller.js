@@ -104,8 +104,24 @@ module.exports = function (req, res) {
         case 'MenuPrincipal':
             return covInfoApi.showMainMenu(req, res);
 
+        case 'FallbackFluxoGeral':
+            return covInfoApi.preventionFallback(req, res);
+
+        case 'FallbackGeralTentativaDois':
+            return covInfoApi.preventionFallbackSecondTry(req, res);
+
+        case 'FallbackGeralUltima':
+            return covInfoApi.redirectToEndConversation(req, res);
+
         case 'FallbackPadrao':
-            return covInfoApi.defaultFallBack(req, res)
+            return covInfoApi.defaultFallBack(req, res);
+
+        case 'FallbackPadraoTentativaDois':
+            return covInfoApi.defaultFallBackSecondTry(req, res);
+
+        case 'FallbackPadraoUltima':
+            return covInfoApi.redirectToEndConversation(req, res);
+
         default:
     }
 }
