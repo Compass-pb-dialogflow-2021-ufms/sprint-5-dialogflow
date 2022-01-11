@@ -77,7 +77,7 @@ const intents =
             const context = formattedContext(sessionId, contextName)
             contextName = (contextName.split('-'))[0]
 
-            const needQuickReplies = ['riskgroup']
+            const needQuickReplies = ['riskgroup', 'fever', 'minorsymptoms']
             if(needQuickReplies.includes(contextName))
                 message = messageWithQuickReplies([responses.fallback[contextName][0], responses.fallback[contextName][1]], responses.fallback[contextName][2])
             else
@@ -101,12 +101,23 @@ const intents =
         const nameOfEvent = req.body.queryResult.queryText
         const quickRepliesOptions = ['Sim', 'Não']
         let adverb = ''
-        console.log(nameOfEvent)
 
         if(nameOfEvent == 'feverNo')
             adverb = ' não'
         
         res.send(messageWithQuickReplies([responses.fever[0](adverb), responses.fever[1]], quickRepliesOptions))
+    },
+
+
+    'FeverNo': (_, res) => {
+        //dataBase
+        res.send(eventTrigger('minorSymptoms'))
+    },
+
+
+    'FeverYes': (_, res) => {
+        //dataBase
+        res.send(eventTrigger('minorSymptoms'))
     },
 
 
@@ -151,6 +162,27 @@ const intents =
     },
 
 
+    'HowManyMinorSymptoms': (req, res) => {
+        const symptomsNumber = req.body.queryResult.parameters.number
+
+        if(symptomsNumber == '' || symptomsNumber == 0)
+        {
+            //dataBase
+            res.send(eventTrigger('severeSymptoms'))
+        }
+        else if(symptomsNumber < 4)
+        {
+            //dataBase
+            res.send(eventTrigger('takingMedicineFewSymptoms'))
+        }
+        else
+        {
+            //dataBase
+            res.send(eventTrigger('takingMedicine'))
+        }
+    },
+
+
     'IncubationPeriod': (_, res) => {
         const quickRepliesOptions = ['Sim', 'Não, era só isso']
         res.send(messageWithQuickReplies(responses.incubationPeriod, quickRepliesOptions))
@@ -170,6 +202,12 @@ const intents =
             message = messageWithQuickReplies([responses.welcome[1], responses.mainMenu[0] + responses.mainMenu[randomIntFromInterval(1, 2)]], quickRepliesOptions)
         
         res.send(message)    
+    },
+
+
+    'MinorSymptoms': (_, res) => {
+        const quickRepliesOptions = ['Nenhum', '1', '2', '3', '4 ou mais sintomas']
+        res.send(messageWithQuickReplies(responses.minorSymptoms, quickRepliesOptions))
     },
 
 
@@ -222,7 +260,7 @@ const intents =
             const context = formattedContext(sessionId, contextName)
             contextName = (contextName.split('-'))[0]
 
-            const needQuickReplies = ['riskgroup']
+            const needQuickReplies = ['riskgroup', 'fever', 'minorsymptoms']
             if(needQuickReplies.includes(contextName))
                 message = messageWithQuickReplies([responses.secondTimeInFallback[contextName][0], responses.secondTimeInFallback[contextName][1]], responses.secondTimeInFallback[contextName][2])
             else
@@ -238,6 +276,30 @@ const intents =
             message.outputContexts = context.outputContexts
             res.send(message) 
         }
+    },
+
+
+    'SevereSymptoms': (_, res) => {
+        const quickRepliesOptions = ['Sim', 'Não']
+        res.send(messageWithQuickReplies(responses.severeSymptoms, quickRepliesOptions))
+    },
+
+
+    'TakingMedicine': (req, res) => {
+        const nameOfEvent = req.body.queryResult.queryText
+        const quickRepliesOptions = ['Sim', 'Não']
+        let adverb = 'poucos'
+
+        if(nameOfEvent == 'takingMedicine')
+            adverb = 'vários'
+        
+        res.send(messageWithQuickReplies([responses.takingMedicine[0](adverb), responses.takingMedicine[1]], quickRepliesOptions))
+    },
+
+
+    'test': (req, res) => {
+        console.log(req.body.queryResult)
+        res.send(formattedMessage(['oi']))
     },
 
 

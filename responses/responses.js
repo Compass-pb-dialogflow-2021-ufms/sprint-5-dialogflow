@@ -76,7 +76,26 @@ const responses =
         '\n🤒 Pessoas com doenças crônicas (como: Diabetes, doenças cardiovasculares ou pulmonares);'+ 
         '\n💊 Pessoas em tratamento contra o câncer.',
         
-        ['Pertenço', 'Não pertenço']]
+        ['Pertenço', 'Não pertenço']],
+
+        fever: ['Não entendi.',
+        
+        'Para continuarmos, você precisa me indicar se teve ou não febre maior que 37,8°C nos últimos 7 dias. 🌡',
+        
+        ['Tive febre', 'Não tive febre']],
+
+        minorsymptoms: ['Não entendi. Para continuarmos, você precisa me indicar se apresentou ou não algum desses sintomas citados',
+        
+        '-Coriza ou nariz entupido;' +
+        '\n-Cansaço;' +
+        '\n-Dor de cabeça;' +
+        '\n-Dores no corpo ou abdominais;' +
+        '\n-Dor de garganta;' +
+        '\n-Diarréia ou mal estar;' +
+        '\n-Tosse;' +
+        '\n-E perda do olfato ou paladar.',
+        
+        ['Nenhum', '1', '2', '3', '4 ou mais sintomas']]
     },
 
 
@@ -111,6 +130,11 @@ const responses =
     '\n\nComo posso te ajudar?'],
 
 
+    howManyMinorSymptoms: {
+        
+    },
+
+
     incubationPeriod: ['O "período de incubação" significa o tempo da contração do vírus e o início dos sintomas da doença.' +
     '\n\nEsse tempo varia de 1 a 14 dias, mas geralmente pode ocorrer em torno de 5 dias.' +
     '\n\n⚠ No entanto, dados prelimires do Coronavírus sugerem que a transmissão possa ocorrer também mesmo sem o aparecimento de sinais e sintomas.',
@@ -123,6 +147,18 @@ const responses =
     '\n\nSobre qual assunto quer saber?',
     
     '\n\nComo posso te ajudar?'],
+
+
+    minorSymptoms: ['A seguir vou citar alguns sintomas e gostaria que você me informasse se teve algum deles. E se sim, quantos sentiu.',
+
+    '-Coriza ou nariz entupido;' +
+    '\n-Cansaço;' +
+    '\n-Dor de cabeça;' +
+    '\n-Dores no corpo ou abdominais;' +
+    '\n-Dor de garganta;' +
+    '\n-Diarréia ou mal estar;' +
+    '\n-Tosse;' +
+    '\n-E perda do olfato ou paladar.' ],
 
 
     preDiagnosis: ['Vou te fazer algumas perguntas relacionadas aos sintomas do Coronavírus.' +
@@ -166,8 +202,33 @@ const responses =
         
         'Você pertence a algum dos grupos citados?',
         
-        ['Sim', 'Não']]
+        ['Sim', 'Não']],
+
+        fever: ['Desculpa, ainda não consegui entender.',
+        
+        'Você teve febre maior que 37,8°C nos últimos 7 dias? 🌡',
+        
+        ['Sim', 'Não']],
+
+        minorsymptoms: ['Desculpa, ainda não consegui entender.',
+        
+        'Quantos dos sintomas citador você apresenta?',
+        
+        ['Nenhum', '1', '2', '3', '4 ou mais sintomas']]
     },
+
+
+    severeSymptoms: ['E você sentiu algum desses sintomas citados a seguir?',
+
+    '-Convulsão ou Vômito;' + 
+    '\n-Dificuldade para respirar;' +
+    '\n-Sensação de desmaio;' + 
+    '\n-Dedos azulados e pálidos.'],
+
+
+    takingMedicine: [(adverb) => {return `Entendi, você está com ${adverb} sintomas de gripe.`},
+    
+    'E você usou algum medicamento para tratar os sintomas? 💊'],
 
 
     thirdTimeInFallback: {
