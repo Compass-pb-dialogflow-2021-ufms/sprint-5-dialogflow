@@ -46,8 +46,8 @@
 - `Menu - Diagnostic Intents` Intents do tópico 6.1.0 do fluxo
 - `Menu - Prevention Intents` Intents do tópico 1.0.0 do fluxo
 - `Menu Only Intent`: Intent com o menu sem mensagem de boas vindas anexada.
+- Devido à quantidade de intents de fluxo, apenas as principais foram listadas.
 
 
 ## Integração
 - O bot está integrado com o LINE, e para acessar ele, é necessário entrar no aplicativo e procurar pelo ID @613ehdne, ou [escaneie o QR Code](https://qr-official.line.me/sid/L/613ehdne.png).
-- O bot também foi integrado com o Dialogflow Messenger, para acessar, basta ir em 'Integrations' após importar e configurar o bot no Dialogflow, 'Text Based -> DialogFlow Messenger -> Try it Now' e a janela aparecerá no canto inferior direito. Alternativamente, acesse o [Glitch.me](#) contendo o script do mensageiro.
