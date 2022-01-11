@@ -52,14 +52,34 @@ class Function {
           })
     }
 
-    answerContext(text, context, lifespan) { //Adds context with fulfillmentText answer
-        return this.res.json({
-            "fulfillmentText": text,
-            "outputContexts": [ {
+    answerContext(text, context, lifespan) {
+        const msg = { "fulfillmentMessages": [], "outputContexts": [] }
+        if(typeof text == 'string')
+            return this.res.json({ "fulfillmentText": text })
+        else {
+            text.forEach(text => {
+                if(typeof text.title == 'string'){ //If any of richTexts is a card
+                    msg['fulfillmentMessages'].push({
+                        card : text,
+                        "platform": getPlatform(this.req)
+                    })
+                } else {
+                    msg['fulfillmentMessages'].push({
+                        "text": {
+                            "text": [
+                                text
+                            ]
+                        },
+                        "platform": getPlatform(this.req)
+                    })
+                }
+            })
+            msg["outputContexts"].push( {
                 "name": this.req.body.session + "/contexts/" + context,
                 "lifespanCount": lifespan
-            } ]
-        })
+            })
+            return this.res.json(msg)
+        }
     }
 }
 
@@ -125,6 +145,35 @@ async function updateNickname(req, db) {
 
 //Util functions----------------------------
 
+/**
+ * 
+ * @param {String} title Takes a string max 60 characters for the card title
+ * @param {String} subtitle Takes a string max 40 characters for the card subtitle
+ * @param {Array} buttonsArray Takes an array [] with 1-4 strings for each button text. Note: Strings must have less than 26 characters on LINE
+ * @returns Card structure with title and buttons.
+ */
+function cardArray(title, subtitle, buttonsArray) {
+    const buttons = []
+        buttonsArray.forEach(text => {
+            buttons.push({
+                text: text
+            })
+        })
+
+    return [{
+        title: title,
+        subtitle : subtitle,
+        buttons
+    }]
+}
+
+function getSystemCounters(context) {
+    for (const contextId in context) {
+        if(context[contextId].name.includes("__system_counters__"))
+            return context[contextId].parameters["no-match"]
+    }
+}
+
 function symptoms(queryResult) {
     return queryResult.parameters.symptoms
 }
@@ -161,5 +210,7 @@ module.exports = {
     formatNickname,
     getNickname,
     updateNickname,
-    symptoms
+    symptoms,
+    getSystemCounters,
+    cardArray
 }

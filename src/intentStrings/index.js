@@ -47,22 +47,7 @@ class Intent {
                     `Sobre qual assunto quer saber?`,
                     `Quer saber sobre qual assunto hoje?` 
                 ]
-                secondResponse = [ {
-                    title: 'Menu Principal',
-                    subtitle: subtitleResponse[functions.randomize(subtitleResponse)],
-                    buttons: [ {
-                        text: 'Prevenção'
-                    },
-                    {
-                        text: 'Contágio'
-                    },
-                    {
-                        text: 'Pré-diagnóstico'
-                    },
-                    {
-                        text: 'Outras dúvidas'
-                    } ]
-                } ]
+                secondResponse = functions.cardArray('Menu Principal', subtitleResponse[functions.randomize(subtitleResponse)], ['Prevenção', 'Contágio', 'Pré-diagnóstico', 'Outras dúvidas'])
         return responseArray.concat(firstResponse[functions.randomize(firstResponse)], secondResponse)
     }
     
@@ -82,13 +67,26 @@ class Intent {
     }
 
     fallback() {
-        const responses = [
-            "Não consegui compreender o que você disse.",
-            "Desculpe, não entendi o que você quis dizer.",
-            `Perdão${this.nickname}, mas não consegui compreender.`,
-            `Lamento, mas não entendi.`,
-            ]
-            return responses[functions.randomize(responses)]
+        let responses = []
+        let counter = functions.getSystemCounters(this.queryResult.outputContexts)
+            if(counter == 1 || counter == 0 ) {
+                responses = [
+                    "Não consegui compreender o que você disse.",
+                    "Desculpe, não entendi o que você quis dizer.",
+                    `Perdão${this.nickname}, mas não consegui compreender.`,
+                    `Lamento, mas não entendi.`,
+                    ]
+            } else if(counter == 2) {
+                responses = [
+                    "Eu ainda não entendi o que você disse. Vamos tentar novamente..."
+                ]
+            } else {
+                responses = [
+                    "Desculpe, realmente não consegui entender o que você disse. Vamos parar por aqui. " + 
+                    "Cuide se, e não se esqueça: caso você se enquadre em alguns dos sintomas, ligue para o Disque saúde 136."
+                ]
+            }
+        return responses[functions.randomize(responses)]
     }
 
     nicknameStart() {
@@ -115,29 +113,12 @@ class Intent {
     }
 
     menuLoop() {
-        let subtitleResponse, responses
-        subtitleResponse = [
-            `Você pode tirar dúvidas comigo sobre prevenção, contágio, casos no Brasil ou realizar um pré-diagnóstico.\n\n Sobre qual assunto quer saber?`,
-            `Você pode tirar dúvidas comigo sobre prevenção, contágio, casos no Brasil ou realizar um pré-diagnóstico.\n\n Como posso lhe ajudar agora?`,
-            `Sobre qual assunto quer saber?`,
-            `Quer saber sobre qual assunto?` 
-        ]
-        responses = [ {
-                title: 'Menu Principal',
-                subtitle: subtitleResponse[functions.randomize(subtitleResponse)],
-                buttons: [ {
-                    text: 'Prevenção'
-                },
-                {
-                    text: 'Contágio'
-                },
-                {
-                    text: 'Pré-diagnóstico'
-                },
-                {
-                    text: 'Outras dúvidas'
-                } ]
-            } ]
+        let subtitleResponse = [
+                `Como posso lhe ajudar agora?`,
+                `Sobre qual assunto quer saber?`,
+                `Quer saber sobre qual assunto?` 
+            ]
+            const responses = functions.cardArray('Menu Principal', subtitleResponse[functions.randomize(subtitleResponse)], ['Prevenção', 'Contágio', 'Pré-diagnóstico', 'Outras dúvidas'])
         return responses
     }
 
@@ -146,21 +127,12 @@ class Intent {
             firstResponse = [
                 `Eu sei ótimas dicas de prevenções básica e do profissional da saúde.\n`
             ]
-            secondResponse = [ {
-                title: 'Prevenção',
-                subtitle: 'Qual a sua dúvida? Prevenção profissional ou básica?',
-                buttons: [ {
-                    text: 'Prevenção Básica'
-                },
-                {
-                    text: 'Profissional'
-                } ]
-            } ]
+            secondResponse = functions.cardArray('Prevenção', 'Qual a sua dúvida? Prevenção profissional ou básica?', ['Prevenção Básica', 'Profissional'])
         return responseArray.concat(firstResponse[functions.randomize(firstResponse)], secondResponse)
     }
 
     prevention__basic() {
-        let firstResponse, secondResponse, responseArray = []
+        let firstResponse, secondResponse, thirdResponse, responseArray = []
             firstResponse = [
                 `Vou citar alguns cuidados básicos que reduzem o risco geral de contrair ou transmitir infecções respiratórias agudas, incluindo o coronavírus: \n\n`+
                 `Lave com frequência as mãos até a altura dos punhos, com água e sabão, ou use álcool em gel 70%;\n\n`+
@@ -173,16 +145,18 @@ class Intent {
                 `Quando precisar sair de sua residência, sempre utilize máscaras caseiras feitas de tecido.`
             ]
             secondResponse = [ {
-                title: 'Prevenção Básica',
-                subtitle: 'Posso ajudar em algo mais?',
+                title: 'Proteja-se do coronavírus',
+                subtitle: 'Assista ao video informativo do Ministério da Saúde.',
+                imageUri: 'https://img.youtube.com/vi/cvdskDhw-Ps/0.jpg',
                 buttons: [ {
-                    text: 'Sim'
-                },
-                {
-                    text: 'Não, era só isso'
+                    text: 'Abrir vídeo',
+                    postback: 'https://www.youtube.com/watch?v=cvdskDhw-Ps'
                 } ]
             } ]
-        return responseArray.concat(firstResponse[functions.randomize(firstResponse)], secondResponse)
+            thirdResponse = [
+                `Posso ajudar em algo mais?`
+            ]
+        return responseArray.concat(firstResponse, secondResponse, thirdResponse)
     }
 
     prevention__professional() {
@@ -194,17 +168,8 @@ class Intent {
                 `Para o atendimento em UPA, Pronto Socorro, UTI e Unidade semi-intensiva: É importante o uso de máscaras padrão N95 ou similar; luvas descartáveis; gorro; capote cirúrgico e óculos de proteção ou protetor facial.\n\n`+
                 `Além disso, para a realização de procedimentos que gerem aerossolização de secreções respiratórias como intubação, aspiração de vias aéreas ou indução de escarro, deve ser utilizado precaução por aerossóis, com uso de máscara N95.`
             ]
-            secondResponse = [ {
-                title: 'Prevenção do Profissional',
-                subtitle: 'Posso ajudar em algo mais?',
-                buttons: [ {
-                    text: 'Sim'
-                },
-                {
-                    text: 'Não, era só isso'
-                } ]
-            } ]
-        return responseArray.concat(firstResponse[functions.randomize(firstResponse)], secondResponse)
+            secondResponse = functions.cardArray('Prevenção do Profissional', 'Posso ajudar em algo mais?', ['Sim', 'Não, era só isso'])
+        return responseArray.concat(firstResponse, secondResponse)
     }
 
     contagion() {
@@ -212,17 +177,8 @@ class Intent {
             firstResponse = [
                 `Eu posso te informar sobre as principais formas de contágio e sobre o período de incubação por coronavírus. \n`
             ]
-            secondResponse = [ {
-                title: 'Contágio',
-                subtitle: 'Qual a sua dúvida?',
-                buttons: [ {
-                    text: 'Formas de contágio'
-                },
-                {
-                    text: 'Período de incubação'
-                } ]
-            } ]
-        return responseArray.concat(firstResponse[functions.randomize(firstResponse)], secondResponse)
+            secondResponse = functions.cardArray('Contágio', 'Qual a sua dúvida?', ['Formas de contágio', 'Período de incubação'])
+        return responseArray.concat(firstResponse, secondResponse)
     }
 
     contagion__transmission() {
@@ -231,17 +187,8 @@ class Intent {
                 `A transmissão do vírus acontece por via respiratória, através de gotículas que se espalham pelo ar quando uma pessoa que está infectada tosse ou espirra.\n\n`+
                 `Também é possível se contaminar por contato pessoal com as secreções infectadas, como: gotículas de saliva; espirro; tosse; catarro; contato pessoal próximo, como toque ou aperto de mão; e o contato com roupas e objetos contaminados.\n`
             ]
-            secondResponse = [ {
-                title: 'Formas de contágio',
-                subtitle: 'Posso ajudar em algo mais?',
-                buttons: [ {
-                    text: 'Sim'
-                },
-                {
-                    text: 'Não, era só isso'
-                } ]
-            } ]
-        return responseArray.concat(firstResponse[functions.randomize(firstResponse)], secondResponse)
+            secondResponse = functions.cardArray('Formas de contágio', 'Posso ajudar em algo mais?', ['Sim', 'Não, era só isso'])
+        return responseArray.concat(firstResponse, secondResponse)
     }
 
     contagion__incubation() {
@@ -251,17 +198,8 @@ class Intent {
                 `Esse tempo varia de 1 a 14 dias, mas geralmente pode ocorrer em torno de 5 dias.\n\n`+ 
                 `No entanto, dados preliminares do Coronavírus sugerem que a transmissão possa ocorrer também mesmo sem o aparecimento de sinais e sintomas.`
             ]
-            secondResponse = [ {
-                title: 'Período de incubação',
-                subtitle: 'Posso ajudar em algo mais?',
-                buttons: [ {
-                    text: 'Sim'
-                },
-                {
-                    text: 'Não, era só isso'
-                } ]
-            } ]
-        return responseArray.concat(firstResponse[functions.randomize(firstResponse)], secondResponse)
+            secondResponse = functions.cardArray('Período de incubação', 'Posso ajudar em algo mais?', ['Sim', 'Não, era só isso'])
+        return responseArray.concat(firstResponse, secondResponse)
     }
 
     __fallback() {
@@ -272,7 +210,7 @@ class Intent {
             secondResponse = [
                 `Me diga, qual a sua dúvida relacionada ao Coronavírus?`
             ]
-        return responseArray.concat(firstResponse[functions.randomize(firstResponse)], secondResponse[functions.randomize(secondResponse)])
+        return responseArray.concat(firstResponse, secondResponse)
     }
 
     __fallbackExplicit() {
@@ -284,17 +222,30 @@ class Intent {
             secondResponse = [
                 `Me conta, qual a sua dúvida?`
             ]
-        return responseArray.concat(firstResponse[functions.randomize(firstResponse)], secondResponse[functions.randomize(secondResponse)])
+        return responseArray.concat(firstResponse, secondResponse)
     }
 
     __fallbackFinal() {
         const responses = [
             `Desculpe, não consegui identificar a sua dúvida. Vamos parar por aqui. `
+        ]
+        return responses
+    }
+
+    startDiagnostic() {
+        let firstResponse, secondResponse, responseArray = []
+            firstResponse = [
+                `Vou te fazer algumas perguntas relacionadas aos sintomas do Coronavírus.\n\n`+
+                `Vale lembrar que esta consulta NÃO é um diagnóstico e sim uma orientação para caso você precise de um exame médico.`
             ]
-            return responses[functions.randomize(responses)]
+            secondResponse = functions.cardArray('Vamos lá?', '', ['Sim', 'Não'])
+        return responseArray.concat(firstResponse, secondResponse)
     }
 
     diagnostic() {
+        if(this.queryResult.parameters.genericAccept == 'No')
+            return `Tudo bem, caso queira fazer um pré diagnóstico mande uma mensagem.`
+
         let firstResponse, secondResponse, thirdResponse, responseArray = []
         firstResponse = [
             `A seguir vou citar alguns sintomas e gostaria que você me informasse se teve algum deles. E se sim, quantos você sentiu.`
@@ -309,22 +260,8 @@ class Intent {
             `- Tosse;\n`+
             `- E Perda do olfato ou paladar;`
         ]
-        thirdResponse = [{
-            title: 'Quantos sintomas sentiu?',
-            buttons: [ {
-                text: 'Nenhum'
-            },
-            {
-                text: '1-2'
-            },
-            {
-                text: '3'
-            },
-            {
-                text: 'Mais de três'
-            } ]
-        }]
-    return responseArray.concat(firstResponse[functions.randomize(firstResponse)], secondResponse, thirdResponse)
+        thirdResponse = functions.cardArray('Quantos sintomas sentiu?', '', ['Nenhum', '1-2', '3', 'Mais de três'])
+    return responseArray.concat(firstResponse, secondResponse, thirdResponse)
     }
 
     diagnostic__fallback() {
@@ -342,21 +279,7 @@ class Intent {
                 `- Tosse;\n`+
                 `- E Perda do olfato ou paladar;`
             ]
-            thirdResponse = [{
-                title: 'Quantos sintomas sentiu?',
-                buttons: [ {
-                    text: 'Nenhum'
-                },
-                {
-                    text: '1-2'
-                },
-                {
-                    text: '3'
-                },
-                {
-                    text: 'Mais de três'
-                } ]
-            }]
+            thirdResponse = functions.cardArray('Quantos sintomas sentiu?', '', ['Nenhum', '1-2', '3', 'Mais de três'])
         return responseArray.concat(firstResponse, secondResponse, thirdResponse)
     }
 
@@ -365,21 +288,7 @@ class Intent {
             firstResponse = [
                 `Desculpe, ainda não consegui entender.`
             ]
-            secondResponse = [{
-                title: 'Quantos dos sintomas apresentados sentiu?',
-                buttons: [ {
-                    text: 'Nenhum'
-                },
-                {
-                    text: '1-2'
-                },
-                {
-                    text: '3'
-                },
-                {
-                    text: 'Mais de três'
-                } ]
-            }]
+            secondResponse = functions.cardArray('Quantos dos sintomas apresentados sentiu?', '', ['Nenhum', '1-2', '3', 'Mais de três'])
         return responseArray.concat(firstResponse, secondResponse)
     }
 
@@ -387,26 +296,21 @@ class Intent {
         const responses = [
             `Realmente, não consegui entender. Vamos parar por aqui.`
             ]
-            return responses[functions.randomize(responses)]
+            return responses
     }
 
     diagnostic__symptoms() {
         let firstResponse, secondResponse, responseArray = []
-        firstResponse = [
-            `Que bom! Sem sintomas de gripe!`,
-            `Entendi, você está com poucos sintomas de gripe.`,
-            `Entendi, você está com vários sintomas de gripe.`
-        ]
-        secondResponse = [{
-            title: 'E você usou algum medicamento para tratar os sintomas? ',
-            buttons: [ {
-                text: 'Sim'
-            },
-            {
-                text: 'Não'
-            } ]
-        }]
+            firstResponse = [
+                `Que bom! Sem sintomas de gripe!`,
+                `Entendi, você está com poucos sintomas de gripe.`,
+                `Entendi, você está com vários sintomas de gripe.`
+            ]
+            secondResponse = functions.cardArray('E você usou algum medicamento para tratar os sintomas?', '', ['Sim', 'Não'])
+        if(functions.symptoms(this.queryResult) != 0)
             return responseArray.concat(firstResponse[functions.symptoms(this.queryResult)], secondResponse)
+        else
+            return this.diagnostic__symptomsSerious(firstResponse[0]) //problem here, no easy way to pass context, and clear current contexts
     }
 
     symptoms__fallback() {
@@ -414,15 +318,7 @@ class Intent {
             firstResponse = [
                 `Não entendi.`
             ]
-            secondResponse = [{
-                title: 'Para continuarmos, você precisa me indicar se usou ou não algum medicamento.',
-                buttons: [ {
-                    text: 'Usei medicamentos'
-                },
-                {
-                    text: 'Não usei'
-                } ]
-            }]
+            secondResponse = functions.cardArray('Para continuarmos, você precisa me indicar se usou ou não algum medicamento.', '', ['Usei medicamentos', 'Não usei'])
         return responseArray.concat(firstResponse, secondResponse)
     }
 
@@ -431,15 +327,7 @@ class Intent {
             firstResponse = [
                 `Desculpe, ainda não consegui entender.`
             ]
-            secondResponse = [{
-                title: 'Você usou algum medicamento?',
-                buttons: [ {
-                    text: 'Sim'
-                },
-                {
-                    text: 'Não'
-                } ]
-            }]
+            secondResponse = functions.cardArray('Você usou algum medicamento?', '', ['Sim', 'Não'])
         return responseArray.concat(firstResponse, secondResponse)
     }
 
@@ -447,19 +335,13 @@ class Intent {
         const responses = [
             `Realmente, não consegui entender. Vamos parar por aqui.`
             ]
-            return responses[functions.randomize(responses)]
+            return responses
     }
 
     diagnostic__medicine() {
-        const responses = [{
-            title: 'Sente que melhorou?',
-            buttons: [ {
-                text: 'Sim'
-            },
-            {
-                text: 'Não'
-            } ]
-        }]
+        if(this.queryResult.parameters.medicine == 'No')
+            return this.diagnostic__medicine__improvement()
+        const responses = functions.cardArray('Sente que melhorou?', '', ['Sim', 'Não'])
             return responses
     }
 
@@ -468,15 +350,7 @@ class Intent {
             firstResponse = [
                 `Não entendi.`
             ]
-            secondResponse = [{
-                title: 'Para continuarmos, você precisa me indicar se melhorou ou não com o medicamento.',
-                buttons: [ {
-                    text: 'Melhorei'
-                },
-                {
-                    text: 'Não melhorei'
-                } ]
-            }]
+            secondResponse = functions.cardArray('Para continuarmos, você precisa me indicar se melhorou ou não com o medicamento.', '', ['Melhorei', 'Não melhorei'])
         return responseArray.concat(firstResponse, secondResponse)
     }
 
@@ -485,15 +359,7 @@ class Intent {
             firstResponse = [
                 `Desculpe, ainda não consegui entender.`
             ]
-            secondResponse = [{
-                title: 'Você melhorou com o medicamento?',
-                buttons: [ {
-                    text: 'Sim'
-                },
-                {
-                    text: 'Não'
-                } ]
-            }]
+            secondResponse = functions.cardArray('Você melhorou com o medicamento?', '', ['Sim', 'Não'])
         return responseArray.concat(firstResponse, secondResponse)
     }
 
@@ -501,11 +367,67 @@ class Intent {
         const responses = [
             `Realmente, não consegui entender. Vamos parar por aqui.`
             ]
-            return responses[functions.randomize(responses)]
+        return responses
     }
 
-    diagnostic__medicine__yes() {
-        return `Ótimo! Sem sintomas gripais!`
+    diagnostic__medicine__improvement() {
+        return this.diagnostic__symptomsSerious()
+    }
+
+    diagnostic__symptomsSerious(extraResponse) {
+        let firstResponse, secondResponse, responseArray = []
+            if(this.queryResult.parameters.symptoms) { //called from 6.1.0
+                return [`Que bom! Sem sintomas de gripe. `, `Resultado: Ainda não implementado`]
+            } else if (this.queryResult.parameters.medicine) { //called from 6.1.1
+                return this.result() //This should not be result, should instead be responseArray, but contexts should be changed. because of my implementation, I couldn't change context if the intent is not called by user. Will solve this on next project/iteration.
+            } else if (this.queryResult.parameters.gotBetter) { //called from 6.1.2
+                if(this.queryResult.parameters.gotBetter == 'Yes') {
+                    extraResponse = [
+                        `Ótimo! Sem sintomas gripais!`
+                    ]
+                }
+
+            }
+            firstResponse = [
+                `- Convulsão ou Vômito;\n`+
+                `- Dificuldade para respirar;\n`+
+                `- Sensação de desmaio;\n`+
+                `- Dedos azulados e pálidos.`
+            ]
+            secondResponse = functions.cardArray('E você sentiu algum desses sintomas citados acima?', '', ['Sim', 'Não'])
+        return responseArray.concat(extraResponse ? extraResponse : [], firstResponse, secondResponse)
+    }
+
+    diagnostic__improvement__fallback() { //Using system counter there's no need to implement separate fallbacks, unfortunately no time to rewrite all.
+        let firstResponse, secondResponse, responses = []
+        let counter = functions.getSystemCounters(this.queryResult.outputContexts)
+            if(counter == 0 || counter == 1 ) {
+                firstResponse = [
+                    "Não entendi."
+                    ]
+                secondResponse = [
+                    `Para concluir o pré diagnóstico, você precisa me indicar se teve ou não algum desses sintomas citados:\n\n`+
+                    `- Convulsão ou Vômito;\n`+
+                    `- Dificuldade para respirar;\n`+
+                    `- Sensação de desmaio;\n`+
+                    `- Dedos azulados e pálidos.`
+                ]
+                return responses.concat(firstResponse, secondResponse)
+
+            } else if(counter == 2) {
+                responses = [
+                    "Desculpe, ainda não consegui entender. Você teve algum dos sintomas citados?"
+                ]
+            } else {
+                responses = [
+                    "Realmente não consegui entender o que você disse. Vamos parar por aqui."
+                ]
+            }
+                return responses
+    }
+
+    result() {
+        return `Resultado: Ainda não implementado`
     }
 
     cases() {
