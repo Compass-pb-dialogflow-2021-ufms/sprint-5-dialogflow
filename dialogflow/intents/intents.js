@@ -1,3 +1,4 @@
+const DiagnosisTelegram = require('../../dataBase/models/diagnosisTelegram')
 const eventTrigger = require('../responseStructure/eventTrigger')
 const formattedContext = require('../responseStructure/context')
 const formattedMessage = require('../responseStructure/message')
@@ -110,14 +111,16 @@ const intents =
     },
 
 
-    'FeverNo': (_, res) => {
-        //dataBase
+    'FeverNo': async (req, res) => {
+        const id = req.body.originalDetectIntentRequest.payload.data.from.id
+        await DiagnosisTelegram.findOneAndUpdate({id: id}, {fever: 'feverNo'})
         res.send(eventTrigger('minorSymptoms'))
     },
 
 
-    'FeverYes': (_, res) => {
-        //dataBase
+    'FeverYes': async (req, res) => {
+        const id = req.body.originalDetectIntentRequest.payload.data.from.id
+        await DiagnosisTelegram.findOneAndUpdate({id: id}, {fever: 'feverYes'})
         res.send(eventTrigger('minorSymptoms'))
     },
 
@@ -160,8 +163,9 @@ const intents =
     'GotBetterNo': (_, res) => {res.send(eventTrigger('severeSymptoms'))},
 
 
-    'GotBetterYes': (_, res) => {
-        //dataBase
+    'GotBetterYes': async (req, res) => {
+        const id = req.body.originalDetectIntentRequest.payload.data.from.id
+        await DiagnosisTelegram.findOneAndUpdate({id: id}, {minorSymptoms: 'minorSymptomsNone'})
         res.send(eventTrigger('severeSymptomsWithoutFluMedicine'))
     },
 
@@ -178,22 +182,23 @@ const intents =
     },
 
 
-    'HowManyMinorSymptoms': (req, res) => {
+    'HowManyMinorSymptoms': async (req, res) => {
+        const id = req.body.originalDetectIntentRequest.payload.data.from.id
         const symptomsNumber = req.body.queryResult.parameters.number
 
         if(symptomsNumber == '' || symptomsNumber == 0)
         {
-            //dataBase
+            await DiagnosisTelegram.findOneAndUpdate({id: id}, {minorSymptoms: 'minorSymptomsNone'})
             res.send(eventTrigger('severeSymptomsWithoutFlu'))
         }
         else if(symptomsNumber < 4)
         {
-            //dataBase
+            await DiagnosisTelegram.findOneAndUpdate({id: id}, {minorSymptoms: 'minorSymptomsFew'})
             res.send(eventTrigger('takingMedicineFewSymptoms'))
         }
         else
         {
-            //dataBase
+            await DiagnosisTelegram.findOneAndUpdate({id: id}, {minorSymptoms: 'minorSymptomsMany'})            
             res.send(eventTrigger('takingMedicine'))
         }
     },
@@ -227,8 +232,14 @@ const intents =
     },
 
 
-    'PreDiagnosis': (_, res) => {
+    'PreDiagnosis': async (req, res) => {
         const quickRepliesOptions = ['Sim', 'Não']
+        const id = req.body.originalDetectIntentRequest.payload.data.from.id
+        if(await DiagnosisTelegram.findOne({id: id}) == null)
+        {
+            await DiagnosisTelegram.create({id: id, riskGroup: 'riskGroupNo', fever: 'feverNo', minorSymptoms: 'minorSymptomsNone', severeSymptoms: 'severeSymptomsNo'})
+        }
+    
         res.send(messageWithQuickReplies(responses.preDiagnosis, quickRepliesOptions))
     },
 
@@ -251,14 +262,16 @@ const intents =
     },
 
 
-    'RiskGroupNo': (_, res) => {
-        //dataBase
+    'RiskGroupNo': async (req, res) => {
+        const id = req.body.originalDetectIntentRequest.payload.data.from.id
+        await DiagnosisTelegram.findOneAndUpdate({id: id}, {riskGroup: 'riskGroupNo'})
         res.send(eventTrigger('feverNo'))
     },
 
 
-    'RiskGroupYes': (_, res) => {
-        //dataBase
+    'RiskGroupYes': async (req, res) => {
+        const id = req.body.originalDetectIntentRequest.payload.data.from.id
+        await DiagnosisTelegram.findOneAndUpdate({id: id}, {riskGroup: 'riskGroupYes'})
         res.send(eventTrigger('feverYes'))
     },
 
@@ -305,6 +318,27 @@ const intents =
             res.send(messageWithQuickReplies([responses.severeSymptoms[0], responses.severeSymptoms[2], responses.severeSymptoms[3]], quickRepliesOptions))
         else
             res.send(messageWithQuickReplies([responses.severeSymptoms[1], responses.severeSymptoms[2], responses.severeSymptoms[3]], quickRepliesOptions))
+    },
+
+
+    'SevereSymptomsNo': async (req, res) => {
+        const id = req.body.originalDetectIntentRequest.payload.data.from.id
+        await DiagnosisTelegram.findOneAndUpdate({id: id}, {severeSymptoms: 'severeSymptomsNo'})
+        res.send(eventTrigger('showDiagnosis'))
+    },
+
+
+    'SevereSymptomsYes': async (req, res) => {
+        const id = req.body.originalDetectIntentRequest.payload.data.from.id
+        await DiagnosisTelegram.findOneAndUpdate({id: id}, {severeSymptoms: 'severeSymptomsYes'})
+        res.send(eventTrigger('showDiagnosis'))
+    },
+
+
+    'ShowDiagnosis': async (req, res) => {
+        const id = req.body.originalDetectIntentRequest.payload.data.from.id
+        const {riskGroup, fever, minorSymptoms, severeSymptoms} = await DiagnosisTelegram.findOne({id: id})
+        res.send(formattedMessage(responses.showDiagnosis[riskGroup][fever][severeSymptoms][minorSymptoms]))
     },
 
 

@@ -110,6 +110,16 @@ const responses =
         'Para continuarmos, você precisa me indicar se melhorou ou não com o medicamento.',
         
         ['Melhorei', 'Não melhorei']],
+
+        severesymptoms: ['Não entendi. 😓',
+
+        'Para concluir o pré-diagnóstico, você precisa me indicar se teve ou não algum desses sintomas citador:' + 
+        '\n\n-Convulsão ou Vômito;' + 
+        '\n-Dificuldade para respirar;' +
+        '\n-Sensação de desmaio;' + 
+        '\n-Dedos azulados e pálidos.',
+    
+        ['Sim', 'Não']]
     },
 
 
@@ -243,6 +253,11 @@ const responses =
         
         'Você melhorou com o medicamento?',
         
+        ['Sim', 'Não']],
+
+        severesymptoms: ['Desculpe, ainda não consegui entender.' +
+        '\nVocê teve algum dos sintomas citados?',
+        
         ['Sim', 'Não']]
     },
 
@@ -257,6 +272,170 @@ const responses =
     '\n-Dificuldade para respirar;' +
     '\n-Sensação de desmaio;' + 
     '\n-Dedos azulados e pálidos.'],
+
+
+    showDiagnosis: {
+        riskGroupNo: {
+            feverNo: {
+                severeSymptomsNo: {
+                    minorSymptomsNone: ['Que bom! Pelas informações que você me disse, neste momento você não tem suspeita de infecção pelo Coronavírus. 👍' +
+                    '\n\nMas atenção, caso você sinta que se enquadra em algum dos sintomas, ligue para o Disque Saúde 136. ☎',
+                
+                    'Fique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂'],
+
+                    minorSymptomsFew: ['Pelo o que você me disse, neste momento você apresenta um quadro gripal com poucos sintomas leves, por isso há baixa suspeita de infecção pelo Coronavírus. 👍' +
+                    '\n\nÉ importante se cuidar! E caso você sinta que esses sintomas estão persistindo ou se agravando, ligue para o Disque Saúde 136. ☎',
+                
+                    'Fique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂'],
+
+                    minorSymptomsMany: ['Bom, pelo o que você me contou, neste momento você apresenta um quadro gripal com sintomas leves, por isso há baixa suspeita de infecção pelo Coronavírus. 👍' +
+                    '\n\nMesmo assim, é importante se cuidar! E caso você sinta que esses sintomas estão persistindo ou se agravando, ligue para o Disque Saúde 136. ☎',
+                
+                    'Fique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂']
+                },
+
+                severeSymptomsYes: {
+                    minorSymptomsNone: ['Bom, pelo o que você me contou há baixa suspeita de você estar com Coronavírus. Apesar disso, você está sentindo alguns sintomas que precisam de atenção. ⚠' +
+                    '\n\nÉ importante se cuidar! E caso você sinta que esses sintomas estão persistindo ou se agravando, ligue para o Disque Saúde 136. ☎',
+                
+                    'Fique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂'],
+
+                    minorSymptomsFew: ['Apesar de poucos sinais de infecção pelo Coronavírus, você me contou  que está com alguns sintomas que precisam de atenção.' +
+                    '\n\nSe você sentir que esses sintomas estão persistindo ou se agravando, ligue para o Disque Saúde 136. ☎',
+                
+                    'Fique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂'],
+                    
+                    minorSymptomsMany: ['Bom, pelo o que você me disse, neste momento você apresenta um quadro gripal com sintomas leves e é baixa a probabilidade de infecção pelo Coronavírus. Apesar disso, você me contou que está com alguns sintomas que precisam de atenção. ⚠' +
+                    '\n\nSe você sentir que esses sintomas estão persistindo ou se agravando, ligue para o Disque Saúde 136. ☎',
+                
+                    'Fique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂']
+                }
+            },
+
+            feverYes: {
+                severeSymptomsNo: {
+                    minorSymptomsNone: ['Bom, pelas informações que você me contou, neste momento você apresenta um quadro febril e que pode ter uma baixa suspeita de infecção pelo Coronavírus. 👍' +
+                    '\n\nPorém é preciso atenção! Se esse quadro vier a incluir mais sintomas e a febre não passar, ligue para o Disque Saúde 136. ☎',
+                
+                    'Cuide-se! E se puder, fique em casa! Sinta-se a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂'],
+
+                    minorSymptomsFew: ['Pelas informações que você me contou, neste momento você apresenta um quadro febril com poucos sintomas de gripe, podendo indicar uma baixa suspeita de infecção pelo Coronavírus. ⚠' +
+                    '\n\nMas atenção, se você sentir que esses sintomas estão persistindo ou se agravando, minha orientação é que você busque atendimento em uma Unidade de Saúde ou ligue para o Disque Saúde 136 ☎ para mais orientações.',
+                
+                    'Cuide-se! E se puder, fique em casa! Sinta-se a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂'],
+
+                    minorSymptomsMany: ['Bom, pelas informações que você me contou, neste momento você apresenta um quadro febril com alguns sintomas de gripe, podendo indicar uma suspeita de infecção pelo Coronavírus. ⚠' +
+                    '\n\nFique atento! Se você sentir que esses sintomas estão persistindo ou se agravando, minha orientação é que você busque atendimento em uma Unidade de Saúde ou ligue para o Disque Saúde 136 ☎ para mais orientações.',
+                
+                    'Cuide-se! E se puder, fique em casa! Sinta-se a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂']
+                },
+
+                severeSymptomsYes: {
+                    minorSymptomsNone: ['Pelas informações que você me contou, você apresenta um quadro febril com outros sintomas que precisam de atenção, pois você apresenta sinais que pode estar com Coronavírus. ⚠' +
+                    '\n\nMinha orientação é que você busque atendimento em uma Unidade de Saúde ou ligue para o Disque Saúde 136 ☎ para mais orientações.',
+                
+                    'Cuide-se! E se puder, fique em casa! Sinta-se a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂'],
+
+                    minorSymptomsFew: ['Então, pelas informações que você me indicou, você apresenta um quadro febril com outros sintomas que precisam de atenção, pois você apresenta sinais que pode estar com Coronavírus. ⚠' +
+                    '\n\nMinha orientação é que você busque atendimento em uma Unidade de Saúde ou ligue para o Disque Saúde 136 ☎ para mais orientações.',
+                
+                    'Cuide-se! E se puder, fique em casa! Sinta-se a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂'],
+                    
+                    minorSymptomsMany: ['Pelas informações que você me contou, você apresenta um quadro febril com outros sintomas que precisam de atenção, pois você apresenta grandes chances de estar com Coronavírus. ⚠' +
+                    '\n\nMinha orientação é que você busque atendimento em uma Unidade de Saúde ou ligue para o Disque Saúde 136 ☎ para mais orientações.',
+                
+                    'Cuide-se! E se puder, fique em casa! Sinta-se a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂']
+                }
+            }
+        },
+
+
+        riskGroupYes: {
+            feverNo: {
+                severeSymptomsNo: {
+                    minorSymptomsNone: ['Que bom! Pelas informações que você me disse, neste momento você não tem suspeita de infecção pelo Coronavírus. 🙂' +
+                    '\n\nMas atenção, caso você sinta que se enquadra em algum dos sintomas, ligue para o Disque Saúde 136. ☎',
+                
+                    'E não se esqueça, por você se enquadrar no grupo de risco está mais suscetível ao contágio do Coronavírus. Então busque se cuidar, mantendo a sua saúde em dia e realizando as medidas de prevenção necessárias. 🤚😷' +
+                    '\n\nFique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂'],
+
+                    minorSymptomsFew: ['Pelo o que você me disse, neste momento você apresenta um quadro gripal com poucos sintomas leves, por isso há baixa suspeita de infecção pelo Coronavírus.' +
+                    '\n\nÉ importante se cuidar! E caso você sinta que esses sintomas estão persistindo ou se agravando, ligue para o Disque Saúde 136. ☎',
+                
+                    'E não se esqueça, por você se enquadrar no grupo de risco está mais suscetível ao contágio do Coronavírus. Então busque se cuidar, mantendo a sua saúde em dia e realizando as medidas de prevenção necessárias. 🤚😷' +
+                    '\n\nFique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂'],
+
+                    minorSymptomsMany: ['Bom, Pelo o que você me contou, neste momento você apresenta um quadro gripal com sintomas leves, por isso há baixa suspeita de infecção pelo Coronavírus. 🙂' +
+                    '\n\nMesmo assim, é importante se cuidar! E caso você sinta que esses sintomas estão persistindo ou se agravando, ligue para o Disque Saúde 136. ☎',
+                
+                    'E não se esqueça, por você se enquadrar no grupo de risco está mais suscetível ao contágio do Coronavírus. Então busque se cuidar, mantendo a sua saúde em dia e realizando as medidas de prevenção necessárias. 🤚😷' +
+                    '\n\nFique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂']
+                },
+
+                severeSymptomsYes: {
+                    minorSymptomsNone: ['Bom, Pelo o que você me contou há baixa suspeita de você estar com Coronavírus. Apesar disso, você está sentindo alguns sintomas que precisam de atenção. ⚠' +
+                    '\n\nÉ importante se cuidar! E caso você sinta que esses sintomas estão persistindo ou se agravando, ligue para o Disque Saúde 136. ☎',
+                
+                    'E não se esqueça, por você se enquadrar no grupo de risco está mais suscetível ao contágio do Coronavírus. Então busque se cuidar, mantendo a sua saúde em dia e realizando as medidas de prevenção necessárias. 🤚😷' +
+                    '\n\nFique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂'],
+
+                    minorSymptomsFew: ['Apesar de poucos sinais de infecção pelo Coronavírus, você me contou que está com alguns sintomas que precisam de atenção. ⚠' +
+                    '\n\nSe você sentir que esses sintomas estão persistindo ou se agravando, ligue para o Disque Saúde 136. ☎',
+                
+                    'E não se esqueça, por você se enquadrar no grupo de risco está mais suscetível ao contágio do Coronavírus. Então busque se cuidar, mantendo a sua saúde em dia e realizando as medidas de prevenção necessárias. 🤚😷' +
+                    '\n\nFique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂'],
+                    
+                    minorSymptomsMany: ['Bom, Pelo o que você me disse, neste momento você apresenta um quadro gripal com sintomas leves e é baixa a probabilidade de infecção pelo Coronavírus. Apesar disso, você me contou que está com alguns sintomas que precisam de atenção. ⚠' +
+                    '\n\nSe você sentir que esses sintomas estão persistindo ou se agravando, ligue para o Disque Saúde 136. ☎',
+                
+                    'E não se esqueça, por você se enquadrar no grupo de risco está mais suscetível ao contágio do Coronavírus. Então busque se cuidar, mantendo a sua saúde em dia e realizando as medidas de prevenção necessárias. 🤚😷' +
+                    '\n\nFique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂']
+                }
+            },
+
+            feverYes: {
+                severeSymptomsNo: {
+                    minorSymptomsNone: ['Bom, pelas informações que você me contou, neste momento você apresenta um quadro febril e que pode ter uma baixa suspeita de infecção pelo Coronavírus. 🙂' +
+                    '\n\nPorém é preciso atenção! Se esse quadro vier a incluir mais sintomas e a febre não passar, ligue para o Disque Saúde 136. ☎',
+                
+                    'E não se esqueça, por você se enquadrar no grupo de risco está mais suscetível ao contágio do Coronavírus. Então busque se cuidar, mantendo a sua saúde em dia e realizando as medidas de prevenção necessárias. 🤚😷' +
+                    '\n\nFique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂'],
+
+                    minorSymptomsFew: ['Pelas informações que você me contou, neste momento você apresenta um quadro febril com poucos sintomas de gripe, podendo indicar uma baixa suspeita de infecção pelo Coronavírus.' +
+                    '\n\n⚠ Mas atenção, se você sentir que esses sintomas estão persistindo ou se agravando, minha orientação é que você busque atendimento em uma Unidade de Saúde ou ligue para o Disque Saúde 136 ☎ para mais orientações.',
+                
+                    'E não se esqueça, por você se enquadrar no grupo de risco está mais suscetível ao contágio do Coronavírus. Então busque se cuidar, mantendo a sua saúde em dia e realizando as medidas de prevenção necessárias. 🤚😷' +
+                    '\n\nFique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂'],
+
+                    minorSymptomsMany: ['Bom, pelas informações que você me contou, neste momento você apresenta um quadro febril com alguns sintomas de gripe, podendo indicar uma suspeita de infecção pelo Coronavírus. 😕' +
+                    '\n\n Fique atento! Se você sentir que esses sintomas estão persistindo ou se agravando, minha orientação é que você busque atendimento em uma Unidade de Saúde ou ligue para o Disque Saúde 136 ☎ para mais orientações.',
+                
+                    'E não se esqueça, por você se enquadrar no grupo de risco está mais suscetível ao contágio do Coronavírus. Então busque se cuidar, mantendo a sua saúde em dia e realizando as medidas de prevenção necessárias. 🤚😷' +
+                    '\n\nFique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂']
+                },
+
+                severeSymptomsYes: {
+                    minorSymptomsNone: ['Pelas informações que você me contou, você apresenta um quadro febril com outros sintomas que precisam de atenção, pois você apresenta sinais de que pode estar com Coronavírus. ⚠' +
+                    '\n\nMinha orientação é que você busque atendimento em uma Unidade de Saúde ou ligue para o Disque Saúde 136 ☎ para mais orientações.',
+                
+                    'E não se esqueça, por você se enquadrar no grupo de risco está mais suscetível ao contágio do Coronavírus. Então busque se cuidar, mantendo a sua saúde em dia e realizando as medidas de prevenção necessárias. 🤚😷' +
+                    '\n\nFique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂'],
+
+                    minorSymptomsFew: ['Então, pelas informações que você me indicou, você apresenta um quadro febril com outros sintomas que precisam de atenção, pois você apresenta sinais de que pode estar com Coronavírus. ⚠' +
+                    '\n\nMinha orientação é que você busque atendimento em uma Unidade de Saúde ou ligue para o Disque Saúde 136 ☎ para mais orientações.',
+                
+                    'E não se esqueça, por você se enquadrar no grupo de risco está mais suscetível ao contágio do Coronavírus. Então busque se cuidar, mantendo a sua saúde em dia e realizando as medidas de prevenção necessárias. 🤚😷' +
+                    '\n\nFique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂'],
+                    
+                    minorSymptomsMany: ['Pelas informações que você me contou, você apresenta um quadro febril com outros sintomas que precisam de atenção, pois você apresenta grandes chances de estar com Coronavírus. ⚠' +
+                    '\n\nMinha orientação é que você busque atendimento em uma Unidade de Saúde ou ligue para o Disque Saúde 136 ☎ para mais orientações.',
+                
+                    'E não se esqueça, por você se enquadrar no grupo de risco está mais suscetível ao contágio do Coronavírus. Então busque se cuidar, mantendo a sua saúde em dia e realizando as medidas de prevenção necessárias. 🤚😷' +
+                    '\n\nFique a vontade para tirar dúvidas comigo sobre contágio e também saber como se previnir. 🙂']
+                }
+            }
+        }
+    },
 
 
     takingMedicine: [(adverb) => {return `Entendi, você está com ${adverb} sintomas de gripe.`},
