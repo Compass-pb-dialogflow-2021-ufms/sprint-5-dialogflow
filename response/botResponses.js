@@ -184,7 +184,7 @@ function formsOfContagion(res) {
       {
         text: {
           text: [
-            `A transmissão  do  vírus  acontece  por  via respiratória,  através  de  gotículas  que  se espalham  pelo  ar  quando  uma  pessoa  que está  infectada  tosse  ou  espirra. Também é possível  se  contaminar  por contato  pessoal  com  as  secreções infectadas,  como:  gotículas  de  saliva; espirro;  tosse;  catarro;  contato  pessoal próximo,  como  toque  ou  aperto  de  mão;  e Dúvida  sobre prevenção Ir  para  1.0.1 Resposta  da  dúvida o  contato  com  roupas  e  objetos contaminados.`,
+            `A transmissão  do  vírus  acontece  por  via respiratória,  através  de  gotículas  que  se espalham  pelo  ar  quando  uma  pessoa  que está  infectada  tosse  ou  espirra.\n\nTambém é possível  se  contaminar  por contato  pessoal  com  as  secreções infectadas,  como:  gotículas  de  saliva; espirro;  tosse;  catarro;  contato  pessoal próximo,  como  toque  ou  aperto  de  mão; e  contato  com  roupas  e  objetos contaminados.`,
           ],
         },
         platform: "TELEGRAM",
@@ -346,7 +346,8 @@ function mildSymptoms(res) {
       },
       {
         quickReplies: {
-          title: "  Coriza  ou  nariz  entupido;-  Cansaço;-  Dor  de  cabeça;-  Dores  no  corpo  ou  abdominais;-  Dor  de  garganta  ;-  Diarréia  ou  mal  estar;-  Tosse;-  E  Perda  do  olfato  ou  paladar;",
+          title:
+            "  Coriza  ou  nariz  entupido;-  Cansaço;-  Dor  de  cabeça;-  Dores  no  corpo  ou  abdominais;-  Dor  de  garganta  ;-  Diarréia  ou  mal  estar;-  Tosse;-  E  Perda  do  olfato  ou  paladar;",
           quickReplies: ["Nenhum", "1", "2", "3", "Mais de três sintomas"],
         },
         platform: "TELEGRAM",
@@ -381,7 +382,6 @@ module.exports = {
   prevention,
   basicPrevention,
   professionalPrevention,
-
   preventionFallback,
   menu,
   contagion,

@@ -5,11 +5,10 @@ Quinta sprint do programa de bolsas Compass.uol para formação em chatbot Dialo
 
 
 ## Diário de bordo
-Comecei o projeto estruturando a base do código. Integrei ao Telegram e idealizei a atividade voltada para esta plataforma. Tive grande dificuldade para entender como as sequências do fluxo de conversa funcionavam, principalmente na parte de pré-diagnóstico. Por conta dessa dificuldade fui revisar a documentação do Dialogflow e aprender mais sobre contextos, foi algo muito positivo mas me custou um tempo precioso. Sinto que alguns obstáculos me travam por mais tempo do que eu gostaria. Não consegui desenvolver a aplicação por completo no tempo estabelecido, a parte de pré-diagnósticos foi a mais prejudicada. 
+Comecei o projeto estruturando a base do código. Integrei ao Telegram e idealizei a atividade voltada para esta plataforma. Tive grande dificuldade para entender como as sequências do fluxo de conversa funcionavam, principalmente na parte de pré-diagnóstico. Por conta dessa dificuldade fui revisar a documentação do Dialogflow e aprender mais sobre contextos, foi algo muito positivo mas me custou um tempo precioso. Sinto que alguns obstáculos me travam por mais tempo do que eu gostaria. Tomei uma decisão não muito boa, o que quebrou o funcionamento, busquei reformular a ideia porém a execução necessitava de mais tempo. Não consegui desenvolver a aplicação por completo no tempo estabelecido, a parte de pré-diagnósticos foi a mais prejudicada. 
 
 
 ## Tecnologias
-
 
 Primeiramente é necessário que o [Node.JS](https://nodejs.org/en/) e o [Ngrok](https://ngrok.com/) esteja instalado na máquina. 
   

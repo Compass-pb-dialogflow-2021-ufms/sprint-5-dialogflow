@@ -20,12 +20,9 @@ module.exports = (req, res) => {
     case "preventionFallback":
       response.preventionFallback(res);
       break;
-    case "goodbye":
-      response.goodbye(req, res);
+    case "sintomasLeves":
+      response.mildSymptoms(res);
       break;
-      case "sintomasLeves":
-        response.mildSymptoms(res);
-        break;
     case "mainMenu":
       response.menu(res);
       break;
@@ -56,7 +53,7 @@ module.exports = (req, res) => {
     case "preDiagnosis-yes-yes-no":
       response.preDiagnosisYesYes(res);
       break;
-    case "Default Fallback Intent":
+    case "Default Fallback Intent - fallback":
       return res.send({
         fulfillmentMessages: [
           {
@@ -65,6 +62,7 @@ module.exports = (req, res) => {
                 `Desculpe, não se consegui entender. Poderia repetir?\nDigite "ajuda", por favor`,
               ],
             },
+            platform: "TELEGRAM",
           },
         ],
       });
