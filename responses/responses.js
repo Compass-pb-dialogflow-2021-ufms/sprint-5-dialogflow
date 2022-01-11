@@ -11,7 +11,9 @@ const responses =
 
         formsofcontagion: 'mainMenu',
 
-        incubationperiod: 'mainMenu'
+        incubationperiod: 'mainMenu',
+
+        prediagnosis: 'riskGroup'
     },
 
     
@@ -46,7 +48,9 @@ const responses =
 
         formsofcontagion: 'goodbye',
 
-        incubationperiod: 'goodbye'
+        incubationperiod: 'goodbye',
+
+        prediagnosisno: 'goodbye'
     },
 
 
@@ -63,7 +67,7 @@ const responses =
 
         contagion: ['Desculpe, algumas perguntas ainda não consigo te responder. 😓',
 
-        'Me diga, qual a sua dúvida relacionada ao Coronavírus?']
+        'Me diga, qual a sua dúvida relacionada ao Coronavírus?'],
     },
 
 
@@ -107,14 +111,28 @@ const responses =
     '\n\nComo posso te ajudar?'],
 
 
-    preDiagnosis: ['Essa funcionalidade ainda está em processo de desenvolvimento e portanto não está disponível.',
+    preDiagnosis: ['Vou te fazer algumas perguntas relacionadas aos sintomas do Coronavírus.' +
+    '\n\nVale lembrar que esta consulta NÃO é um diagnóstico e sim uma orientação para caso você precise de exame médico.',
 
-    'Posso ajudar com algo mais, como saber como funciona o contágio ou mesmo sobre as precauções que devem ser tomadas?'],
+    'Vamos lá? 🙂'],
+
+
+    preDiagnosisNo: ['Tudo bem, caso queira fazer um pré-diagnóstico mande uma mensagem. 👍',
+
+    'Posso ajudar em algo mais?'],
 
 
     prevention: ['Eu sei ótimas dicas de prevenções básica e do profissional da saúde. 🙂',
 
     'Qual a sua dúvida?'],
+
+
+    riskGroup : ['Você pertence a algum desses grupos citador a seguir?',
+
+    '👨‍🦳 Pessoas com mais de 60 anos;' +
+    '\n🤰 Gestantes;' +
+    '\n🤒 Pessoas com doenças crônicas (como: Diabetes, doenças cardiovasculares ou pulmonares);'+ 
+    '\n💊 Pessoas em tratamento contra o câncer.'],
 
 
     secondTimeInFallback: {

@@ -66,20 +66,26 @@ const intents =
 
     'Fallback': (req, res) => {
         const contextParameters = getContextName(req)
-        let contextName = contextParameters[0]
-    
+        let contextName = contextParameters[0]    
     
         if(typeof contextParameters == 'string' || contextName == 'default')
             res.send(formattedMessage([responses.fallback.default[randomIntFromInterval(0, 3)]]))
         else
         {
+            let message
+            console.log('hori')
             const sessionId = contextParameters[1]
             const context = formattedContext(sessionId, contextName)
             contextName = (contextName.split('-'))[0]
-    
-            const message = formattedMessage(responses.fallback[contextName])
+
+            const changeToDefautl = ['prediagnosis']
+
+            if(changeToDefautl.includes(contextName))
+                message = formattedMessage([responses.fallback.default[randomIntFromInterval(0, 3)]])
+            else
+                message = formattedMessage(responses.fallback[contextName])
+            
             message.outputContexts = context.outputContexts
-    
             res.send(message)
         }
     },
@@ -148,12 +154,27 @@ const intents =
     },
 
 
-    'PreDiagnosis': (_, res) => {res.send(formattedMessage([responses.preDiagnosis]))},
+    'PreDiagnosis': (_, res) => {
+        const quickRepliesOptions = ['Sim', 'Não']
+        res.send(messageWithQuickReplies(responses.preDiagnosis, quickRepliesOptions))
+    },
+
+
+    'PreDiagnosisNo': (_, res) => {
+        const quickRepliesOptions = ['Sim', 'Não, era só isso']
+        res.send(messageWithQuickReplies(responses.preDiagnosisNo, quickRepliesOptions))
+    },
 
 
     'Prevention': (_, res) => {
         const quickRepliesOptions = ['Prevenção básica', 'Prevenção do profissional']
         res.send(messageWithQuickReplies(responses.prevention, quickRepliesOptions))
+    },
+
+
+    'RiskGroup': (_, res) => {
+        const quickRepliesOptions = ['Pertenço', 'Não pertenço']
+        res.send(messageWithQuickReplies(responses.riskGroup, quickRepliesOptions))
     },
 
 
@@ -164,14 +185,19 @@ const intents =
             res.send(formattedMessage(responses.secondTimeInFallback.default))
         else
         {
+            let message
             let contextName = contextParameters[0]
             const sessionId = contextParameters[1]
             const context = formattedContext(sessionId, contextName)
             contextName = (contextName.split('-'))[0]
-    
-            const message = formattedMessage(responses.secondTimeInFallback[contextName])
+            const changeToDefautl = ['prediagnosis']
+
+            if(changeToDefautl.includes(contextName))
+                message = formattedMessage(responses.secondTimeInFallback.default)
+            else
+                message = formattedMessage(responses.secondTimeInFallback[contextName])
+            
             message.outputContexts = context.outputContexts
-    
             res.send(message) 
         }
     },
@@ -186,6 +212,10 @@ const intents =
         {
             let contextName = contextParameters[0]
             contextName = (contextName.split('-'))[0]
+            const changeToDefautl = ['prediagnosis']
+
+            if(changeToDefautl.includes(contextName))
+                contextName = 'default'
     
             if(contextName == 'default')
                 res.send(formattedMessage(responses.thirdTimeInFallback.default))

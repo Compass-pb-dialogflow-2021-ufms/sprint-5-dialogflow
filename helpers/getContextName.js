@@ -5,7 +5,7 @@ function getContextName(req)
 
     if(inputContexts.length > 0)
     {
-        const exceptions = ['fallback-followup', '__system_counters__', 'secondtimeinfallback-followup']
+        const exceptions = ['fallback-followup', '__system_counters__', 'secondtimeinfallback-followup', 'fallback']
 
         const contextNameDefault = ['goodbye', 'welcome']
     
