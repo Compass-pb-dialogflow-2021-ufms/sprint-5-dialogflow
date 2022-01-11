@@ -67,8 +67,22 @@ const responses =
 
         contagion: ['Desculpe, algumas perguntas ainda não consigo te responder. 😓',
 
-        'Me diga, qual a sua dúvida relacionada ao Coronavírus?'],
+        'Me diga, qual a sua dúvida relacionada ao Coronavírus?',],
+
+        riskgroup: ['Não entendi. Para continuarmos, você precisa me indicar se pertence a algum desses grupos citados:',
+        
+        '👨‍🦳 Pessoas com mais de 60 anos;' +
+        '\n🤰 Gestantes;' +
+        '\n🤒 Pessoas com doenças crônicas (como: Diabetes, doenças cardiovasculares ou pulmonares);'+ 
+        '\n💊 Pessoas em tratamento contra o câncer.',
+        
+        ['Pertenço', 'Não pertenço']]
     },
+
+
+    fever: [(adverb) => {return `Ok. Pelo o que você me contou, vejo que você${adverb} se enquadra no grupo de risco. \n\nVamos continuar.`},
+    
+    'Você teve febre maior que 37,8°C nos últimos 7 dias? 🌡'],
 
 
     formsOfContagion: ['A transmissão do vírus acontece por via respiratória, através de gotículas que se espalham pelo ar quando uma pessoa que está infectada tosse ou espirra. 💦' +
@@ -146,7 +160,13 @@ const responses =
         contagion: ['Ainda não consegui identificar a sua dúvida.' + 
         '\n\nVocê pode me perguntar sobre prevenção, contágio, casos no Brasil ou realizar um pré-diagnóstico, por exemplo. 😊',
 
-        'Me conta, qual a sua dúvida?']
+        'Me conta, qual a sua dúvida?'],
+
+        riskgroup: ['Desculpe, ainda não consegui entender. 😓',
+        
+        'Você pertence a algum dos grupos citados?',
+        
+        ['Sim', 'Não']]
     },
 
 

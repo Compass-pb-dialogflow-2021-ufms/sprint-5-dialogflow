@@ -73,21 +73,40 @@ const intents =
         else
         {
             let message
-            console.log('hori')
             const sessionId = contextParameters[1]
             const context = formattedContext(sessionId, contextName)
             contextName = (contextName.split('-'))[0]
 
-            const changeToDefautl = ['prediagnosis']
-
-            if(changeToDefautl.includes(contextName))
-                message = formattedMessage([responses.fallback.default[randomIntFromInterval(0, 3)]])
+            const needQuickReplies = ['riskgroup']
+            if(needQuickReplies.includes(contextName))
+                message = messageWithQuickReplies([responses.fallback[contextName][0], responses.fallback[contextName][1]], responses.fallback[contextName][2])
             else
-                message = formattedMessage(responses.fallback[contextName])
-            
+            {
+                const changeToDefault = ['prediagnosis']
+    
+                if(changeToDefault.includes(contextName))
+                    message = formattedMessage([responses.fallback.default[randomIntFromInterval(0, 3)]])
+                else
+                    message = formattedMessage(responses.fallback[contextName])
+                
+            }
+
             message.outputContexts = context.outputContexts
             res.send(message)
         }
+    },
+
+
+    'Fever': (req, res) => {
+        const nameOfEvent = req.body.queryResult.queryText
+        const quickRepliesOptions = ['Sim', 'Não']
+        let adverb = ''
+        console.log(nameOfEvent)
+
+        if(nameOfEvent == 'feverNo')
+            adverb = ' não'
+        
+        res.send(messageWithQuickReplies([responses.fever[0](adverb), responses.fever[1]], quickRepliesOptions))
     },
 
 
@@ -178,6 +197,18 @@ const intents =
     },
 
 
+    'RiskGroupNo': (_, res) => {
+        //dataBase
+        res.send(eventTrigger('feverNo'))
+    },
+
+
+    'RiskGroupYes': (_, res) => {
+        //dataBase
+        res.send(eventTrigger('feverYes'))
+    },
+
+
     'SecondTimeInFallback': (req, res) => {
         const contextParameters = getContextName(req)
 
@@ -190,12 +221,19 @@ const intents =
             const sessionId = contextParameters[1]
             const context = formattedContext(sessionId, contextName)
             contextName = (contextName.split('-'))[0]
-            const changeToDefautl = ['prediagnosis']
 
-            if(changeToDefautl.includes(contextName))
-                message = formattedMessage(responses.secondTimeInFallback.default)
+            const needQuickReplies = ['riskgroup']
+            if(needQuickReplies.includes(contextName))
+                message = messageWithQuickReplies([responses.secondTimeInFallback[contextName][0], responses.secondTimeInFallback[contextName][1]], responses.secondTimeInFallback[contextName][2])
             else
-                message = formattedMessage(responses.secondTimeInFallback[contextName])
+            {
+                const changeToDefautl = ['prediagnosis']
+    
+                if(changeToDefautl.includes(contextName))
+                    message = formattedMessage(responses.secondTimeInFallback.default)
+                else
+                    message = formattedMessage(responses.secondTimeInFallback[contextName])
+            }
             
             message.outputContexts = context.outputContexts
             res.send(message) 
