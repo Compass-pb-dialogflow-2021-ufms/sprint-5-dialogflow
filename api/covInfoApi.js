@@ -341,11 +341,18 @@ function askRiskGroup(req, res) {
 }
 
 function userBelongRiskGroup(req, res) {
+
+    let riskGroupAnwser = 'Ok. Pelo o que você me contou, vejo que você se enquadra no grupo de risco.\n\nVamos continuar.';
+
+    if (req.body.queryResult.outputContexts[2].name.includes('/naopertencegrupoderisco')) {
+        riskGroupAnwser = 'Ok. Pelo o que você me contou, vejo que você não se enquadra no grupo de risco.\n\nVamos continuar'
+    }
+
     return res.send({
         "fulfillmentMessages": [{
                 "text": {
                     "text": [
-                        `Ok. Pelo o que você me contou, vejo que você se enquadra no grupo de risco.\n\nVamos continuar.`,
+                        `${riskGroupAnwser}`,
                     ]
                 },
 
@@ -358,6 +365,15 @@ function userBelongRiskGroup(req, res) {
                 },
             },
         ]
+    })
+}
+
+function redirectToAskFever(req, res) {
+    return res.send({
+        "followupEventInput": {
+            "name": "redirecionaParaPerguntaFebre",
+            "languageCode": "pt-BR",
+        }
     })
 }
 
@@ -591,6 +607,7 @@ module.exports = {
     askPreDiagnosisSecond,
     askRiskGroup,
     userBelongRiskGroup,
+    redirectToAskFever,
     redirectToMildSymptoms,
     askMildSymptoms,
     identifySymptoms,

@@ -60,6 +60,7 @@ module.exports = function (req, res) {
             return covInfoApi.askPreDiagnosis(req, res);
 
         case 'PreDiagnosticoFpSimPerguntaGrupo':
+            ''
             return covInfoApi.askRiskGroup(req, res);
 
         case 'PreDiagnosticoFpNaoCancela':
@@ -73,6 +74,9 @@ module.exports = function (req, res) {
 
         case 'ConfirmaGrupoDeRisco':
             return covInfoApi.userBelongRiskGroup(req, res);
+
+        case 'NaoPertenceGrupo':
+            return covInfoApi.redirectToAskFever(req, res);
 
         case 'ConfirmaFebreDiagnostico':
             return covInfoApi.redirectToMildSymptoms(req, res);
