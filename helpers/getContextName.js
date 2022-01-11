@@ -2,7 +2,6 @@ function getContextName(req)
 {
     let contextName = 'default'
     const inputContexts = req.body.queryResult.outputContexts
-    console.log(inputContexts)
 
     if(inputContexts.length > 0)
     {

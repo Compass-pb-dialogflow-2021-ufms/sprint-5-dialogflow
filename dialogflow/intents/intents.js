@@ -17,9 +17,7 @@ const intents =
 
     'Agree': (req, res) => {
         const contextParameters = getContextName(req)
-        let contextName = contextParameters[0]
-        console.log(contextName)
-    
+        let contextName = contextParameters[0]    
     
         if(typeof contextParameters == 'string' || contextName == 'default')
             res.send(eventTrigger('fallback'))
@@ -38,7 +36,7 @@ const intents =
 
 
     'CasesInBrazil': (_, res) => {
-        const quickRepliesOptions = ['Menu principal', 'Ajuda', 'Outras dúvidas']
+        const quickRepliesOptions = ['Menu principal', 'Ajuda']
         res.send(messageWithQuickReplies(responses.casesInBrazil, quickRepliesOptions))
     },
 
@@ -51,9 +49,7 @@ const intents =
 
     'Desagree': (req, res) => {
         const contextParameters = getContextName(req)
-        let contextName = contextParameters[0]
-        console.log(contextName)
-    
+        let contextName = contextParameters[0]    
     
         if(typeof contextParameters == 'string' || contextName == 'default')
             res.send(eventTrigger('fallback'))
@@ -212,7 +208,7 @@ const intents =
 
     'MainMenu': (req, res) => {
         let message
-        const quickRepliesOptions = ['Prevenção', 'Contágio', 'Casos no Brasil', 'Pré-diagnóstico', 'Outras dúvidas']
+        const quickRepliesOptions = ['Prevenção', 'Contágio', 'Casos no Brasil', 'Pré-diagnóstico']
         const userInput = req.body.queryResult.fulfillmentMessages[0].text.text[0]
         const nameOfEvent = req.body.queryResult.queryText
     
@@ -360,12 +356,6 @@ const intents =
     'TakingMedicineYes': (_, res) => {res.send(eventTrigger('gotBetter'))}, 
 
 
-    'test': (req, res) => {
-        console.log(req.body.queryResult)
-        res.send(formattedMessage(['oi']))
-    },
-
-
     'ThirdTimeInFallback': (req, res) => {
         const contextParameters = getContextName(req)
 
@@ -389,7 +379,7 @@ const intents =
 
 
     'Welcome': async (req, res) => {
-        const quickRepliesOptions = ['Prevenção', 'Contágio', 'Casos no Brasil', 'Pré-diagnóstico', 'Outras dúvidas']
+        const quickRepliesOptions = ['Prevenção', 'Contágio', 'Casos no Brasil', 'Pré-diagnóstico']
         const id = req.body.originalDetectIntentRequest.payload.data.from.id
         if(await TelegramUser.findOne({id: id}) == null)
         {
