@@ -8,6 +8,7 @@ const responses = require('../../responses/responses')
 const TelegramUser = require('../../dataBase/models/telegramUser')
 
 
+
 const intents = 
 {
     'AboutMe': (_, res) => {res.send(formattedMessage(responses.aboutMe))},
@@ -77,7 +78,7 @@ const intents =
             const context = formattedContext(sessionId, contextName)
             contextName = (contextName.split('-'))[0]
 
-            const needQuickReplies = ['riskgroup', 'fever', 'minorsymptoms']
+            const needQuickReplies = ['riskgroup', 'fever', 'minorsymptoms', 'takingmedicine', 'gotbetter']
             if(needQuickReplies.includes(contextName))
                 message = messageWithQuickReplies([responses.fallback[contextName][0], responses.fallback[contextName][1]], responses.fallback[contextName][2])
             else
@@ -130,7 +131,7 @@ const intents =
     'Goodbye': (req, res) => {
         let message
         const userInput = req.body.queryResult.fulfillmentMessages[0].text.text[0]
-        const queryText = req.body.queryResult.queryText
+        const nameOfEvent = req.body.queryResult.queryText
         const hour = new Date().getHours()
         let greeting
     
@@ -141,12 +142,27 @@ const intents =
         else
             greeting = 'uma boa noite'
         
-        if(queryText != 'goodbyeFallback' || userInput != '')
+        if(nameOfEvent != 'goodbyeFallback' || userInput != '')
             message = formattedMessage([responses.goodbye[0], responses.goodbye[1](greeting)])
         else
             message = formattedMessage([responses.thirdTimeInFallback.prevention, responses.goodbye[0], responses.goodbye[1](greeting)])
     
         res.send(message)
+    },
+
+
+    'GotBetter': (_, res) => {
+        const quickRepliesOptions = ['Sim', 'Não']
+        res.send(messageWithQuickReplies(responses.gotBetter, quickRepliesOptions))
+    },
+
+
+    'GotBetterNo': (_, res) => {res.send(eventTrigger('severeSymptoms'))},
+
+
+    'GotBetterYes': (_, res) => {
+        //dataBase
+        res.send(eventTrigger('severeSymptomsWithoutFluMedicine'))
     },
 
 
@@ -168,7 +184,7 @@ const intents =
         if(symptomsNumber == '' || symptomsNumber == 0)
         {
             //dataBase
-            res.send(eventTrigger('severeSymptoms'))
+            res.send(eventTrigger('severeSymptomsWithoutFlu'))
         }
         else if(symptomsNumber < 4)
         {
@@ -193,10 +209,10 @@ const intents =
         let message
         const quickRepliesOptions = ['Prevenção', 'Contágio', 'Casos no Brasil', 'Pré-diagnóstico', 'Outras dúvidas']
         const userInput = req.body.queryResult.fulfillmentMessages[0].text.text[0]
-        const queryText = req.body.queryResult.queryText
+        const nameOfEvent = req.body.queryResult.queryText
     
     
-        if(queryText != 'mainMenuWelcome' || userInput != '')
+        if(nameOfEvent != 'mainMenuWelcome' || userInput != '')
             message = messageWithQuickReplies([responses.mainMenu[0] + responses.mainMenu[randomIntFromInterval(1, 2)]], quickRepliesOptions)
         else
             message = messageWithQuickReplies([responses.welcome[1], responses.mainMenu[0] + responses.mainMenu[randomIntFromInterval(1, 2)]], quickRepliesOptions)
@@ -260,7 +276,7 @@ const intents =
             const context = formattedContext(sessionId, contextName)
             contextName = (contextName.split('-'))[0]
 
-            const needQuickReplies = ['riskgroup', 'fever', 'minorsymptoms']
+            const needQuickReplies = ['riskgroup', 'fever', 'minorsymptoms', 'takingmedicine', 'gotbetter']
             if(needQuickReplies.includes(contextName))
                 message = messageWithQuickReplies([responses.secondTimeInFallback[contextName][0], responses.secondTimeInFallback[contextName][1]], responses.secondTimeInFallback[contextName][2])
             else
@@ -279,9 +295,16 @@ const intents =
     },
 
 
-    'SevereSymptoms': (_, res) => {
+    'SevereSymptoms': (req, res) => {
+        const nameOfEvent = req.body.queryResult.queryText
         const quickRepliesOptions = ['Sim', 'Não']
-        res.send(messageWithQuickReplies(responses.severeSymptoms, quickRepliesOptions))
+
+        if(nameOfEvent == 'severeSymptoms')
+            res.send(messageWithQuickReplies([responses.severeSymptoms[2], responses.severeSymptoms[3]], quickRepliesOptions))
+        else if(nameOfEvent == 'severeSymptomsWithoutFlu')
+            res.send(messageWithQuickReplies([responses.severeSymptoms[0], responses.severeSymptoms[2], responses.severeSymptoms[3]], quickRepliesOptions))
+        else
+            res.send(messageWithQuickReplies([responses.severeSymptoms[1], responses.severeSymptoms[2], responses.severeSymptoms[3]], quickRepliesOptions))
     },
 
 
@@ -295,6 +318,12 @@ const intents =
         
         res.send(messageWithQuickReplies([responses.takingMedicine[0](adverb), responses.takingMedicine[1]], quickRepliesOptions))
     },
+
+
+    'TakingMedicineNo': (_, res) => {res.send(eventTrigger('severeSymptoms'))},
+
+
+    'TakingMedicineYes': (_, res) => {res.send(eventTrigger('gotBetter'))}, 
 
 
     'test': (req, res) => {

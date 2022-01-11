@@ -13,7 +13,9 @@ const responses =
 
         incubationperiod: 'mainMenu',
 
-        prediagnosis: 'riskGroup'
+        prediagnosis: 'riskGroup',
+
+        prediagnosisno: 'mainMenu'
     },
 
     
@@ -95,7 +97,19 @@ const responses =
         '\n-Tosse;' +
         '\n-E perda do olfato ou paladar.',
         
-        ['Nenhum', '1', '2', '3', '4 ou mais sintomas']]
+        ['Nenhum', '1', '2', '3', '4 ou mais sintomas']],
+
+        takingmedicine: ['Não entendi. 😓',
+        
+        'Para continuarmos, você precisa me indicar se usou ou não algum medicamento. 💊',
+        
+        ['Usei medicamentos', 'Não usei medicamentos']],
+
+        gotbetter: ['Não entendi. 😓',
+        
+        'Para continuarmos, você precisa me indicar se melhorou ou não com o medicamento.',
+        
+        ['Melhorei', 'Não melhorei']],
     },
 
 
@@ -113,6 +127,9 @@ const responses =
     goodbye: ['Se você precisar de mais informações sobre o Coronavírus, pode me chamar.' +
     '\n\nE caso sentir que se enquadra em alguns sintomas, ligue para o Disque Saúde 136!☎',
     (greeting) => {return `Tenha ${greeting}. 👋`}],
+
+
+    gotBetter: ['Sente que melhorou?'],
 
 
     healthProfessionalPrevention: ['Os profissionais de saúde devem utilizar as medidas de precaução padrão estabelicidas. 👍' +
@@ -214,11 +231,27 @@ const responses =
         
         'Quantos dos sintomas citador você apresenta?',
         
-        ['Nenhum', '1', '2', '3', '4 ou mais sintomas']]
+        ['Nenhum', '1', '2', '3', '4 ou mais sintomas']],
+
+        takingmedicine: ['Desculpe, ainda não consegui entender.',
+        
+        'Você usou algum medicamento? 💊',
+        
+        ['Sim', 'Não']],
+
+        gotbetter: ['Desculpe, ainda não consegui entender.',
+        
+        'Você melhorou com o medicamento?',
+        
+        ['Sim', 'Não']]
     },
 
 
-    severeSymptoms: ['E você sentiu algum desses sintomas citados a seguir?',
+    severeSymptoms: ['Que bom! Sem sintomas de gripe. 😊',
+
+    'Ótimo! Sem sintomas gripais. 😊',
+
+    'E você sentiu algum desses sintomas citados a seguir?',
 
     '-Convulsão ou Vômito;' + 
     '\n-Dificuldade para respirar;' +
